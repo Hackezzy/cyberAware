@@ -1,0 +1,72 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { itemsByType } from "../../data/curriculum.js";
+
+const simulations = itemsByType("simulation");
+---
+
+<BaseLayout
+  title="Simulations"
+  description="Animated, interactive walkthroughs of how common cyber attacks actually unfold."
+>
+  <section class="mx-auto max-w-6xl px-6 py-16">
+    <h1 class="text-3xl font-extrabold tracking-tight text-(--color-text)">
+      Simulations
+    </h1>
+    <p class="mt-2 max-w-2xl text-(--color-text-muted)">
+      Step through how each attack actually happens &mdash; no real attacks are
+      performed, this is a safe walkthrough.
+    </p>
+
+    <ul class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        simulations.map((sim) =>
+          sim.available ? (
+            <li>
+              <a
+                href={sim.href}
+                data-item-id={sim.id}
+                class="block h-full rounded-lg border border-(--color-border) bg-(--color-surface-raised) p-6 transition-colors hover:border-(--color-accent) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)"
+              >
+                <div class="flex flex-wrap items-center gap-2">
+                  <h2 class="font-semibold text-(--color-text)">{sim.title}</h2>
+                  <span
+                    data-completed-badge
+                    hidden
+                    class="rounded-full border border-(--color-safe) px-2 py-0.5 text-xs font-semibold text-(--color-safe)"
+                  >
+                    &#10003; Completed
+                  </span>
+                </div>
+                <p class="mt-2 text-sm text-(--color-text-muted)">{sim.description}</p>
+              </a>
+            </li>
+          ) : (
+            <li>
+              <div class="h-full rounded-lg border border-dashed border-(--color-border) p-6 opacity-60">
+                <div class="flex items-center gap-2">
+                  <h2 class="font-semibold text-(--color-text)">{sim.title}</h2>
+                  <span class="rounded-full border border-(--color-border) px-2 py-0.5 text-xs text-(--color-text-muted)">
+                    Coming soon
+                  </span>
+                </div>
+                <p class="mt-2 text-sm text-(--color-text-muted)">{sim.description}</p>
+              </div>
+            </li>
+          )
+        )
+      }
+    </ul>
+  </section>
+</BaseLayout>
+
+<script>
+  import { isCompleted } from "../../lib/progress-store.js";
+
+  document.querySelectorAll<HTMLElement>("[data-item-id]").forEach((el) => {
+    const id = el.dataset.itemId as string;
+    if (!isCompleted(id)) return;
+    const badge = el.querySelector<HTMLElement>("[data-completed-badge]");
+    if (badge) badge.hidden = false;
+  });
+</script>

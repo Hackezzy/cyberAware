@@ -1,0 +1,62 @@
+[
+  {
+    "id": "q1",
+    "question": "An email claiming to be from PayPal is sent from \"security@paypa1-alerts.com\". What's the biggest red flag here?",
+    "options": [
+      { "id": "a", "text": "The email address is too long" },
+      { "id": "b", "text": "\"paypa1-alerts.com\" isn't PayPal's real domain" },
+      { "id": "c", "text": "It uses lowercase letters" },
+      { "id": "d", "text": "It has a subject line" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "Legitimate companies send email from their own real domain, not something that merely resembles it. \"paypa1-alerts.com\" (note the \"1\" standing in for an \"l\") isn't a PayPal domain at all."
+  },
+  {
+    "id": "q2",
+    "question": "An email says: \"Your account will be suspended in 24 hours unless you verify now.\" What tactic is this?",
+    "options": [
+      { "id": "a", "text": "Manufactured urgency" },
+      { "id": "b", "text": "A legitimate security policy" },
+      { "id": "c", "text": "Spam filtering" },
+      { "id": "d", "text": "Two-factor authentication" }
+    ],
+    "correctOptionId": "a",
+    "explanation": "A false deadline pressures you to act before you stop and think it through. Real account issues rarely come with a countdown timer."
+  },
+  {
+    "id": "q3",
+    "question": "A link displays as \"www.yourbank.com\", but hovering over it shows it actually points to \"yourbank.verify-secure.ru\". What should you do?",
+    "options": [
+      { "id": "a", "text": "Click it — the displayed text says the right thing" },
+      { "id": "b", "text": "Don't click it — the real destination doesn't match what's displayed" },
+      { "id": "c", "text": "Click it in a private/incognito window to be safe" },
+      { "id": "d", "text": "Reply to the email asking if it's real" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "The visible link text can say anything at all — what actually matters is where the link really goes. A mismatch like this is one of the clearest signs of phishing."
+  },
+  {
+    "id": "q4",
+    "question": "A suspicious email asks you to click a link to \"confirm your identity.\" What's the safest way to actually check your account?",
+    "options": [
+      { "id": "a", "text": "Click the link and log in as normal" },
+      { "id": "b", "text": "Reply to the email with your username and password" },
+      { "id": "c", "text": "Go to the real site directly by typing the address yourself, not through the email's link" },
+      { "id": "d", "text": "Forward the email to a friend to ask their opinion" }
+    ],
+    "correctOptionId": "c",
+    "explanation": "Navigating to the site yourself, or using a bookmark you already trust, sidesteps the fake link entirely — no need to guess whether a link is safe if you never click it."
+  },
+  {
+    "id": "q5",
+    "question": "Which of these is most likely a phishing lookalike domain, if the real bank is \"chase.com\"?",
+    "options": [
+      { "id": "a", "text": "chase.com/login" },
+      { "id": "b", "text": "online.chase.com" },
+      { "id": "c", "text": "chase-security-alert.com" },
+      { "id": "d", "text": "All of these are equally safe" }
+    ],
+    "correctOptionId": "c",
+    "explanation": "\"chase-security-alert.com\" is a completely different, separate domain that just happens to contain the word \"chase\". Real Chase links always end in chase.com itself (or a subdomain of it, like online.chase.com) — never a separate lookalike domain."
+  }
+]

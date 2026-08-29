@@ -1,0 +1,360 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const steps = [
+  { title: "The Setup" },
+  { title: "The Connection" },
+  { title: "The Funnel" },
+  { title: "The Interception" },
+  { title: "The Catch" },
+  { title: "The Aftermath" },
+];
+---
+
+<BaseLayout
+  title="Fake Wi-Fi Simulation"
+  description="An animated, step-by-step walkthrough of how a rogue Wi-Fi hotspot intercepts your traffic."
+>
+  <section class="mx-auto max-w-3xl px-6 py-12">
+    <h1 class="text-3xl font-extrabold tracking-tight text-(--color-text)">
+      Fake Wi-Fi Simulation
+    </h1>
+    <p class="mt-2 max-w-2xl text-(--color-text-muted)">
+      Step through how a rogue Wi-Fi hotspot can intercept everything you
+      send, from the fake network appearing in a list to your login details
+      being captured. This walkthrough is set in a made-up airport lounge.
+    </p>
+
+    <div class="mt-8">
+      <p id="step-indicator" class="text-sm font-medium text-(--color-text-muted)">
+        Step 1 of 6
+      </p>
+      <ol id="step-pills" class="mt-3 flex flex-wrap gap-2 text-sm">
+        {
+          steps.map((step, i) => (
+            <li>
+              <button
+                type="button"
+                data-pill-index={i}
+                aria-current={i === 0 ? "step" : undefined}
+                class:list={[
+                  "rounded-full border px-3 py-1 transition-colors hover:border-(--color-accent) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)",
+                  i === 0
+                    ? "border-(--color-accent) text-(--color-accent)"
+                    : "border-(--color-border) text-(--color-text-muted)",
+                ]}
+              >
+                {i + 1}. {step.title}
+              </button>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <!-- ===================== SCENE 1: THE SETUP ===================== -->
+    <div data-scene-index="0" class="mt-10 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">1. The Setup</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        An attacker sits in an airport lounge with a laptop, broadcasting a
+        Wi-Fi network with a name designed to sound official.
+      </p>
+
+      <div class="mt-4 rounded-lg border border-(--color-border) bg-(--color-bg) p-4">
+        <p class="text-xs font-semibold uppercase tracking-wide text-(--color-text-muted)">
+          Attacker's device
+        </p>
+        <p class="mt-2 font-mono text-sm text-(--color-text)">
+          Broadcasting SSID: <span class="text-(--color-danger)">"Airport_Free_WiFi"</span>
+        </p>
+        <p class="mt-1 text-xs text-(--color-text-muted)">No password required &mdash; open network</p>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">What's happening</h3>
+        <ul class="mt-2 space-y-1 text-sm text-(--color-text-muted)">
+          <li>&bull; The network name copies the wording real venues use, and requires no password, which makes it look convenient rather than suspicious.</li>
+          <li>&bull; Setting up a rogue access point takes nothing more than a laptop &mdash; no special access to the building's real network is needed.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 2: THE CONNECTION ===================== -->
+    <div data-scene-index="1" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">2. The Connection</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        A traveler's phone shows a list of nearby networks. The fake one
+        looks identical to a real one would.
+      </p>
+
+      <div class="mt-4 divide-y divide-(--color-border) overflow-hidden rounded-lg border border-(--color-border) bg-(--color-bg)">
+        <div class="flex items-center justify-between p-3 text-sm">
+          <span class="text-(--color-text)">Airport_Free_WiFi</span>
+          <span class="text-(--color-text-muted)">🔓 Open</span>
+        </div>
+        <div class="flex items-center justify-between border-(--color-accent)/40 bg-(--color-accent)/5 p-3 text-sm">
+          <span class="font-medium text-(--color-text)">Airport_Free_WiFi</span>
+          <span class="text-(--color-danger)">🔓 Open</span>
+        </div>
+        <div class="flex items-center justify-between p-3 text-sm">
+          <span class="text-(--color-text)">CoffeeCart_Guest</span>
+          <span class="text-(--color-text-muted)">🔒 Secured</span>
+        </div>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">What's happening</h3>
+        <ul class="mt-2 space-y-1 text-sm text-(--color-text-muted)">
+          <li>&bull; Two networks with the exact same name is itself a red flag &mdash; but most phones just show the name, so it's easy to connect to the wrong one without noticing.</li>
+          <li>&bull; A network name alone proves nothing about who actually controls it.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 3: THE FUNNEL ===================== -->
+    <div data-scene-index="2" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">3. The Funnel</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        Once connected, every request from the phone passes through the
+        attacker's device first.
+      </p>
+
+      <div class="mt-4 flex items-center justify-center gap-3 rounded-lg border border-(--color-border) bg-(--color-bg) p-6 text-center text-xs text-(--color-text-muted)">
+        <span class="rounded border border-(--color-border) bg-(--color-surface) px-3 py-2">Your phone</span>
+        <span class="text-(--color-danger)">&rarr;</span>
+        <span class="rounded border border-(--color-danger) bg-(--color-danger)/10 px-3 py-2 text-(--color-danger)">Attacker's laptop</span>
+        <span class="text-(--color-danger)">&rarr;</span>
+        <span class="rounded border border-(--color-border) bg-(--color-surface) px-3 py-2">The internet</span>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">What's happening</h3>
+        <p class="mt-2 text-sm text-(--color-text-muted)">
+          This is called a "man-in-the-middle" position &mdash; the attacker
+          doesn't need to break into your phone at all. Every website still
+          loads normally, so there's nothing that looks obviously wrong.
+        </p>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 4: THE INTERCEPTION ===================== -->
+    <div data-scene-index="3" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">4. The Interception</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        The traveler opens a work webmail login page over an unencrypted
+        connection.
+      </p>
+
+      <div class="mt-4 overflow-hidden rounded-lg border border-(--color-border)">
+        <div class="flex items-center gap-2 border-b border-(--color-border) bg-(--color-surface-raised) px-3 py-2">
+          <span class="h-2.5 w-2.5 rounded-full bg-(--color-danger)/60"></span>
+          <span class="h-2.5 w-2.5 rounded-full bg-(--color-warning)/60"></span>
+          <span class="h-2.5 w-2.5 rounded-full bg-(--color-safe)/60"></span>
+          <div class="ml-2 flex-1 rounded bg-(--color-bg) px-3 py-1 font-mono text-xs text-(--color-danger)">
+            http://mail.meridianbooks-corp.com/login
+          </div>
+        </div>
+        <div class="bg-(--color-bg) p-4 font-mono text-xs text-(--color-text-muted)">
+          <p>[attacker log] captured: user=bookkeeper@meridianbooks-corp.com</p>
+          <p>[attacker log] captured: pass=•••••••••••</p>
+        </div>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">What's happening</h3>
+        <ul class="mt-2 space-y-1 text-sm text-(--color-text-muted)">
+          <li>&bull; The address starts with <code class="text-(--color-danger)">http://</code>, not <code class="text-(--color-safe)">https://</code> &mdash; without that encryption, anything typed on the page can be read by whoever is in the middle.</li>
+          <li>&bull; Modern sites mostly use HTTPS by default, but older internal tools, some older webmail portals, or spoofed pages sometimes don't force it.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 5: THE CATCH ===================== -->
+    <div data-scene-index="4" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">5. The Catch</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        The attacker now has a working email login &mdash; and the traveler
+        has no idea anything happened.
+      </p>
+
+      <div class="mt-4 rounded-lg border border-(--color-border) bg-(--color-bg) p-4">
+        <p class="text-sm text-(--color-text-muted)">
+          The webmail page loaded normally and logged them in without any
+          error. From the traveler's side, everything worked exactly as
+          expected.
+        </p>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">What's happening</h3>
+        <p class="mt-2 text-sm text-(--color-text-muted)">
+          This is what makes rogue Wi-Fi dangerous: there's no popup, no
+          crash, no visible sign anything went wrong. The only real clue was
+          back in step 4 &mdash; the missing padlock in the address bar.
+        </p>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 6: THE AFTERMATH ===================== -->
+    <div data-scene-index="5" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">6. The Aftermath</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        Public Wi-Fi is genuinely risky &mdash; here's how to actually stay
+        safe on it.
+      </p>
+
+      <div class="mt-4 rounded-lg border border-(--color-border) bg-(--color-bg) p-4">
+        <p class="text-sm text-(--color-text-muted)">
+          Independent research has found that a significant share of people
+          who use public Wi-Fi have had their security compromised while
+          doing so &mdash; this isn't a rare or theoretical scenario.
+        </p>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-safe)/40 bg-(--color-safe)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-safe)">Prevention checklist</h3>
+        <ul class="mt-2 space-y-1 text-sm text-(--color-text-muted)">
+          <li>&bull; Ask staff for the exact network name before connecting &mdash; don't just pick the one that looks right.</li>
+          <li>&bull; Use a VPN on public networks, so your traffic is encrypted even if the network itself isn't trustworthy.</li>
+          <li>&bull; Check for <code class="text-(--color-safe)">https://</code> and a padlock icon before entering anything sensitive &mdash; and don't proceed past a browser warning about an invalid certificate.</li>
+          <li>&bull; Turn off Wi-Fi auto-connect for open networks, so your device doesn't silently rejoin a rogue hotspot it saw before.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-8 flex justify-between gap-3">
+      <button
+        type="button"
+        id="prev-step"
+        class="rounded-lg border border-(--color-border) px-6 py-3 font-semibold text-(--color-text) transition-colors hover:bg-(--color-surface-raised) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        Previous
+      </button>
+      <button
+        type="button"
+        id="next-step"
+        class="rounded-lg bg-(--color-accent) px-6 py-3 font-semibold text-(--color-bg) transition-colors hover:bg-(--color-accent-strong) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)"
+      >
+        Next
+      </button>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { markCompleted } from "../../lib/progress-store.js";
+
+  const TOTAL_STEPS = 6;
+
+  const sceneEls = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-scene-index]")
+  ).sort((a, b) => Number(a.dataset.sceneIndex) - Number(b.dataset.sceneIndex));
+  const pillEls = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-pill-index]")
+  ).sort((a, b) => Number(a.dataset.pillIndex) - Number(b.dataset.pillIndex));
+  const stepIndicator = document.getElementById("step-indicator") as HTMLParagraphElement;
+  const prevBtn = document.getElementById("prev-step") as HTMLButtonElement;
+  const nextBtn = document.getElementById("next-step") as HTMLButtonElement;
+
+  const ACTIVE_PILL = ["border-(--color-accent)", "text-(--color-accent)"];
+  const INACTIVE_PILL = ["border-(--color-border)", "text-(--color-text-muted)"];
+
+  let currentIndex = 0;
+
+  sceneEls.forEach((scene, i) => {
+    if (i !== 0) scene.hidden = true;
+  });
+
+  function prefersReducedMotion() {
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  function updateChrome() {
+    stepIndicator.textContent = `Step ${currentIndex + 1} of ${TOTAL_STEPS}`;
+
+    pillEls.forEach((pill, i) => {
+      const isActive = i === currentIndex;
+      pill.classList.remove(...ACTIVE_PILL, ...INACTIVE_PILL);
+      pill.classList.add(...(isActive ? ACTIVE_PILL : INACTIVE_PILL));
+      if (isActive) {
+        pill.setAttribute("aria-current", "step");
+      } else {
+        pill.removeAttribute("aria-current");
+      }
+    });
+
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.textContent = currentIndex === TOTAL_STEPS - 1 ? "Restart" : "Next";
+
+    if (currentIndex === TOTAL_STEPS - 1) {
+      markCompleted("sim-fake-wifi");
+    }
+  }
+
+  function goToStep(newIndex: number) {
+    if (newIndex === currentIndex) return;
+
+    const oldEl = sceneEls[currentIndex];
+    const newEl = sceneEls[newIndex];
+    currentIndex = newIndex;
+    updateChrome();
+
+    const focusNewHeading = () => {
+      const heading = newEl.querySelector<HTMLElement>("h2");
+      heading?.focus();
+    };
+
+    if (prefersReducedMotion()) {
+      oldEl.hidden = true;
+      newEl.hidden = false;
+      focusNewHeading();
+      return;
+    }
+
+    oldEl.classList.add("opacity-0");
+    window.setTimeout(() => {
+      oldEl.hidden = true;
+      oldEl.classList.remove("opacity-0");
+
+      newEl.classList.add("opacity-0");
+      newEl.hidden = false;
+      void newEl.offsetWidth;
+      newEl.classList.remove("opacity-0");
+
+      focusNewHeading();
+    }, 150);
+  }
+
+  prevBtn.addEventListener("click", () => {
+    if (currentIndex > 0) goToStep(currentIndex - 1);
+  });
+
+  nextBtn.addEventListener("click", () => {
+    if (currentIndex === TOTAL_STEPS - 1) {
+      goToStep(0);
+    } else {
+      goToStep(currentIndex + 1);
+    }
+  });
+
+  pillEls.forEach((pill, i) => {
+    pill.addEventListener("click", () => goToStep(i));
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    const active = document.activeElement;
+    const withinWalkthrough =
+      active === prevBtn ||
+      active === nextBtn ||
+      pillEls.includes(active as HTMLElement) ||
+      sceneEls.some((scene) => scene.contains(active));
+    if (!withinWalkthrough) return;
+
+    event.preventDefault();
+    if (event.key === "ArrowLeft" && currentIndex > 0) goToStep(currentIndex - 1);
+    if (event.key === "ArrowRight" && currentIndex < TOTAL_STEPS - 1) goToStep(currentIndex + 1);
+  });
+
+  updateChrome();
+</script>

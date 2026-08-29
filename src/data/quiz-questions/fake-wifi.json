@@ -1,0 +1,62 @@
+[
+  {
+    "id": "q1",
+    "question": "Two Wi-Fi networks in the list show the exact same name. What does that tell you?",
+    "options": [
+      { "id": "a", "text": "Nothing unusual, it's completely normal" },
+      { "id": "b", "text": "One of them is very likely fake, though the name alone won't tell you which" },
+      { "id": "c", "text": "The one with the stronger signal is always the real one" },
+      { "id": "d", "text": "It means the venue has excellent coverage" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "A network name proves nothing about who actually controls it — an attacker can broadcast an identical name right next to the real one, and most devices only show the name, not who set it up."
+  },
+  {
+    "id": "q2",
+    "question": "What is a \"man-in-the-middle\" position?",
+    "options": [
+      { "id": "a", "text": "When two people are on a phone call together" },
+      { "id": "b", "text": "When an attacker's device sits between you and the internet, able to see everything you send" },
+      { "id": "c", "text": "A type of computer virus" },
+      { "id": "d", "text": "A firewall configuration setting" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "Connecting to a rogue hotspot routes all your traffic through the attacker's device first — websites still load normally, but everything passes through them on the way."
+  },
+  {
+    "id": "q3",
+    "question": "You're about to log into a work account, and the address bar starts with \"http://\" instead of \"https://\". What should you do?",
+    "options": [
+      { "id": "a", "text": "Proceed anyway, it's probably fine" },
+      { "id": "b", "text": "Stop — without HTTPS, anything typed on the page can be read by others on the network" },
+      { "id": "c", "text": "Just switch to a different browser" },
+      { "id": "d", "text": "Refresh the page and try again" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "HTTPS encrypts what you send so only the real destination can read it. Without it, on an untrusted network, anything typed — including passwords — can potentially be intercepted in plain text."
+  },
+  {
+    "id": "q4",
+    "question": "What's the safest way to handle sensitive accounts while on public Wi-Fi?",
+    "options": [
+      { "id": "a", "text": "Use a VPN, or avoid sensitive logins on public networks entirely" },
+      { "id": "b", "text": "Turn on airplane mode first" },
+      { "id": "c", "text": "Use an unusually long password just for that session" },
+      { "id": "d", "text": "Ask venue staff which network is the \"safe\" one to log into things on" }
+    ],
+    "correctOptionId": "a",
+    "explanation": "A VPN encrypts your traffic even if the network itself isn't trustworthy — the next best option is simply not logging into anything sensitive until you're on a network you actually trust."
+  },
+  {
+    "id": "q5",
+    "question": "Why is rogue-hotspot interception so hard to notice while it's happening?",
+    "options": [
+      { "id": "a", "text": "It makes your phone vibrate unusually" },
+      { "id": "b", "text": "Websites still load completely normally, with no visible error" },
+      { "id": "c", "text": "It changes your device's wallpaper" },
+      { "id": "d", "text": "It drains your battery instantly" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "There's no popup or crash — everything appears to work exactly as expected. The only real clue is usually something you'd have to check for yourself, like the missing padlock/HTTPS in the address bar."
+  }
+]

@@ -1,0 +1,79 @@
+---
+import "../styles/main.css";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "CyberAware teaches everyday users to recognize and respond to common cyber threats through interactive simulations and practical tools.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title} | CyberAware</title>
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem("cyberaware:theme");
+          if (stored === "light" || stored === "dark") {
+            document.documentElement.setAttribute("data-theme", stored);
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <Nav />
+    <main id="main-content" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<script>
+  // Site-wide keyboard shortcut: plain ArrowLeft/ArrowRight step through
+  // browser history (back/forward), as an alternative to clicking the
+  // browser's own back/forward buttons.
+  //
+  // Two things this must never hijack:
+  //  1. Arrow keys typed into a form control — text-input cursor movement,
+  //     and native radio-group navigation (the quiz engine's options are
+  //     real <input type="radio">, which already use arrow keys to move
+  //     between choices).
+  //  2. A more specific arrow-key handler already on the page — e.g. every
+  //     simulation's own scoped Prev/Next scene stepping. Those call
+  //     event.preventDefault() when they act, so this listener defers with
+  //     a setTimeout(0) and checks event.defaultPrevented before doing
+  //     anything, letting any such handler claim the key first.
+  const FORM_CONTROL_TAGS = new Set(["INPUT", "TEXTAREA", "SELECT"]);
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+
+    const target = event.target as HTMLElement;
+    if (FORM_CONTROL_TAGS.has(target.tagName) || target.isContentEditable) return;
+
+    window.setTimeout(() => {
+      if (event.defaultPrevented) return;
+      if (event.key === "ArrowLeft") {
+        history.back();
+      } else {
+        history.forward();
+      }
+    }, 0);
+  });
+</script>

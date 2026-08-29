@@ -1,0 +1,428 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const steps = [
+  { title: "The Bait" },
+  { title: "It Lands" },
+  { title: "The Hook" },
+  { title: "The Trap" },
+  { title: "The Catch" },
+  { title: "The Damage" },
+];
+---
+
+<BaseLayout
+  title="Phishing Simulation"
+  description="An animated, step-by-step walkthrough of how a phishing attack actually unfolds."
+>
+  <section class="mx-auto max-w-3xl px-6 py-12">
+    <h1 class="text-3xl font-extrabold tracking-tight text-(--color-text)">
+      Phishing Simulation
+    </h1>
+    <p class="mt-2 max-w-2xl text-(--color-text-muted)">
+      Step through each stage of a phishing attack to see how it actually
+      works, from the first fake email to the stolen password. Nothing here
+      is real &mdash; "SecurePay" is a made-up brand built just for this
+      walkthrough.
+    </p>
+
+    <div class="mt-8">
+      <p id="step-indicator" class="text-sm font-medium text-(--color-text-muted)">
+        Step 1 of 6
+      </p>
+      <ol id="step-pills" class="mt-3 flex flex-wrap gap-2 text-sm">
+        {
+          steps.map((step, i) => (
+            <li>
+              <button
+                type="button"
+                data-pill-index={i}
+                aria-current={i === 0 ? "step" : undefined}
+                class:list={[
+                  "rounded-full border px-3 py-1 transition-colors hover:border-(--color-accent) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)",
+                  i === 0
+                    ? "border-(--color-accent) text-(--color-accent)"
+                    : "border-(--color-border) text-(--color-text-muted)",
+                ]}
+              >
+                {i + 1}. {step.title}
+              </button>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <!-- ===================== SCENE 1: THE BAIT ===================== -->
+    <div data-scene-index="0" class="mt-10 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">1. The Bait</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        The attacker sets up a fake identity before sending anything.
+      </p>
+
+      <div class="mt-4 rounded-lg border border-(--color-border) bg-(--color-bg) p-4">
+        <p class="text-xs font-semibold uppercase tracking-wide text-(--color-text-muted)">
+          New Message (attacker's view)
+        </p>
+        <div class="mt-3 space-y-2 font-mono text-sm">
+          <p class="text-(--color-text-muted)">
+            From: <span class="rounded bg-[#7c3aed]/20 px-1 text-(--color-text)">"SecurePay Support"</span> &lt;<span
+              class="rounded bg-(--color-danger)/20 px-1 text-(--color-danger)"
+              >security@securepay-alerts.com</span
+            >&gt;
+          </p>
+          <p class="text-(--color-text-muted)">Subject: Your account has been limited</p>
+        </div>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">Red flags at this stage</h3>
+        <ul class="mt-2 space-y-1 text-sm text-(--color-text-muted)">
+          <li>&bull; The display name says "SecurePay Support" &mdash; a trusted-sounding brand name.</li>
+          <li>&bull; The real domain, <code class="text-(--color-danger)">securepay-alerts.com</code>, isn't SecurePay's actual domain.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 2: IT LANDS ===================== -->
+    <div data-scene-index="1" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">2. It Lands</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        The email arrives. In a crowded inbox, it doesn't stand out at all.
+      </p>
+
+      <div class="mt-4 divide-y divide-(--color-border) overflow-hidden rounded-lg border border-(--color-border) bg-(--color-bg)">
+        <div class="flex items-center gap-3 p-3">
+          <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-(--color-surface-raised) text-xs font-semibold text-(--color-text-muted)">
+            PN
+          </div>
+          <div class="min-w-0 flex-1">
+            <p class="truncate text-sm font-medium text-(--color-text)">Priya Nair</p>
+            <p class="truncate text-xs text-(--color-text-muted)">Notes from today's planning meeting</p>
+          </div>
+          <span class="shrink-0 text-xs text-(--color-text-muted)">9:14 AM</span>
+        </div>
+        <div class="flex items-center gap-3 border-(--color-accent)/40 bg-(--color-accent)/5 p-3">
+          <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#7c3aed]/20 text-xs font-semibold text-(--color-text)">
+            SP
+          </div>
+          <div class="min-w-0 flex-1">
+            <p class="truncate text-sm font-medium text-(--color-text)">SecurePay Support</p>
+            <p class="truncate text-xs text-(--color-text-muted)">Your account has been limited</p>
+          </div>
+          <span class="shrink-0 text-xs text-(--color-text-muted)">9:41 AM</span>
+        </div>
+        <div class="flex items-center gap-3 p-3">
+          <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-(--color-surface-raised) text-xs font-semibold text-(--color-text-muted)">
+            AM
+          </div>
+          <div class="min-w-0 flex-1">
+            <p class="truncate text-sm font-medium text-(--color-text)">Amazon.com</p>
+            <p class="truncate text-xs text-(--color-text-muted)">Your order has shipped</p>
+          </div>
+          <span class="shrink-0 text-xs text-(--color-text-muted)">10:02 AM</span>
+        </div>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">Red flags at this stage</h3>
+        <ul class="mt-2 space-y-1 text-sm text-(--color-text-muted)">
+          <li>&bull; Nothing, yet &mdash; that's the point. It looks exactly like every other email in the list.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 3: THE HOOK ===================== -->
+    <div data-scene-index="2" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">3. The Hook</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        Opening the email reveals manufactured urgency.
+      </p>
+
+      <div class="mt-4 rounded-lg border border-(--color-border) bg-(--color-bg) p-5">
+        <p class="text-lg font-bold text-(--color-text)">Your account has been limited</p>
+        <p class="mt-3 text-sm text-(--color-text-muted)">
+          Dear Customer,
+          <br /><br />
+          We noticed unusual activity on your account. Your access has been
+          limited until you verify your identity.
+          <br /><br />
+          Failure to verify within <span class="font-semibold text-(--color-danger)">24 hours</span> will
+          result in permanent suspension.
+        </p>
+        <button
+          type="button"
+          class="mt-4 rounded-lg px-5 py-2.5 text-sm font-semibold text-white"
+          style="background-color: #7c3aed;"
+        >
+          Verify Your Account
+        </button>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">Red flags at this stage</h3>
+        <ul class="mt-2 space-y-1 text-sm text-(--color-text-muted)">
+          <li>&bull; A generic "Dear Customer" greeting instead of a real name.</li>
+          <li>&bull; An artificial deadline ("24 hours") designed to make you act before you think.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 4: THE TRAP ===================== -->
+    <div data-scene-index="3" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">4. The Trap</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        Clicking the button opens a login page that looks trustworthy &mdash;
+        except for one thing.
+      </p>
+
+      <div class="mt-4 overflow-hidden rounded-lg border border-(--color-border)">
+        <div class="flex items-center gap-2 border-b border-(--color-border) bg-(--color-surface-raised) px-3 py-2">
+          <span class="h-2.5 w-2.5 rounded-full bg-(--color-danger)/60"></span>
+          <span class="h-2.5 w-2.5 rounded-full bg-(--color-warning)/60"></span>
+          <span class="h-2.5 w-2.5 rounded-full bg-(--color-safe)/60"></span>
+          <div class="ml-2 flex-1 rounded bg-(--color-bg) px-3 py-1 font-mono text-xs text-(--color-danger)">
+            https://securepay-alerts.com/login
+          </div>
+        </div>
+        <div class="bg-(--color-bg) p-6 text-center">
+          <p class="text-sm font-bold text-(--color-text)">SecurePay</p>
+          <p class="mt-1 text-xs text-(--color-text-muted)">Sign in to your account</p>
+          <div class="mx-auto mt-4 max-w-xs space-y-2 text-left">
+            <div class="rounded-md border border-(--color-border) bg-(--color-surface) px-3 py-2 text-xs text-(--color-text-muted)">
+              Email
+            </div>
+            <div class="rounded-md border border-(--color-border) bg-(--color-surface) px-3 py-2 text-xs text-(--color-text-muted)">
+              Password
+            </div>
+            <button
+              type="button"
+              class="w-full rounded-md py-2 text-xs font-semibold text-white"
+              style="background-color: #7c3aed;"
+            >
+              Log In
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">Red flags at this stage</h3>
+        <ul class="mt-2 space-y-1 text-sm text-(--color-text-muted)">
+          <li>&bull; The page design looks legitimate &mdash; that's expected, it's easy to copy.</li>
+          <li>&bull; The address bar is the one thing that can't be faked: <code class="text-(--color-danger)">securepay-alerts.com</code> is not SecurePay's real domain.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 5: THE CATCH ===================== -->
+    <div data-scene-index="4" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">5. The Catch</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        The moment credentials are typed in, they belong to the attacker.
+      </p>
+
+      <div class="mt-4 rounded-lg border border-(--color-border) bg-(--color-bg) p-6 text-center">
+        <p class="text-sm font-bold text-(--color-text)">SecurePay</p>
+        <div class="mx-auto mt-4 max-w-xs space-y-2 text-left">
+          <div class="rounded-md border border-(--color-border) bg-(--color-surface) px-3 py-2 text-xs text-(--color-text)">
+            you@example.com
+          </div>
+          <div class="rounded-md border border-(--color-border) bg-(--color-surface) px-3 py-2 text-xs tracking-widest text-(--color-text)">
+            &bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;
+          </div>
+        </div>
+        <p class="mt-4 text-xs text-(--color-text-muted)">Redirecting you to SecurePay&hellip;</p>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">Red flags at this stage</h3>
+        <ul class="mt-2 space-y-1 text-sm text-(--color-text-muted)">
+          <li>&bull; The password is now stored on the attacker's server, not SecurePay's.</li>
+          <li>&bull; A convincing "redirecting" message sends the victim to the real site so nothing seems wrong.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 6: THE DAMAGE ===================== -->
+    <div data-scene-index="5" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">6. The Damage</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        What happens next &mdash; and what should have happened instead.
+      </p>
+
+      <div class="mt-4 grid gap-4 sm:grid-cols-2">
+        <div class="rounded-lg border border-(--color-danger)/40 bg-(--color-danger)/10 p-4">
+          <h3 class="text-sm font-semibold text-(--color-danger)">What happens next</h3>
+          <ul class="mt-2 space-y-1 text-sm text-(--color-text-muted)">
+            <li>&bull; The attacker logs into the real account and locks the victim out.</li>
+            <li>&bull; The same email gets sent to the victim's contacts.</li>
+            <li>&bull; Any reused password gets tried on other accounts too.</li>
+          </ul>
+        </div>
+        <div class="rounded-lg border border-(--color-safe)/40 bg-(--color-safe)/10 p-4">
+          <h3 class="text-sm font-semibold text-(--color-safe)">What to do instead</h3>
+          <ul class="mt-2 space-y-1 text-sm text-(--color-text-muted)">
+            <li>&bull; Hover a link to preview the real destination before clicking.</li>
+            <li>&bull; Check the sender's actual domain, not just the display name.</li>
+            <li>&bull; Never enter credentials after clicking a link from an email &mdash; go to the site directly instead.</li>
+            <li>&bull; Turn on multi-factor authentication.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8 flex justify-between gap-3">
+      <button
+        type="button"
+        id="prev-step"
+        class="rounded-lg border border-(--color-border) px-6 py-3 font-semibold text-(--color-text) transition-colors hover:bg-(--color-surface-raised) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        Previous
+      </button>
+      <button
+        type="button"
+        id="next-step"
+        class="rounded-lg bg-(--color-accent) px-6 py-3 font-semibold text-(--color-bg) transition-colors hover:bg-(--color-accent-strong) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)"
+      >
+        Next
+      </button>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { markCompleted } from "../../lib/progress-store.js";
+
+  const TOTAL_STEPS = 6;
+
+  const sceneEls = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-scene-index]")
+  ).sort(
+    (a, b) => Number(a.dataset.sceneIndex) - Number(b.dataset.sceneIndex)
+  );
+  const pillEls = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-pill-index]")
+  ).sort(
+    (a, b) => Number(a.dataset.pillIndex) - Number(b.dataset.pillIndex)
+  );
+  const stepIndicator = document.getElementById("step-indicator") as HTMLParagraphElement;
+  const prevBtn = document.getElementById("prev-step") as HTMLButtonElement;
+  const nextBtn = document.getElementById("next-step") as HTMLButtonElement;
+
+  const ACTIVE_PILL = ["border-(--color-accent)", "text-(--color-accent)"];
+  const INACTIVE_PILL = ["border-(--color-border)", "text-(--color-text-muted)"];
+
+  let currentIndex = 0;
+
+  // Progressive enhancement: everything is visible in the raw HTML (Phase 2
+  // review relied on that). Only hide the non-first scenes once JS actually
+  // runs, so a JS failure just falls back to "show everything," not a blank page.
+  sceneEls.forEach((scene, i) => {
+    if (i !== 0) scene.hidden = true;
+  });
+
+  function prefersReducedMotion() {
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  function updateChrome() {
+    stepIndicator.textContent = `Step ${currentIndex + 1} of ${TOTAL_STEPS}`;
+
+    pillEls.forEach((pill, i) => {
+      const isActive = i === currentIndex;
+      pill.classList.remove(...ACTIVE_PILL, ...INACTIVE_PILL);
+      pill.classList.add(...(isActive ? ACTIVE_PILL : INACTIVE_PILL));
+      if (isActive) {
+        pill.setAttribute("aria-current", "step");
+      } else {
+        pill.removeAttribute("aria-current");
+      }
+    });
+
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.textContent = currentIndex === TOTAL_STEPS - 1 ? "Restart" : "Next";
+
+    if (currentIndex === TOTAL_STEPS - 1) {
+      markCompleted("sim-phishing");
+    }
+  }
+
+  function goToStep(newIndex: number) {
+    if (newIndex === currentIndex) return;
+
+    // currentIndex (and the visible chrome — indicator/pills/buttons) update
+    // synchronously, immediately, decoupled from the fade animation timing.
+    // Otherwise a rapid double/triple-click on Next reads a stale
+    // currentIndex each time (since it used to only update inside the
+    // animation's setTimeout), silently "eating" clicks.
+    const oldEl = sceneEls[currentIndex];
+    const newEl = sceneEls[newIndex];
+    currentIndex = newIndex;
+    updateChrome();
+
+    const focusNewHeading = () => {
+      const heading = newEl.querySelector<HTMLElement>("h2");
+      heading?.focus();
+    };
+
+    if (prefersReducedMotion()) {
+      oldEl.hidden = true;
+      newEl.hidden = false;
+      focusNewHeading();
+      return;
+    }
+
+    oldEl.classList.add("opacity-0");
+    window.setTimeout(() => {
+      oldEl.hidden = true;
+      oldEl.classList.remove("opacity-0");
+
+      newEl.classList.add("opacity-0");
+      newEl.hidden = false;
+      // Force a reflow so the browser registers the starting opacity-0
+      // state before it's removed, otherwise there's nothing to fade from.
+      void newEl.offsetWidth;
+      newEl.classList.remove("opacity-0");
+
+      focusNewHeading();
+    }, 150);
+  }
+
+  prevBtn.addEventListener("click", () => {
+    if (currentIndex > 0) goToStep(currentIndex - 1);
+  });
+
+  nextBtn.addEventListener("click", () => {
+    if (currentIndex === TOTAL_STEPS - 1) {
+      goToStep(0);
+    } else {
+      goToStep(currentIndex + 1);
+    }
+  });
+
+  pillEls.forEach((pill, i) => {
+    pill.addEventListener("click", () => goToStep(i));
+  });
+
+  // Arrow-key navigation, scoped to when focus is already on the nav
+  // buttons or inside the walkthrough itself — deliberately not a global
+  // document-level handler, so it never hijacks arrow keys a screen reader
+  // user is using elsewhere on the page (e.g. in the nav bar).
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    const active = document.activeElement;
+    const withinWalkthrough =
+      active === prevBtn ||
+      active === nextBtn ||
+      pillEls.includes(active as HTMLElement) ||
+      sceneEls.some((scene) => scene.contains(active));
+    if (!withinWalkthrough) return;
+
+    event.preventDefault();
+    if (event.key === "ArrowLeft" && currentIndex > 0) goToStep(currentIndex - 1);
+    if (event.key === "ArrowRight" && currentIndex < TOTAL_STEPS - 1) goToStep(currentIndex + 1);
+  });
+
+  updateChrome();
+</script>

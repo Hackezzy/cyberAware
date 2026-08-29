@@ -1,0 +1,337 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const steps = [
+  { title: "The Approach" },
+  { title: "The Courtesy" },
+  { title: "The Walk-In" },
+  { title: "The Blend-In" },
+  { title: "The Access" },
+  { title: "The Aftermath" },
+];
+---
+
+<BaseLayout
+  title="Tailgating Simulation"
+  description="An animated, step-by-step walkthrough of a tailgating attack on a secure office entrance."
+>
+  <section class="mx-auto max-w-3xl px-6 py-12">
+    <h1 class="text-3xl font-extrabold tracking-tight text-(--color-text)">
+      Tailgating Simulation
+    </h1>
+    <p class="mt-2 max-w-2xl text-(--color-text-muted)">
+      Step through how someone can walk straight into a secure office
+      without ever using a badge &mdash; just by relying on people's
+      natural politeness. This is the simplest attack on the platform, and
+      often the most overlooked.
+    </p>
+
+    <div class="mt-8">
+      <p id="step-indicator" class="text-sm font-medium text-(--color-text-muted)">
+        Step 1 of 6
+      </p>
+      <ol id="step-pills" class="mt-3 flex flex-wrap gap-2 text-sm">
+        {
+          steps.map((step, i) => (
+            <li>
+              <button
+                type="button"
+                data-pill-index={i}
+                aria-current={i === 0 ? "step" : undefined}
+                class:list={[
+                  "rounded-full border px-3 py-1 transition-colors hover:border-(--color-accent) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)",
+                  i === 0
+                    ? "border-(--color-accent) text-(--color-accent)"
+                    : "border-(--color-border) text-(--color-text-muted)",
+                ]}
+              >
+                {i + 1}. {step.title}
+              </button>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <!-- ===================== SCENE 1: THE APPROACH ===================== -->
+    <div data-scene-index="0" class="mt-10 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">1. The Approach</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        Someone waits near a badge-locked office door, arms full of boxes.
+      </p>
+
+      <div class="mt-4 rounded-lg border border-(--color-border) bg-(--color-bg) p-6 text-center">
+        <p class="text-2xl">📦📦</p>
+        <p class="mt-2 text-sm text-(--color-text-muted)">
+          A person in a delivery vest, carrying two large boxes, standing
+          just outside a badge-access door.
+        </p>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">What's happening</h3>
+        <p class="mt-2 text-sm text-(--color-text-muted)">
+          A vest and boxes are enough to look like they belong there &mdash;
+          nobody checks whether a delivery person is really from a delivery
+          company.
+        </p>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 2: THE COURTESY ===================== -->
+    <div data-scene-index="1" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">2. The Courtesy</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        An employee badges in, sees someone struggling with boxes, and
+        holds the door.
+      </p>
+
+      <div class="mt-4 rounded-lg border border-(--color-border) bg-(--color-bg) p-4">
+        <p class="text-sm text-(--color-text-muted)">
+          "Oh, here &mdash; let me get that for you."
+        </p>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">What's happening</h3>
+        <p class="mt-2 text-sm text-(--color-text-muted)">
+          Holding a door for someone carrying things is basic politeness,
+          not a security mistake anyone would think twice about &mdash;
+          which is exactly why this works so reliably.
+        </p>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 3: THE WALK-IN ===================== -->
+    <div data-scene-index="2" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">3. The Walk-In</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        The visitor walks straight in behind them &mdash; no badge, no
+        sign-in, no check at all.
+      </p>
+
+      <div class="mt-4 rounded-lg border border-(--color-border) bg-(--color-bg) p-4 font-mono text-xs text-(--color-text-muted)">
+        <p>[badge reader] access granted &mdash; employee badge</p>
+        <p class="text-(--color-danger)">[door] propped open &mdash; second entry not logged</p>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">What's happening</h3>
+        <p class="mt-2 text-sm text-(--color-text-muted)">
+          The badge system only recorded one valid entry &mdash; there's no
+          record at all that a second, unauthorized person is now inside
+          the building.
+        </p>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 4: THE BLEND-IN ===================== -->
+    <div data-scene-index="3" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">4. The Blend-In</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        Now inside, the visitor walks with purpose. Nobody questions them.
+      </p>
+
+      <div class="mt-4 rounded-lg border border-(--color-border) bg-(--color-bg) p-4">
+        <p class="text-sm text-(--color-text-muted)">
+          Carrying a clipboard and walking confidently past several desks,
+          the visitor looks like they know exactly where they're going.
+        </p>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">What's happening</h3>
+        <p class="mt-2 text-sm text-(--color-text-muted)">
+          People rarely challenge someone who looks like they belong,
+          especially in an office too large for everyone to personally
+          know every coworker by sight.
+        </p>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 5: THE ACCESS ===================== -->
+    <div data-scene-index="4" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">5. The Access</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        An unlocked, unattended workstation is sitting right there.
+      </p>
+
+      <div class="mt-4 rounded-lg border border-(--color-border) bg-(--color-bg) p-4 font-mono text-xs text-(--color-text-muted)">
+        <p>[workstation] session active &mdash; unlocked</p>
+        <p>[workstation] logged in as: bookkeeper@meridianbooks-corp.com</p>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">What's happening</h3>
+        <p class="mt-2 text-sm text-(--color-text-muted)">
+          Once inside the building, the physical break-in is already over
+          &mdash; from here it's just a matter of finding one unlocked
+          screen, one unattended desk, or a small device to quietly plug in.
+        </p>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 6: THE AFTERMATH ===================== -->
+    <div data-scene-index="5" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">6. The Aftermath</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        Digital security means little if the building itself is easy to
+        walk into &mdash; here's how to actually prevent this.
+      </p>
+
+      <div class="mt-4 rounded-lg border border-(--color-border) bg-(--color-bg) p-4">
+        <p class="text-sm text-(--color-text-muted)">
+          Every other simulation on this site assumes the attacker is
+          somewhere else on the internet. This one is a reminder that
+          physical access to a device is often the fastest way past every
+          other protection in place.
+        </p>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-safe)/40 bg-(--color-safe)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-safe)">Prevention checklist</h3>
+        <ul class="mt-2 space-y-1 text-sm text-(--color-text-muted)">
+          <li>&bull; It's okay to politely ask someone without a badge to use their own, or to direct them to reception &mdash; this isn't rude, it's normal.</li>
+          <li>&bull; Lock your screen every time you step away from your desk, even for a minute.</li>
+          <li>&bull; Report anyone in the building without a visible badge, especially near secure or sensitive areas.</li>
+          <li>&bull; Businesses can use door alarms or badge-in-badge-out logging that flags when more people enter than badges were used.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-8 flex justify-between gap-3">
+      <button
+        type="button"
+        id="prev-step"
+        class="rounded-lg border border-(--color-border) px-6 py-3 font-semibold text-(--color-text) transition-colors hover:bg-(--color-surface-raised) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        Previous
+      </button>
+      <button
+        type="button"
+        id="next-step"
+        class="rounded-lg bg-(--color-accent) px-6 py-3 font-semibold text-(--color-bg) transition-colors hover:bg-(--color-accent-strong) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)"
+      >
+        Next
+      </button>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { markCompleted } from "../../lib/progress-store.js";
+
+  const TOTAL_STEPS = 6;
+
+  const sceneEls = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-scene-index]")
+  ).sort((a, b) => Number(a.dataset.sceneIndex) - Number(b.dataset.sceneIndex));
+  const pillEls = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-pill-index]")
+  ).sort((a, b) => Number(a.dataset.pillIndex) - Number(b.dataset.pillIndex));
+  const stepIndicator = document.getElementById("step-indicator") as HTMLParagraphElement;
+  const prevBtn = document.getElementById("prev-step") as HTMLButtonElement;
+  const nextBtn = document.getElementById("next-step") as HTMLButtonElement;
+
+  const ACTIVE_PILL = ["border-(--color-accent)", "text-(--color-accent)"];
+  const INACTIVE_PILL = ["border-(--color-border)", "text-(--color-text-muted)"];
+
+  let currentIndex = 0;
+
+  sceneEls.forEach((scene, i) => {
+    if (i !== 0) scene.hidden = true;
+  });
+
+  function prefersReducedMotion() {
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  function updateChrome() {
+    stepIndicator.textContent = `Step ${currentIndex + 1} of ${TOTAL_STEPS}`;
+
+    pillEls.forEach((pill, i) => {
+      const isActive = i === currentIndex;
+      pill.classList.remove(...ACTIVE_PILL, ...INACTIVE_PILL);
+      pill.classList.add(...(isActive ? ACTIVE_PILL : INACTIVE_PILL));
+      if (isActive) {
+        pill.setAttribute("aria-current", "step");
+      } else {
+        pill.removeAttribute("aria-current");
+      }
+    });
+
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.textContent = currentIndex === TOTAL_STEPS - 1 ? "Restart" : "Next";
+
+    if (currentIndex === TOTAL_STEPS - 1) {
+      markCompleted("sim-tailgating");
+    }
+  }
+
+  function goToStep(newIndex: number) {
+    if (newIndex === currentIndex) return;
+
+    const oldEl = sceneEls[currentIndex];
+    const newEl = sceneEls[newIndex];
+    currentIndex = newIndex;
+    updateChrome();
+
+    const focusNewHeading = () => {
+      const heading = newEl.querySelector<HTMLElement>("h2");
+      heading?.focus();
+    };
+
+    if (prefersReducedMotion()) {
+      oldEl.hidden = true;
+      newEl.hidden = false;
+      focusNewHeading();
+      return;
+    }
+
+    oldEl.classList.add("opacity-0");
+    window.setTimeout(() => {
+      oldEl.hidden = true;
+      oldEl.classList.remove("opacity-0");
+
+      newEl.classList.add("opacity-0");
+      newEl.hidden = false;
+      void newEl.offsetWidth;
+      newEl.classList.remove("opacity-0");
+
+      focusNewHeading();
+    }, 150);
+  }
+
+  prevBtn.addEventListener("click", () => {
+    if (currentIndex > 0) goToStep(currentIndex - 1);
+  });
+
+  nextBtn.addEventListener("click", () => {
+    if (currentIndex === TOTAL_STEPS - 1) {
+      goToStep(0);
+    } else {
+      goToStep(currentIndex + 1);
+    }
+  });
+
+  pillEls.forEach((pill, i) => {
+    pill.addEventListener("click", () => goToStep(i));
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    const active = document.activeElement;
+    const withinWalkthrough =
+      active === prevBtn ||
+      active === nextBtn ||
+      pillEls.includes(active as HTMLElement) ||
+      sceneEls.some((scene) => scene.contains(active));
+    if (!withinWalkthrough) return;
+
+    event.preventDefault();
+    if (event.key === "ArrowLeft" && currentIndex > 0) goToStep(currentIndex - 1);
+    if (event.key === "ArrowRight" && currentIndex < TOTAL_STEPS - 1) goToStep(currentIndex + 1);
+  });
+
+  updateChrome();
+</script>

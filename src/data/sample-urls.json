@@ -1,0 +1,27 @@
+[
+  {
+    "id": "lookalike-domain",
+    "label": "Sample: lookalike domain",
+    "url": "http://paypa1-alerts.com/verify"
+  },
+  {
+    "id": "ip-address",
+    "label": "Sample: IP address link",
+    "url": "http://192.168.44.21/reset.php"
+  },
+  {
+    "id": "brand-subdomain",
+    "label": "Sample: brand used as a subdomain",
+    "url": "https://paypal.com.secure-verification.ru/login"
+  },
+  {
+    "id": "url-shortener",
+    "label": "Sample: URL shortener",
+    "url": "https://bit.ly/3xR2fake"
+  },
+  {
+    "id": "legitimate-url",
+    "label": "Sample: legitimate URL",
+    "url": "https://www.amazon.com/gp/your-account/order-details?orderID=112-3348291"
+  }
+]

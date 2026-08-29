@@ -1,0 +1,62 @@
+[
+  {
+    "id": "q1",
+    "question": "Before sending anything, an attacker researches a company's CEO using LinkedIn and the company website. Why does this matter?",
+    "options": [
+      { "id": "a", "text": "It doesn't matter, research isn't hacking" },
+      { "id": "b", "text": "It lets the attacker build a highly convincing, personalized impersonation using entirely public information" },
+      { "id": "c", "text": "It's illegal and rarely actually done" },
+      { "id": "d", "text": "Only very large companies get targeted this way" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "None of this requires hacking anything — publicly posted information (who the CEO is, when they're traveling, who handles payments) is enough to make an impersonation attempt convincing."
+  },
+  {
+    "id": "q2",
+    "question": "An email from \"the CEO\" arrives from a domain that's one word different from the real company domain. What should happen?",
+    "options": [
+      { "id": "a", "text": "It should be trusted, since it looks right at a glance" },
+      { "id": "b", "text": "It should be treated as a major red flag — legitimate email comes from the real domain, not a similar one" },
+      { "id": "c", "text": "It doesn't matter, domains aren't really checked" },
+      { "id": "d", "text": "Reply to confirm, using the same email thread" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "A domain that's close but not identical is one of the clearest signs of impersonation — it's designed to read fine at a glance, especially on a phone where the full address often isn't shown."
+  },
+  {
+    "id": "q3",
+    "question": "A request combines \"please keep this between us\" with \"I need it within the hour.\" What does that combination usually signal?",
+    "options": [
+      { "id": "a", "text": "A legitimate, time-sensitive emergency" },
+      { "id": "b", "text": "It's designed to prevent anyone from having time to verify the request through normal channels" },
+      { "id": "c", "text": "Standard business practice for large transactions" },
+      { "id": "d", "text": "A routine compliance requirement" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "Real business decisions this size are rarely both secret and urgent at the same time — that specific combination exists almost entirely to remove the time needed to double-check."
+  },
+  {
+    "id": "q4",
+    "question": "What's the safest way to verify an unusual wire transfer request that appears to be from a CEO?",
+    "options": [
+      { "id": "a", "text": "Reply to the email asking for confirmation" },
+      { "id": "b", "text": "Call the person on a number you already have on file, not one provided in the email" },
+      { "id": "c", "text": "Trust it, since it came from their email address" },
+      { "id": "d", "text": "Ask a coworker if they received the same email" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "Verifying through a separate, already-known channel sidesteps the email entirely — replying to the email itself just confirms the request with the same person (or attacker) who sent it."
+  },
+  {
+    "id": "q5",
+    "question": "Why is business email compromise so financially damaging compared to many other scams?",
+    "options": [
+      { "id": "a", "text": "It always targets the largest companies specifically" },
+      { "id": "b", "text": "A wire transfer is typically unrecoverable once it clears, and the amounts involved can be very large" },
+      { "id": "c", "text": "It requires expensive technical tools to pull off" },
+      { "id": "d", "text": "Insurance never covers any part of it" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "Unlike a disputed credit card charge, a completed wire transfer usually has no reversal process — a single successful email can result in tens of thousands of dollars with no way to get it back."
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "id": "q1",
+    "question": "Someone without a badge is standing near a secure door, carrying boxes. An employee badges in and, out of politeness, holds the door open for them. What security risk does this create?",
+    "options": [
+      { "id": "a", "text": "None, this is completely normal and safe" },
+      { "id": "b", "text": "A potential tailgating attack — the visitor gains building access without ever using a badge" },
+      { "id": "c", "text": "The employee has broken the law" },
+      { "id": "d", "text": "The badge reader automatically logs it as two separate valid entries" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "Holding a door for someone carrying things is basic politeness, not carelessness — but it means a second person can enter without ever being checked or badging in themselves."
+  },
+  {
+    "id": "q2",
+    "question": "Why does a standard badge system fail to catch a tailgating attempt?",
+    "options": [
+      { "id": "a", "text": "Badge systems are specifically designed to catch this" },
+      { "id": "b", "text": "It only records one valid entry — there's no log at all of the second, unauthorized person" },
+      { "id": "c", "text": "It requires two people to badge in together" },
+      { "id": "d", "text": "It automatically alerts security whenever a door is held open" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "The badge reader recorded exactly one valid entry — there's nothing in the system showing that a second, unbadged person also walked in behind them."
+  },
+  {
+    "id": "q3",
+    "question": "Why do people rarely challenge a stranger walking confidently through an office?",
+    "options": [
+      { "id": "a", "text": "Company policy generally forbids questioning anyone" },
+      { "id": "b", "text": "People who look like they belong are rarely challenged, especially in offices too large to know every coworker by sight" },
+      { "id": "c", "text": "It's illegal to question a visitor in most places" },
+      { "id": "d", "text": "Confident-looking visitors are always pre-approved" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "Carrying a clipboard and walking with purpose is often enough — most people don't want to be the one who wrongly accuses a coworker they simply don't recognize yet."
+  },
+  {
+    "id": "q4",
+    "question": "What's an appropriate way to handle someone in the building without a visible badge?",
+    "options": [
+      { "id": "a", "text": "Ignore it, it's not your responsibility" },
+      { "id": "b", "text": "Politely ask them to use their own badge or direct them to reception — this is normal, not rude" },
+      { "id": "c", "text": "Immediately call the police" },
+      { "id": "d", "text": "Physically block their path until they explain themselves" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "It's okay to politely ask someone without a badge to use their own, or point them to reception — this is a completely normal, non-confrontational thing to do."
+  },
+  {
+    "id": "q5",
+    "question": "Why does this simulation matter even though every other one on the platform covers digital attacks?",
+    "options": [
+      { "id": "a", "text": "It doesn't really matter — physical security is a separate, unrelated concern" },
+      { "id": "b", "text": "Physical access to a device is often the fastest way past every other digital protection in place" },
+      { "id": "c", "text": "It's only relevant to very large companies with big offices" },
+      { "id": "d", "text": "Modern offices no longer have this risk at all" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "An unlocked, unattended workstation makes every other security measure irrelevant — once someone is physically at the machine, most digital protections are already bypassed."
+  }
+]

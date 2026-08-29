@@ -1,0 +1,276 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import sampleEmails from "../../data/sample-emails.json";
+---
+
+<BaseLayout
+  title="Phishing Email Scanner"
+  description="Paste an email or load a sample to see which phishing red flags it contains, and why they matter."
+>
+  <section class="mx-auto max-w-4xl px-6 py-12">
+    <h1 class="text-3xl font-extrabold tracking-tight text-(--color-text)">
+      Phishing Email Scanner
+    </h1>
+    <p class="mt-2 max-w-2xl text-(--color-text-muted)">
+      Paste the details of a suspicious email below, or load one of the
+      samples. Everything is analyzed locally in your browser &mdash; nothing
+      is sent anywhere. This is a teaching tool: it looks for common red
+      flags, but it can't catch everything, and it's not a substitute for
+      your own judgment.
+    </p>
+
+    <div class="mt-8">
+      <h2 class="text-sm font-semibold text-(--color-text-muted)">
+        Load a sample email
+      </h2>
+      <div id="sample-buttons" class="mt-3 flex flex-wrap gap-2">
+        {
+          sampleEmails.map((sample) => (
+            <button
+              type="button"
+              data-sample-id={sample.id}
+              class="rounded-full border border-(--color-border) px-4 py-2 text-sm text-(--color-text) transition-colors hover:border-(--color-accent) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)"
+            >
+              {sample.label}
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <form id="scan-form" class="mt-8 space-y-4" novalidate>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label for="from-name" class="block text-sm font-medium text-(--color-text)">
+            Sender name
+          </label>
+          <input
+            type="text"
+            id="from-name"
+            name="fromName"
+            class="mt-1 w-full rounded-md border border-(--color-border) bg-(--color-surface) px-3 py-2 text-(--color-text) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)"
+            placeholder="e.g. PayPal Security"
+          />
+        </div>
+        <div>
+          <label for="from-email" class="block text-sm font-medium text-(--color-text)">
+            Sender email address
+          </label>
+          <input
+            type="text"
+            id="from-email"
+            name="fromEmail"
+            class="mt-1 w-full rounded-md border border-(--color-border) bg-(--color-surface) px-3 py-2 text-(--color-text) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)"
+            placeholder="e.g. security@paypa1-alerts.com"
+          />
+        </div>
+        <div>
+          <label for="reply-to" class="block text-sm font-medium text-(--color-text)">
+            Reply-To address <span class="text-(--color-text-muted)">(optional)</span>
+          </label>
+          <input
+            type="text"
+            id="reply-to"
+            name="replyTo"
+            class="mt-1 w-full rounded-md border border-(--color-border) bg-(--color-surface) px-3 py-2 text-(--color-text) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)"
+          />
+        </div>
+        <div>
+          <label for="subject" class="block text-sm font-medium text-(--color-text)">
+            Subject
+          </label>
+          <input
+            type="text"
+            id="subject"
+            name="subject"
+            class="mt-1 w-full rounded-md border border-(--color-border) bg-(--color-surface) px-3 py-2 text-(--color-text) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label for="body" class="block text-sm font-medium text-(--color-text)">
+          Email body
+        </label>
+        <p class="mt-1 text-xs text-(--color-text-muted)">
+          Tip: write links as <code>[link text](https://example.com)</code> to
+          test anchor/destination mismatches, or paste plain URLs.
+        </p>
+        <textarea
+          id="body"
+          name="body"
+          rows="10"
+          class="mt-1 w-full rounded-md border border-(--color-border) bg-(--color-surface) px-3 py-2 font-mono text-sm text-(--color-text) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)"
+        ></textarea>
+      </div>
+
+      <div class="flex gap-3">
+        <button
+          type="submit"
+          class="rounded-lg bg-(--color-accent) px-6 py-3 font-semibold text-(--color-bg) transition-colors hover:bg-(--color-accent-strong) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)"
+        >
+          Scan email
+        </button>
+        <button
+          type="button"
+          id="clear-form"
+          class="rounded-lg border border-(--color-border) px-6 py-3 font-semibold text-(--color-text) transition-colors hover:bg-(--color-surface-raised) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)"
+        >
+          Clear
+        </button>
+      </div>
+    </form>
+
+    <div id="results" aria-live="polite" class="mt-10 hidden"></div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { analyzeEmail } from "../../lib/phishing-detector.js";
+  import sampleEmails from "../../data/sample-emails.json";
+  import { markCompleted } from "../../lib/progress-store.js";
+
+  const form = document.getElementById("scan-form") as HTMLFormElement;
+  const resultsEl = document.getElementById("results") as HTMLDivElement;
+  const clearBtn = document.getElementById("clear-form") as HTMLButtonElement;
+  const sampleButtonsEl = document.getElementById("sample-buttons") as HTMLDivElement;
+
+  const fields = {
+    fromName: document.getElementById("from-name") as HTMLInputElement,
+    fromEmail: document.getElementById("from-email") as HTMLInputElement,
+    replyTo: document.getElementById("reply-to") as HTMLInputElement,
+    subject: document.getElementById("subject") as HTMLInputElement,
+    body: document.getElementById("body") as HTMLTextAreaElement,
+  };
+
+  const SEVERITY_LABEL: Record<string, string> = {
+    high: "High",
+    medium: "Medium",
+    low: "Low",
+  };
+
+  const SEVERITY_CLASSES: Record<string, string> = {
+    high: "border-(--color-danger) text-(--color-danger)",
+    medium: "border-(--color-warning) text-(--color-warning)",
+    low: "border-(--color-text-muted) text-(--color-text-muted)",
+  };
+
+  function escapeHtml(value: string) {
+    const div = document.createElement("div");
+    div.textContent = value;
+    return div.innerHTML;
+  }
+
+  sampleButtonsEl.addEventListener("click", (event) => {
+    const target = (event.target as HTMLElement).closest<HTMLButtonElement>(
+      "button[data-sample-id]"
+    );
+    if (!target) return;
+    const sample = sampleEmails.find((s) => s.id === target.dataset.sampleId);
+    if (!sample) return;
+
+    fields.fromName.value = sample.from.name;
+    fields.fromEmail.value = sample.from.email;
+    fields.replyTo.value = sample.replyTo ?? "";
+    fields.subject.value = sample.subject;
+    fields.body.value = sample.body;
+
+    resultsEl.classList.add("hidden");
+    resultsEl.innerHTML = "";
+  });
+
+  clearBtn.addEventListener("click", () => {
+    form.reset();
+    resultsEl.classList.add("hidden");
+    resultsEl.innerHTML = "";
+    fields.fromName.focus();
+  });
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const email = {
+      from: { name: fields.fromName.value.trim(), email: fields.fromEmail.value.trim() },
+      replyTo: fields.replyTo.value.trim() || undefined,
+      subject: fields.subject.value.trim(),
+      body: fields.body.value,
+    };
+
+    const result = analyzeEmail(email);
+    renderResults(result);
+  });
+
+  function renderResults(result: ReturnType<typeof analyzeEmail>) {
+    markCompleted("tool-phishing-scanner");
+
+    const badgeClass =
+      result.riskLevel === "high"
+        ? "bg-(--color-danger)/10 border-(--color-danger) text-(--color-danger)"
+        : result.riskLevel === "medium"
+          ? "bg-(--color-warning)/10 border-(--color-warning) text-(--color-warning)"
+          : "bg-(--color-safe)/10 border-(--color-safe) text-(--color-safe)";
+
+    const flagsHtml = result.flags.length
+      ? result.flags
+          .map(
+            (flag) => `
+        <li class="rounded-lg border border-(--color-border) bg-(--color-surface-raised) p-4">
+          <div class="flex items-center gap-2">
+            <span class="rounded-full border px-2 py-0.5 text-xs font-semibold ${SEVERITY_CLASSES[flag.severity]}">
+              ${SEVERITY_LABEL[flag.severity]}
+            </span>
+            <h3 class="font-semibold text-(--color-text)">${escapeHtml(flag.title)}</h3>
+          </div>
+          <p class="mt-2 text-sm text-(--color-text-muted)">${escapeHtml(flag.description)}</p>
+          ${
+            flag.evidence
+              ? `<p class="mt-2 rounded bg-(--color-bg) px-2 py-1 font-mono text-xs text-(--color-text-muted)">${escapeHtml(flag.evidence)}</p>`
+              : ""
+          }
+        </li>`
+          )
+          .join("")
+      : `<li class="rounded-lg border border-(--color-border) bg-(--color-surface-raised) p-4 text-sm text-(--color-text-muted)">No red flags detected by this tool. That doesn't guarantee the email is safe &mdash; stay cautious with unexpected requests.</li>`;
+
+    const linksHtml = result.links.length
+      ? `
+      <div class="mt-6">
+        <h3 class="text-sm font-semibold text-(--color-text-muted)">Links found in this email</h3>
+        <ul class="mt-2 space-y-1">
+          ${result.links
+            .map(
+              (link) => `
+            <li class="rounded border border-(--color-border) bg-(--color-bg) px-3 py-2 font-mono text-xs text-(--color-text-muted)">
+              <span class="text-(--color-text)">${escapeHtml(link.text)}</span>
+              <span aria-hidden="true"> &rarr; </span>
+              <span class="sr-only">links to</span>
+              ${escapeHtml(link.href)}
+            </li>`
+            )
+            .join("")}
+        </ul>
+        <p class="mt-2 text-xs text-(--color-text-muted)">
+          Links are shown as text only and are never made clickable by this tool.
+        </p>
+      </div>`
+      : "";
+
+    resultsEl.innerHTML = `
+      <div class="rounded-lg border-2 p-6 ${badgeClass}">
+        <p class="text-sm font-semibold uppercase tracking-wide">Risk assessment</p>
+        <p class="mt-1 text-2xl font-bold">${escapeHtml(result.riskLabel)}</p>
+        <p class="mt-1 text-sm opacity-80">Score: ${result.score}/100 &middot; ${result.flags.length} flag${result.flags.length === 1 ? "" : "s"} found</p>
+      </div>
+      <ul class="mt-6 space-y-3">${flagsHtml}</ul>
+      ${linksHtml}
+    `;
+    resultsEl.classList.remove("hidden");
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    resultsEl.scrollIntoView({
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+      block: "start",
+    });
+  }
+</script>

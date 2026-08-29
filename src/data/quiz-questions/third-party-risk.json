@@ -1,0 +1,62 @@
+[
+  {
+    "id": "q1",
+    "question": "A vendor you work with asks you to install \"their required software\" to continue the partnership. What should you do first?",
+    "options": [
+      { "id": "a", "text": "Install it immediately to keep the relationship smooth" },
+      { "id": "b", "text": "Verify the request through a known, separate channel and check with your IT/security process before installing anything" },
+      { "id": "c", "text": "Refuse to work with any vendor who asks for this" },
+      { "id": "d", "text": "Forward the request to the whole company" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "Even a real, ongoing vendor relationship doesn't mean every request is legitimate — verifying independently costs little and avoids installing something malicious sent from a compromised vendor account."
+  },
+  {
+    "id": "q2",
+    "question": "Why do attackers increasingly target smaller vendors and suppliers instead of attacking a large company directly?",
+    "options": [
+      { "id": "a", "text": "Vendors are always easier to physically access" },
+      { "id": "b", "text": "A smaller vendor may have weaker security, and compromising them can provide a path into the larger company's systems too" },
+      { "id": "c", "text": "Vendors never have anything valuable" },
+      { "id": "d", "text": "This isn't actually a real or growing trend" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "Third-party involvement in breaches has been rising sharply — a smaller, less-defended vendor can become the entry point into a much larger organization's systems."
+  },
+  {
+    "id": "q3",
+    "question": "What does \"supply chain risk\" mean in a cybersecurity context?",
+    "options": [
+      { "id": "a", "text": "Problems with physical shipping and delivery times" },
+      { "id": "b", "text": "Risk introduced through vendors, software providers, or partners connected to your systems, not just your own infrastructure" },
+      { "id": "c", "text": "A specific type of ransomware" },
+      { "id": "d", "text": "Risk that only applies to manufacturing companies" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "Your security depends on everyone with access to your systems, not just your own team — a vendor's weak security effectively becomes your risk too."
+  },
+  {
+    "id": "q4",
+    "question": "A trusted vendor's account is compromised, and an attacker uses it to send you a \"normal-looking\" invoice request. Why is this harder to catch than a typical phishing email?",
+    "options": [
+      { "id": "a", "text": "It isn't actually any harder to catch" },
+      { "id": "b", "text": "It comes from a genuinely real, previously-trusted account and address, not an obvious fake" },
+      { "id": "c", "text": "Vendor emails are always automatically verified by software" },
+      { "id": "d", "text": "This kind of scenario doesn't really happen" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "There's no spoofed domain or lookalike address to spot — the email is technically legitimate, sent from an account you already trust, which is exactly what makes it dangerous."
+  },
+  {
+    "id": "q5",
+    "question": "What's a reasonable step a small business can take to reduce third-party risk?",
+    "options": [
+      { "id": "a", "text": "Trust all vendors completely once a contract is signed" },
+      { "id": "b", "text": "Verify unusual requests (new payment details, new software) independently, even from known vendors, and limit vendor access to only what's needed" },
+      { "id": "c", "text": "Avoid working with any outside vendors at all" },
+      { "id": "d", "text": "Assume vendors are fully responsible for your own security" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "Independent verification for anything unusual, plus limiting what access each vendor actually needs, reduces the damage even if a vendor's own security fails."
+  }
+]

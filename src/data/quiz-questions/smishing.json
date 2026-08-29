@@ -1,0 +1,62 @@
+[
+  {
+    "id": "q1",
+    "question": "A text claims to be from a delivery company, but it's sent from what looks like a random personal phone number. Why is that suspicious?",
+    "options": [
+      { "id": "a", "text": "Real couriers text from a small set of known short codes, not personal-looking numbers" },
+      { "id": "b", "text": "Personal numbers are actually more secure" },
+      { "id": "c", "text": "It doesn't matter which number a text comes from" },
+      { "id": "d", "text": "All couriers text from random numbers by design" }
+    ],
+    "correctOptionId": "a",
+    "explanation": "Legitimate delivery companies almost always text from a recognized short code or a consistent business number — a random-looking personal number is a strong sign the message isn't really from them."
+  },
+  {
+    "id": "q2",
+    "question": "A text contains a shortened link like \"bit.ly/xk29p\". What's the risk?",
+    "options": [
+      { "id": "a", "text": "None, it's just a shorter version of a normal link" },
+      { "id": "b", "text": "A shortened link hides the real destination until after you've already clicked it" },
+      { "id": "c", "text": "Shortened links load pages faster" },
+      { "id": "d", "text": "It means the sender has been verified" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "There's no way to tell where a shortened link actually goes just by reading it — that's exactly why they're popular in smishing, since a suspicious domain can be hidden behind a harmless-looking short code."
+  },
+  {
+    "id": "q3",
+    "question": "Why would a scammer ask for a tiny \"$2.49 redelivery fee\" instead of a larger amount?",
+    "options": [
+      { "id": "a", "text": "They're being generous" },
+      { "id": "b", "text": "A small charge feels low-risk, but the real goal is capturing full card details, not the $2.49 itself" },
+      { "id": "c", "text": "It's a legal requirement for delivery fees" },
+      { "id": "d", "text": "Small amounts don't need a card number" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "A tiny fee lowers your guard and confirms the card is active — the card details captured in the process are worth far more to the attacker than the $2.49 charge itself."
+  },
+  {
+    "id": "q4",
+    "question": "You get an unexpected text about a package you're not sure you're even expecting. What should you do?",
+    "options": [
+      { "id": "a", "text": "Tap the link right away to check" },
+      { "id": "b", "text": "Check directly through the courier's official app or website, not the text's link" },
+      { "id": "c", "text": "Reply \"STOP\" to the number" },
+      { "id": "d", "text": "Forward it to a friend to ask their opinion" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "Going directly to the courier's real app or site sidesteps the link entirely — there's no need to guess whether a link is safe if you never click it in the first place."
+  },
+  {
+    "id": "q5",
+    "question": "Why do people tend to trust text messages more than emails, even though smishing works the same way as phishing?",
+    "options": [
+      { "id": "a", "text": "Texts are always verified by phone carriers before delivery" },
+      { "id": "b", "text": "People are less used to scrutinizing texts, so they carry an unearned sense of trust" },
+      { "id": "c", "text": "Texts technically can't contain clickable links" },
+      { "id": "d", "text": "Scammers don't use text messages" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "Most people have learned to be cautious with email but haven't built the same habit for text messages — attackers rely on that gap in awareness, not on texts being technically different from email."
+  }
+]

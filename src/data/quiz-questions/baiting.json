@@ -1,0 +1,62 @@
+[
+  {
+    "id": "q1",
+    "question": "You find a USB drive labeled \"Confidential Salary Review\" in a parking lot. What's the safest thing to do?",
+    "options": [
+      { "id": "a", "text": "Plug it into your work computer to try to find the owner" },
+      { "id": "b", "text": "Hand it to IT or security without plugging it into anything" },
+      { "id": "c", "text": "Plug it into a personal computer instead" },
+      { "id": "d", "text": "Open it on your phone first to check what's on it" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "Never plug an unknown USB drive into any device, work or personal — handing it to IT or security avoids running whatever might be on it."
+  },
+  {
+    "id": "q2",
+    "question": "Why do attackers use tempting labels like \"Salary Review\" or \"Layoffs List\" on planted USB drives?",
+    "options": [
+      { "id": "a", "text": "It's required by workplace policy" },
+      { "id": "b", "text": "A tempting label makes people too curious to just ignore it or report it unopened" },
+      { "id": "c", "text": "It has no real effect on behavior" },
+      { "id": "d", "text": "It's just a coincidence, labels are random" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "The bait is designed around good instincts, not carelessness — curiosity and a genuine desire to find the owner are both completely normal reactions the attacker is counting on."
+  },
+  {
+    "id": "q3",
+    "question": "A file appears to be \"Salary_Review_2026.xlsx\" but actually has a hidden \".scr\" extension. What does that mean?",
+    "options": [
+      { "id": "a", "text": "It's a compressed spreadsheet format" },
+      { "id": "b", "text": "\".scr\" is a Windows screensaver file type that can run like a program, disguised behind a spreadsheet-looking name" },
+      { "id": "c", "text": "It's a corrupted, unreadable file" },
+      { "id": "d", "text": "It's a read-only file type with no risk" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "Windows screensaver files can execute code just like a regular program — hiding the real extension behind a name ending in \".xlsx\" makes it look like a harmless spreadsheet at a glance."
+  },
+  {
+    "id": "q4",
+    "question": "Why does baiting often lead to the same kind of outcome as a phishing email with a malicious attachment?",
+    "options": [
+      { "id": "a", "text": "The two attack types are actually unrelated" },
+      { "id": "b", "text": "Baiting is often just a different delivery method for the same kind of malware payload" },
+      { "id": "c", "text": "Baiting never actually installs anything harmful" },
+      { "id": "d", "text": "USB drives are technically incapable of carrying malware" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "The end goal — gaining a foothold on the network — is often identical to what a malicious email attachment achieves; baiting just delivers it through a different, physical channel."
+  },
+  {
+    "id": "q5",
+    "question": "Beyond training people, what can a business do to reduce the risk from planted USB drives?",
+    "options": [
+      { "id": "a", "text": "Nothing technical can meaningfully help" },
+      { "id": "b", "text": "Disable AutoRun and restrict which USB devices are allowed to run programs by policy" },
+      { "id": "c", "text": "Ban all USB ports company-wide with absolutely no exceptions" },
+      { "id": "d", "text": "Only allow USB drives purchased from one specific store" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "Disabling AutoRun and restricting USB port behavior by policy means even a drive that does get plugged in can't automatically execute anything."
+  }
+]

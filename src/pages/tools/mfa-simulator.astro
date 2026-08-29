@@ -1,0 +1,232 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { MFA_METHODS } from "../../data/mfa-methods.js";
+---
+
+<BaseLayout
+  title="MFA Simulator"
+  description="See how each multi-factor authentication method actually works, and exactly how each one can be attacked."
+>
+  <section class="mx-auto max-w-3xl px-6 py-12">
+    <h1 class="text-3xl font-extrabold tracking-tight text-(--color-text)">
+      MFA Simulator
+    </h1>
+    <p class="mt-2 max-w-2xl text-(--color-text-muted)">
+      Multi-factor authentication (MFA) makes a stolen password alone not
+      enough to log in &mdash; but not all MFA methods are equally strong.
+      Pick a method below to see how it works, and how it can actually be
+      attacked.
+    </p>
+
+    <div class="mt-8">
+      <div id="method-tabs" class="flex flex-wrap gap-2" role="tablist" aria-label="MFA method">
+        {
+          MFA_METHODS.map((method, i) => (
+            <button
+              type="button"
+              role="tab"
+              data-method-id={method.id}
+              aria-selected={i === 0 ? "true" : "false"}
+              class:list={[
+                "rounded-full border px-4 py-2 text-sm transition-colors hover:border-(--color-accent) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)",
+                i === 0
+                  ? "border-(--color-accent) text-(--color-accent)"
+                  : "border-(--color-border) text-(--color-text)",
+              ]}
+            >
+              {method.label}
+            </button>
+          ))
+        }
+      </div>
+
+      {
+        MFA_METHODS.map((method, i) => (
+          <div
+            data-method-panel={method.id}
+            role="tabpanel"
+            hidden={i !== 0}
+            class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6"
+          >
+            <div class="flex items-center gap-3">
+              <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">
+                {method.label}
+              </h2>
+              <span
+                class="rounded-full border px-2 py-0.5 text-xs font-semibold"
+                style={`border-color: var(${method.securityColorVar}); color: var(${method.securityColorVar});`}
+              >
+                {method.securityLevel}
+              </span>
+            </div>
+
+            <h3 class="mt-4 text-sm font-semibold text-(--color-text-muted)">How it works</h3>
+            <ol class="mt-2 list-decimal space-y-1 pl-5 text-sm text-(--color-text-muted)">
+              {method.howItWorks.map((step) => <li>{step}</li>)}
+            </ol>
+
+            <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+              <h3 class="text-sm font-semibold text-(--color-warning)">{method.attackTitle}</h3>
+              <p class="mt-2 text-sm text-(--color-text-muted)">{method.attackDescription}</p>
+            </div>
+
+            {method.id === "push" && (
+              <div class="mt-4 rounded-lg border border-(--color-border) bg-(--color-bg) p-4">
+                <h3 class="text-sm font-semibold text-(--color-text)">Try it yourself</h3>
+                <p class="mt-1 text-sm text-(--color-text-muted)">
+                  An attacker who already has your password sends 5 login
+                  approval requests in a row. Deny every single one.
+                </p>
+
+                <button
+                  type="button"
+                  id="start-fatigue-demo"
+                  class="mt-3 rounded-lg bg-(--color-accent) px-5 py-2.5 text-sm font-semibold text-(--color-bg) transition-colors hover:bg-(--color-accent-strong) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)"
+                >
+                  Start simulation
+                </button>
+
+                <div id="fatigue-status" class="mt-3 text-sm text-(--color-text-muted)" aria-live="polite">
+                </div>
+
+                <div id="fatigue-prompt" hidden class="mt-3 rounded-lg border-2 border-(--color-warning) bg-(--color-warning)/10 p-4">
+                  <p class="text-sm font-semibold text-(--color-text)">New login attempt</p>
+                  <p id="fatigue-prompt-detail" class="mt-1 text-xs text-(--color-text-muted)">
+                    Chrome on Windows &middot; just now
+                  </p>
+                  <div class="mt-3 flex gap-2">
+                    <button
+                      type="button"
+                      id="fatigue-deny"
+                      class="rounded-lg border border-(--color-safe) px-4 py-2 text-sm font-semibold text-(--color-safe) transition-colors hover:bg-(--color-safe)/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)"
+                    >
+                      Deny
+                    </button>
+                    <button
+                      type="button"
+                      id="fatigue-approve"
+                      class="rounded-lg border border-(--color-danger) px-4 py-2 text-sm font-semibold text-(--color-danger) transition-colors hover:bg-(--color-danger)/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)"
+                    >
+                      Approve
+                    </button>
+                  </div>
+                </div>
+
+                <div id="fatigue-result" hidden class="mt-3 rounded-lg border-2 p-4">
+                  <p id="fatigue-result-text" class="text-sm font-semibold"></p>
+                  <p class="mt-2 text-sm text-(--color-text-muted)">
+                    In real attacks, people get worn down after repeated
+                    prompts, especially late at night. The safest response
+                    isn't just denying once &mdash; it's denying every
+                    unexpected prompt and reporting it, since a flood of
+                    requests almost always means someone already has your
+                    password.
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { markCompleted } from "../../lib/progress-store.js";
+
+  const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-method-id]"));
+  const panels = Array.from(document.querySelectorAll<HTMLElement>("[data-method-panel]"));
+
+  const ACTIVE_TAB = ["border-(--color-accent)", "text-(--color-accent)"];
+  const INACTIVE_TAB = ["border-(--color-border)", "text-(--color-text)"];
+
+  function selectMethod(id: string) {
+    tabs.forEach((tab) => {
+      const isActive = tab.dataset.methodId === id;
+      tab.setAttribute("aria-selected", String(isActive));
+      tab.classList.remove(...ACTIVE_TAB, ...INACTIVE_TAB);
+      tab.classList.add(...(isActive ? ACTIVE_TAB : INACTIVE_TAB));
+    });
+
+    panels.forEach((panel) => {
+      const isActive = panel.dataset.methodPanel === id;
+      panel.hidden = !isActive;
+      if (isActive) {
+        markCompleted("tool-mfa-simulator");
+        panel.querySelector<HTMLElement>("h2")?.focus();
+      }
+    });
+  }
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => selectMethod(tab.dataset.methodId as string));
+  });
+
+  // Mark completed on load too, since the first panel is visible by default
+  // without requiring a click.
+  markCompleted("tool-mfa-simulator");
+
+  // --- MFA-fatigue interactive demo ---
+  const startBtn = document.getElementById("start-fatigue-demo") as HTMLButtonElement | null;
+  if (startBtn) {
+    const statusEl = document.getElementById("fatigue-status") as HTMLElement;
+    const promptEl = document.getElementById("fatigue-prompt") as HTMLElement;
+    const denyBtn = document.getElementById("fatigue-deny") as HTMLButtonElement;
+    const approveBtn = document.getElementById("fatigue-approve") as HTMLButtonElement;
+    const resultEl = document.getElementById("fatigue-result") as HTMLElement;
+    const resultTextEl = document.getElementById("fatigue-result-text") as HTMLElement;
+
+    const TOTAL_PROMPTS = 5;
+    let promptIndex = 0;
+    let deniedCount = 0;
+
+    function showNextPrompt() {
+      if (promptIndex >= TOTAL_PROMPTS) {
+        finish();
+        return;
+      }
+      promptIndex += 1;
+      statusEl.textContent = `Request ${promptIndex} of ${TOTAL_PROMPTS}`;
+      promptEl.hidden = false;
+      denyBtn.focus();
+    }
+
+    function finish() {
+      promptEl.hidden = true;
+      statusEl.textContent = "";
+      resultEl.hidden = false;
+      const allDenied = deniedCount === TOTAL_PROMPTS;
+      resultTextEl.textContent = allDenied
+        ? `You denied all ${TOTAL_PROMPTS} attempts — that's the correct response every time.`
+        : `You denied ${deniedCount} of ${TOTAL_PROMPTS} attempts. Even one "Approve" during a real attack hands over full access.`;
+      resultEl.className = allDenied
+        ? "mt-3 rounded-lg border-2 border-(--color-safe) bg-(--color-safe)/10 p-4"
+        : "mt-3 rounded-lg border-2 border-(--color-danger) bg-(--color-danger)/10 p-4";
+      resultTextEl.className = allDenied
+        ? "text-sm font-semibold text-(--color-safe)"
+        : "text-sm font-semibold text-(--color-danger)";
+      startBtn.textContent = "Try again";
+      startBtn.hidden = false;
+    }
+
+    startBtn.addEventListener("click", () => {
+      promptIndex = 0;
+      deniedCount = 0;
+      resultEl.hidden = true;
+      startBtn.hidden = true;
+      showNextPrompt();
+    });
+
+    denyBtn.addEventListener("click", () => {
+      deniedCount += 1;
+      promptEl.hidden = true;
+      window.setTimeout(showNextPrompt, 200);
+    });
+
+    approveBtn.addEventListener("click", () => {
+      promptEl.hidden = true;
+      window.setTimeout(showNextPrompt, 200);
+    });
+  }
+</script>

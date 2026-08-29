@@ -1,0 +1,367 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const steps = [
+  { title: "The Text" },
+  { title: "It Arrives" },
+  { title: "The Hook" },
+  { title: "The Trap" },
+  { title: "The Catch" },
+  { title: "The Aftermath" },
+];
+---
+
+<BaseLayout
+  title="Smishing Simulation"
+  description="An animated, step-by-step walkthrough of how SMS phishing (smishing) actually unfolds."
+>
+  <section class="mx-auto max-w-3xl px-6 py-12">
+    <h1 class="text-3xl font-extrabold tracking-tight text-(--color-text)">
+      Smishing Simulation
+    </h1>
+    <p class="mt-2 max-w-2xl text-(--color-text-muted)">
+      Step through how SMS phishing works &mdash; the text-message version
+      of the scam. Nothing here is real; "SwiftParcel" is a made-up delivery
+      brand built just for this walkthrough.
+    </p>
+
+    <div class="mt-8">
+      <p id="step-indicator" class="text-sm font-medium text-(--color-text-muted)">
+        Step 1 of 6
+      </p>
+      <ol id="step-pills" class="mt-3 flex flex-wrap gap-2 text-sm">
+        {
+          steps.map((step, i) => (
+            <li>
+              <button
+                type="button"
+                data-pill-index={i}
+                aria-current={i === 0 ? "step" : undefined}
+                class:list={[
+                  "rounded-full border px-3 py-1 transition-colors hover:border-(--color-accent) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)",
+                  i === 0
+                    ? "border-(--color-accent) text-(--color-accent)"
+                    : "border-(--color-border) text-(--color-text-muted)",
+                ]}
+              >
+                {i + 1}. {step.title}
+              </button>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <!-- ===================== SCENE 1: THE TEXT ===================== -->
+    <div data-scene-index="0" class="mt-10 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">1. The Text</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        An attacker sends a text pretending to be a delivery company, from a
+        number that isn't SwiftParcel's real one.
+      </p>
+
+      <div class="mt-4 rounded-lg border border-(--color-border) bg-(--color-bg) p-4">
+        <p class="text-xs font-semibold uppercase tracking-wide text-(--color-text-muted)">
+          New message (attacker's view)
+        </p>
+        <p class="mt-2 font-mono text-sm text-(--color-text)">
+          From: <span class="text-(--color-danger)">+1 (302) 555-0148</span>
+        </p>
+        <p class="mt-1 font-mono text-sm text-(--color-text-muted)">
+          "SwiftParcel: your package is on hold. Pay a small redelivery fee here: bit.ly/xk29p"
+        </p>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">What's happening</h3>
+        <ul class="mt-2 space-y-1 text-sm text-(--color-text-muted)">
+          <li>&bull; Real delivery companies text from a small set of known short codes, not a random personal-looking phone number.</li>
+          <li>&bull; A shortened link hides the real destination &mdash; there's no way to tell where it goes just by reading it.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 2: IT ARRIVES ===================== -->
+    <div data-scene-index="1" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">2. It Arrives</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        The text lands in a messages app next to ordinary, real texts.
+      </p>
+
+      <div class="mt-4 divide-y divide-(--color-border) overflow-hidden rounded-lg border border-(--color-border) bg-(--color-bg)">
+        <div class="flex items-center justify-between p-3 text-sm">
+          <div>
+            <p class="font-medium text-(--color-text)">Mom</p>
+            <p class="text-xs text-(--color-text-muted)">Don't forget dinner Sunday!</p>
+          </div>
+          <span class="text-xs text-(--color-text-muted)">2:14 PM</span>
+        </div>
+        <div class="flex items-center justify-between bg-(--color-accent)/5 p-3 text-sm">
+          <div>
+            <p class="font-medium text-(--color-text)">+1 (302) 555-0148</p>
+            <p class="text-xs text-(--color-text-muted)">SwiftParcel: your package is on hold...</p>
+          </div>
+          <span class="text-xs text-(--color-text-muted)">2:31 PM</span>
+        </div>
+        <div class="flex items-center justify-between p-3 text-sm">
+          <div>
+            <p class="font-medium text-(--color-text)">Dr. Patel's Office</p>
+            <p class="text-xs text-(--color-text-muted)">Reminder: appointment tomorrow at 10am</p>
+          </div>
+          <span class="text-xs text-(--color-text-muted)">3:02 PM</span>
+        </div>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">What's happening</h3>
+        <ul class="mt-2 space-y-1 text-sm text-(--color-text-muted)">
+          <li>&bull; Text messages carry an unearned sense of trust &mdash; people are more used to scrutinizing email than texts.</li>
+          <li>&bull; It sits comfortably among genuinely expected texts, which makes it easy to read without much suspicion.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 3: THE HOOK ===================== -->
+    <div data-scene-index="2" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">3. The Hook</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        A held package and a "small fee" combine curiosity with just enough
+        urgency to prompt a tap.
+      </p>
+
+      <div class="mt-4 rounded-lg border border-(--color-border) bg-(--color-bg) p-5">
+        <p class="text-sm text-(--color-text-muted)">
+          "SwiftParcel: your package is on hold at our facility due to an
+          unpaid customs fee of $2.49. Confirm payment within <span
+            class="font-semibold text-(--color-danger)">24 hours</span> to avoid
+          your item being returned to sender: bit.ly/xk29p"
+        </p>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">What's happening</h3>
+        <ul class="mt-2 space-y-1 text-sm text-(--color-text-muted)">
+          <li>&bull; A tiny fee ($2.49) is deliberately unalarming &mdash; small enough that entering a card feels low-risk, even though the real goal is capturing full card details, not the $2.49 itself.</li>
+          <li>&bull; The 24-hour deadline nudges toward acting immediately, before stopping to check whether a package was even expected.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 4: THE TRAP ===================== -->
+    <div data-scene-index="3" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">4. The Trap</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        Tapping the link opens a mobile page that looks like a delivery
+        company's payment form.
+      </p>
+
+      <div class="mx-auto mt-4 max-w-xs overflow-hidden rounded-lg border border-(--color-border)">
+        <div class="flex items-center gap-2 border-b border-(--color-border) bg-(--color-surface-raised) px-3 py-2">
+          <div class="flex-1 rounded bg-(--color-bg) px-2 py-1 font-mono text-xs text-(--color-danger)">
+            swiftparcel-redeliver.top
+          </div>
+        </div>
+        <div class="bg-(--color-bg) p-4 text-center">
+          <p class="text-sm font-bold text-(--color-text)">SwiftParcel Redelivery</p>
+          <p class="mt-1 text-xs text-(--color-text-muted)">Pay $2.49 to release your package</p>
+          <div class="mt-3 space-y-2 text-left">
+            <div class="rounded-md border border-(--color-border) bg-(--color-surface) px-3 py-2 text-xs text-(--color-text-muted)">Card number</div>
+            <div class="rounded-md border border-(--color-border) bg-(--color-surface) px-3 py-2 text-xs text-(--color-text-muted)">Expiry &amp; CVV</div>
+            <div class="rounded-md border border-(--color-border) bg-(--color-surface) px-3 py-2 text-xs text-(--color-text-muted)">Billing ZIP code</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">What's happening</h3>
+        <ul class="mt-2 space-y-1 text-sm text-(--color-text-muted)">
+          <li>&bull; The domain <code class="text-(--color-danger)">swiftparcel-redeliver.top</code> isn't SwiftParcel's real site &mdash; a real courier's tracking domain doesn't change for a one-off payment page.</li>
+          <li>&bull; The form asks for full card details plus the CVV and ZIP code &mdash; everything needed to use the card elsewhere, not just a $2.49 charge.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 5: THE CATCH ===================== -->
+    <div data-scene-index="4" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">5. The Catch</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        The $2.49 goes through. The card details go somewhere else too.
+      </p>
+
+      <div class="mt-4 rounded-lg border border-(--color-border) bg-(--color-bg) p-4 font-mono text-xs text-(--color-text-muted)">
+        <p>[payment processed] $2.49 &mdash; SwiftParcel Redelivery</p>
+        <p class="text-(--color-danger)">[attacker log] card details forwarded to card-testing service</p>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">What's happening</h3>
+        <p class="mt-2 text-sm text-(--color-text-muted)">
+          A tiny successful charge also confirms the card is real and
+          active &mdash; attackers often resell working card numbers, or use
+          them for larger fraudulent purchases shortly after.
+        </p>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 6: THE AFTERMATH ===================== -->
+    <div data-scene-index="5" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">6. The Aftermath</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        What happens next, and how to actually avoid this one.
+      </p>
+
+      <div class="mt-4 grid gap-4 sm:grid-cols-2">
+        <div class="rounded-lg border border-(--color-danger)/40 bg-(--color-danger)/10 p-4">
+          <h3 class="text-sm font-semibold text-(--color-danger)">What happens next</h3>
+          <ul class="mt-2 space-y-1 text-sm text-(--color-text-muted)">
+            <li>&bull; The card gets used or sold for larger fraudulent charges.</li>
+            <li>&bull; The bank may flag and freeze the card, disrupting real purchases too.</li>
+          </ul>
+        </div>
+        <div class="rounded-lg border border-(--color-safe)/40 bg-(--color-safe)/10 p-4">
+          <h3 class="text-sm font-semibold text-(--color-safe)">What to do instead</h3>
+          <ul class="mt-2 space-y-1 text-sm text-(--color-text-muted)">
+            <li>&bull; Don't tap links in unexpected delivery texts &mdash; open the courier's official app or website directly instead.</li>
+            <li>&bull; Real delivery fees are essentially never collected by texting a link &mdash; treat that combination as an instant red flag.</li>
+            <li>&bull; Check whether you're even expecting a package before doing anything else.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8 flex justify-between gap-3">
+      <button
+        type="button"
+        id="prev-step"
+        class="rounded-lg border border-(--color-border) px-6 py-3 font-semibold text-(--color-text) transition-colors hover:bg-(--color-surface-raised) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        Previous
+      </button>
+      <button
+        type="button"
+        id="next-step"
+        class="rounded-lg bg-(--color-accent) px-6 py-3 font-semibold text-(--color-bg) transition-colors hover:bg-(--color-accent-strong) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)"
+      >
+        Next
+      </button>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { markCompleted } from "../../lib/progress-store.js";
+
+  const TOTAL_STEPS = 6;
+
+  const sceneEls = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-scene-index]")
+  ).sort((a, b) => Number(a.dataset.sceneIndex) - Number(b.dataset.sceneIndex));
+  const pillEls = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-pill-index]")
+  ).sort((a, b) => Number(a.dataset.pillIndex) - Number(b.dataset.pillIndex));
+  const stepIndicator = document.getElementById("step-indicator") as HTMLParagraphElement;
+  const prevBtn = document.getElementById("prev-step") as HTMLButtonElement;
+  const nextBtn = document.getElementById("next-step") as HTMLButtonElement;
+
+  const ACTIVE_PILL = ["border-(--color-accent)", "text-(--color-accent)"];
+  const INACTIVE_PILL = ["border-(--color-border)", "text-(--color-text-muted)"];
+
+  let currentIndex = 0;
+
+  sceneEls.forEach((scene, i) => {
+    if (i !== 0) scene.hidden = true;
+  });
+
+  function prefersReducedMotion() {
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  function updateChrome() {
+    stepIndicator.textContent = `Step ${currentIndex + 1} of ${TOTAL_STEPS}`;
+
+    pillEls.forEach((pill, i) => {
+      const isActive = i === currentIndex;
+      pill.classList.remove(...ACTIVE_PILL, ...INACTIVE_PILL);
+      pill.classList.add(...(isActive ? ACTIVE_PILL : INACTIVE_PILL));
+      if (isActive) {
+        pill.setAttribute("aria-current", "step");
+      } else {
+        pill.removeAttribute("aria-current");
+      }
+    });
+
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.textContent = currentIndex === TOTAL_STEPS - 1 ? "Restart" : "Next";
+
+    if (currentIndex === TOTAL_STEPS - 1) {
+      markCompleted("sim-smishing");
+    }
+  }
+
+  function goToStep(newIndex: number) {
+    if (newIndex === currentIndex) return;
+
+    const oldEl = sceneEls[currentIndex];
+    const newEl = sceneEls[newIndex];
+    currentIndex = newIndex;
+    updateChrome();
+
+    const focusNewHeading = () => {
+      const heading = newEl.querySelector<HTMLElement>("h2");
+      heading?.focus();
+    };
+
+    if (prefersReducedMotion()) {
+      oldEl.hidden = true;
+      newEl.hidden = false;
+      focusNewHeading();
+      return;
+    }
+
+    oldEl.classList.add("opacity-0");
+    window.setTimeout(() => {
+      oldEl.hidden = true;
+      oldEl.classList.remove("opacity-0");
+
+      newEl.classList.add("opacity-0");
+      newEl.hidden = false;
+      void newEl.offsetWidth;
+      newEl.classList.remove("opacity-0");
+
+      focusNewHeading();
+    }, 150);
+  }
+
+  prevBtn.addEventListener("click", () => {
+    if (currentIndex > 0) goToStep(currentIndex - 1);
+  });
+
+  nextBtn.addEventListener("click", () => {
+    if (currentIndex === TOTAL_STEPS - 1) {
+      goToStep(0);
+    } else {
+      goToStep(currentIndex + 1);
+    }
+  });
+
+  pillEls.forEach((pill, i) => {
+    pill.addEventListener("click", () => goToStep(i));
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    const active = document.activeElement;
+    const withinWalkthrough =
+      active === prevBtn ||
+      active === nextBtn ||
+      pillEls.includes(active as HTMLElement) ||
+      sceneEls.some((scene) => scene.contains(active));
+    if (!withinWalkthrough) return;
+
+    event.preventDefault();
+    if (event.key === "ArrowLeft" && currentIndex > 0) goToStep(currentIndex - 1);
+    if (event.key === "ArrowRight" && currentIndex < TOTAL_STEPS - 1) goToStep(currentIndex + 1);
+  });
+
+  updateChrome();
+</script>

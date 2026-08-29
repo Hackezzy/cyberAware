@@ -1,0 +1,62 @@
+[
+  {
+    "id": "q1",
+    "question": "Caller ID shows your bank's real name and phone number. What does that prove?",
+    "options": [
+      { "id": "a", "text": "The call is definitely genuine" },
+      { "id": "b", "text": "Nothing — caller ID can be spoofed just as easily as an email display name" },
+      { "id": "c", "text": "It proves the caller has been verified by the bank" },
+      { "id": "d", "text": "It means the call is encrypted" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "A phone showing a bank's real name and number proves nothing about who's actually calling — spoofing caller ID is straightforward and common."
+  },
+  {
+    "id": "q2",
+    "question": "A caller claiming to be from your bank's fraud team asks you to read back a one-time code you just received by text. What should you do?",
+    "options": [
+      { "id": "a", "text": "Read it back — they're trying to help protect your account" },
+      { "id": "b", "text": "Refuse — a real bank never asks you to read back a one-time code, since that code exists to prove a request came from you, not them" },
+      { "id": "c", "text": "Read it back only if they sound professional" },
+      { "id": "d", "text": "Ask them to text you a different code first" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "That code is a genuine one-time password — sharing it hands over exactly what it was designed to protect against. The text itself typically says not to share it, which the caller is asking you to override."
+  },
+  {
+    "id": "q3",
+    "question": "Why are AI-cloned voices making vishing more dangerous?",
+    "options": [
+      { "id": "a", "text": "They aren't actually a meaningful threat yet" },
+      { "id": "b", "text": "They can imitate a real bank's tone or even a specific person's voice, defeating \"I'd recognize that voice\" as a safety check" },
+      { "id": "c", "text": "They only work over landlines" },
+      { "id": "d", "text": "They require the victim's cooperation to even function" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "Voice cloning and caller ID spoofing together are cited as one of the fastest-growing threats to individuals and small businesses, since they defeat both major ways people used to sanity-check a call."
+  },
+  {
+    "id": "q4",
+    "question": "A caller says your account will be compromised unless you act in the next few minutes. What does that pressure usually indicate?",
+    "options": [
+      { "id": "a", "text": "A genuine emergency requiring immediate action" },
+      { "id": "b", "text": "An attempt to stop you from pausing to verify the call independently" },
+      { "id": "c", "text": "Standard bank fraud-prevention procedure" },
+      { "id": "d", "text": "A technical requirement of the phone system" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "If a call creates pressure to act immediately, that pressure is itself a red flag, regardless of how calm or official the caller sounds."
+  },
+  {
+    "id": "q5",
+    "question": "What's the safest way to handle a suspicious call claiming to be your bank?",
+    "options": [
+      { "id": "a", "text": "Continue the call and provide the information requested" },
+      { "id": "b", "text": "Hang up and call back using the number on your card or statement, not one the caller gives you" },
+      { "id": "c", "text": "Ask the caller for their employee ID number" },
+      { "id": "d", "text": "Stay on the line but simply refuse to answer questions" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "Calling back on a number you already trust sidesteps the entire call — there's no need to judge whether the caller is legitimate if you verify independently instead."
+  }
+]

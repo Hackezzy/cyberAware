@@ -1,0 +1,48 @@
+[
+  {
+    "id": "paypal-suspended",
+    "label": "\"Account Suspended\" — PayPal impersonation",
+    "from": { "name": "PayPal Security", "email": "security@paypa1-alerts.com" },
+    "replyTo": "support@paypa1-alerts.com",
+    "subject": "Your account has been limited",
+    "body": "Dear Customer,\n\nWe noticed unusual activity on your account. Your access has been suspended until you verify your identity.\n\n[Verify Your Account](http://paypa1-alerts.com/verify?id=8213)\n\nFailure to verify within 24 hours will result in permanent suspension of your account.\n\nPayPal Security Team"
+  },
+  {
+    "id": "it-password-reset",
+    "label": "\"IT Department\" password reset",
+    "from": { "name": "IT Support", "email": "it-support@company-helpdesk-portal.com" },
+    "replyTo": "no-reply@company-helpdesk-portal.com",
+    "subject": "Action required: your password expires today",
+    "body": "Dear User,\n\nOur records show your network password expires today. To avoid being locked out, confirm your password and one-time code immediately using the secure link below.\n\n[www.company-portal.com/reset](http://192.168.44.21/reset.php)\n\nThis is an automated message, please act now.\n\nIT Support"
+  },
+  {
+    "id": "delivery-notice",
+    "label": "Fake delivery notification",
+    "from": { "name": "DHL Express", "email": "notifications@dhl-shipupdate.net" },
+    "subject": "Unable to deliver your package - action required",
+    "body": "Hello Customer,\n\nWe attempted to deliver your parcel but a small customs fee is outstanding. Please settle the balance within 48 hours to avoid your parcel being returned.\n\nPay now: bit.ly/dhl-fee-check\n\nDHL Express"
+  },
+  {
+    "id": "amazon-order-confirmation",
+    "label": "Legitimate Amazon order confirmation",
+    "from": { "name": "Amazon.com", "email": "auto-confirm@amazon.com" },
+    "replyTo": "auto-confirm@amazon.com",
+    "subject": "Your Amazon.com order #112-3348291 has shipped",
+    "body": "Hi Alex,\n\nYour order of \"USB-C Charging Cable (2-pack)\" has shipped and is on its way.\n\nTrack your package: [Track Package](https://www.amazon.com/gp/your-account/order-details?orderID=112-3348291)\n\nEstimated delivery: Thursday, August 27.\n\nThanks for shopping with us,\nAmazon.com"
+  },
+  {
+    "id": "coworker-meeting",
+    "label": "Legitimate coworker email",
+    "from": { "name": "Priya Nair", "email": "priya.nair@company.com" },
+    "replyTo": "priya.nair@company.com",
+    "subject": "Notes from today's planning meeting",
+    "body": "Hi team,\n\nThanks for joining today's sprint planning. I've attached the notes doc to the shared drive — let me know if I missed anything.\n\nNext sync is Thursday at 10am.\n\nBest,\nPriya"
+  },
+  {
+    "id": "netflix-billing",
+    "label": "\"Netflix\" billing problem",
+    "from": { "name": "Netflix", "email": "billing@netflix-account-verify.com" },
+    "subject": "We couldn't process your payment",
+    "body": "Dear Valued Customer,\n\nWe were unable to process your latest payment. Your membership will be suspended if this is not resolved immediately.\n\nUpdate your billing details here: [Update Payment Info](http://netflix-account-verify.com/billing)\n\nWe value you as a customer.\n\nThe Netflix Team"
+  }
+]

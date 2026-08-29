@@ -1,0 +1,100 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const threatCategories = [
+  {
+    title: "Phishing",
+    description: "See how a phishing email lures, deceives, and steals — step by step.",
+    href: "/simulations/phishing",
+  },
+  {
+    title: "Ransomware",
+    description: "Watch how ransomware spreads through a system and locks users out.",
+    href: "/simulations/ransomware",
+  },
+  {
+    title: "Fake Wi-Fi",
+    description: "Learn how a rogue hotspot can intercept everything you send.",
+    href: "/simulations/fake-wifi",
+  },
+  {
+    title: "Smishing",
+    description: "SMS phishing walkthrough — the text-message version of the scam.",
+    href: "/simulations/smishing",
+  },
+];
+---
+
+<BaseLayout title="Home">
+  <section class="mx-auto max-w-6xl px-6 py-20 text-center sm:py-28">
+    <h1 class="text-4xl font-extrabold tracking-tight text-(--color-text) sm:text-5xl">
+      Learn to spot cyber threats
+      <span class="text-(--color-accent)">before they catch you.</span>
+    </h1>
+    <p class="mx-auto mt-6 max-w-2xl text-lg text-(--color-text-muted)">
+      CyberAware teaches everyday internet users to recognize and respond to
+      common cyber threats through interactive simulations and practical
+      tools &mdash; not long articles or passive videos.
+    </p>
+    <div class="mt-10 flex flex-wrap justify-center gap-4">
+      <a
+        href="/roadmap/"
+        class="rounded-lg bg-(--color-accent) px-6 py-3 font-semibold text-(--color-bg) transition-colors hover:bg-(--color-accent-strong) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)"
+      >
+        Start Your Journey
+      </a>
+    </div>
+  </section>
+
+  <section class="border-t border-(--color-border) bg-(--color-surface)">
+    <div class="mx-auto max-w-6xl px-6 py-16">
+      <h2 class="text-2xl font-bold text-(--color-text)">Explore by threat</h2>
+      <p class="mt-2 text-(--color-text-muted)">
+        Each simulation walks through a real attack pattern in an animated,
+        interactive way.
+      </p>
+      <ul class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          threatCategories.map((threat) => (
+            <li>
+              <a
+                href={threat.href}
+                class="block h-full rounded-lg border border-(--color-border) bg-(--color-surface-raised) p-6 transition-colors hover:border-(--color-accent) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)"
+              >
+                <h3 class="font-semibold text-(--color-text)">{threat.title}</h3>
+                <p class="mt-2 text-sm text-(--color-text-muted)">
+                  {threat.description}
+                </p>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a
+          href="/simulations/"
+          class="rounded-lg bg-(--color-accent) px-6 py-3 font-semibold text-(--color-bg) transition-colors hover:bg-(--color-accent-strong) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)"
+        >
+          Start a simulation
+        </a>
+        <a
+          href="/tools/"
+          class="rounded-lg border border-(--color-border) px-6 py-3 font-semibold text-(--color-text) transition-colors hover:bg-(--color-surface-raised) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)"
+        >
+          Try a tool
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-6 py-16 text-center">
+    <h2 class="text-2xl font-bold text-(--color-text)">
+      Everything runs in your browser
+    </h2>
+    <p class="mx-auto mt-2 max-w-xl text-(--color-text-muted)">
+      No accounts, no sign-ups, no data collection. Every tool and simulation
+      is educational only &mdash; no real attacks are ever performed.
+    </p>
+  </section>
+</BaseLayout>

@@ -1,0 +1,345 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const steps = [
+  { title: "The Research" },
+  { title: "The Impersonation" },
+  { title: "The Ask" },
+  { title: "The Pressure" },
+  { title: "The Transfer" },
+  { title: "The Aftermath" },
+];
+---
+
+<BaseLayout
+  title="Business Email Compromise Simulation"
+  description="An animated, step-by-step walkthrough of a CEO/invoice fraud attack aimed at a small business."
+>
+  <section class="mx-auto max-w-3xl px-6 py-12">
+    <h1 class="text-3xl font-extrabold tracking-tight text-(--color-text)">
+      Business Email Compromise Simulation
+    </h1>
+    <p class="mt-2 max-w-2xl text-(--color-text-muted)">
+      Step through a CEO/invoice fraud scam aimed at a small business &mdash;
+      one of the costliest scams for small businesses specifically. Nothing
+      here is real; "Meridian Bookkeeping" is the same made-up small business
+      from the Ransomware walkthrough.
+    </p>
+
+    <div class="mt-8">
+      <p id="step-indicator" class="text-sm font-medium text-(--color-text-muted)">
+        Step 1 of 6
+      </p>
+      <ol id="step-pills" class="mt-3 flex flex-wrap gap-2 text-sm">
+        {
+          steps.map((step, i) => (
+            <li>
+              <button
+                type="button"
+                data-pill-index={i}
+                aria-current={i === 0 ? "step" : undefined}
+                class:list={[
+                  "rounded-full border px-3 py-1 transition-colors hover:border-(--color-accent) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)",
+                  i === 0
+                    ? "border-(--color-accent) text-(--color-accent)"
+                    : "border-(--color-border) text-(--color-text-muted)",
+                ]}
+              >
+                {i + 1}. {step.title}
+              </button>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <!-- ===================== SCENE 1: THE RESEARCH ===================== -->
+    <div data-scene-index="0" class="mt-10 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">1. The Research</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        Before sending anything, the attacker quietly studies the company
+        using public information.
+      </p>
+
+      <div class="mt-4 rounded-lg border border-(--color-border) bg-(--color-bg) p-4">
+        <p class="text-xs font-semibold uppercase tracking-wide text-(--color-text-muted)">
+          Publicly available (LinkedIn, company website)
+        </p>
+        <ul class="mt-2 space-y-1 text-sm text-(--color-text-muted)">
+          <li>&bull; Owner: <span class="text-(--color-text)">Alan Cho, Founder &amp; CEO, Meridian Bookkeeping</span></li>
+          <li>&bull; Accounts contact: <span class="text-(--color-text)">listed on the "Contact Us" page</span></li>
+          <li>&bull; Recent post: <span class="text-(--color-text)">"Alan is traveling to our Denver client site this week!"</span></li>
+        </ul>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">What's happening</h3>
+        <ul class="mt-2 space-y-1 text-sm text-(--color-text-muted)">
+          <li>&bull; None of this required hacking anything &mdash; it's all publicly posted information, freely available to anyone.</li>
+          <li>&bull; Knowing the CEO is traveling is especially useful: it explains why he'd be emailing instead of walking over to ask in person.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 2: THE IMPERSONATION ===================== -->
+    <div data-scene-index="1" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">2. The Impersonation</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        An email arrives in the bookkeeper's inbox, appearing to be from Alan.
+      </p>
+
+      <div class="mt-4 rounded-lg border border-(--color-border) bg-(--color-bg) p-4">
+        <p class="font-mono text-sm text-(--color-text-muted)">
+          From: <span class="text-(--color-text)">"Alan Cho"</span> &lt;<span class="text-(--color-danger)">alan.cho@meridian-bookkeeping.com</span>&gt;
+        </p>
+        <p class="mt-2 font-mono text-xs text-(--color-text-muted)">
+          (Meridian's real domain is <span class="text-(--color-safe)">meridianbooks-corp.com</span>)
+        </p>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">What's happening</h3>
+        <p class="mt-2 text-sm text-(--color-text-muted)">
+          The domain is one word different from the real one &mdash; close
+          enough that it reads fine at a glance in a busy inbox, especially
+          on a phone where the full address often isn't even shown.
+        </p>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 3: THE ASK ===================== -->
+    <div data-scene-index="2" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">3. The Ask</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        The email requests an urgent wire transfer to a "new vendor."
+      </p>
+
+      <div class="mt-4 rounded-lg border border-(--color-border) bg-(--color-bg) p-5">
+        <p class="text-sm text-(--color-text-muted)">
+          "Hi &mdash; I'm finalizing a deal with a new supplier and need to
+          send them a deposit today before I lose the contract. Can you wire
+          $18,400 to the account below? I'm in back-to-back meetings so
+          email is easiest. Thanks, Alan"
+        </p>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">What's happening</h3>
+        <ul class="mt-2 space-y-1 text-sm text-(--color-text-muted)">
+          <li>&bull; A new, unverified vendor and an unusual, one-time wire amount are both classic warning signs on their own &mdash; together, they're a strong pattern.</li>
+          <li>&bull; "I'm in back-to-back meetings" pre-emptively explains away the one thing that would normally catch this: picking up the phone.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 4: THE PRESSURE ===================== -->
+    <div data-scene-index="3" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">4. The Pressure</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        A follow-up email adds secrecy and urgency to discourage double-checking.
+      </p>
+
+      <div class="mt-4 rounded-lg border border-(--color-border) bg-(--color-bg) p-5">
+        <p class="text-sm text-(--color-text-muted)">
+          "Please keep this between us for now &mdash; don't want the team
+          asking questions before the deal is signed. Need this sent in the
+          next hour if possible."
+        </p>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">What's happening</h3>
+        <p class="mt-2 text-sm text-(--color-text-muted)">
+          Real business decisions this size are rarely both secret and
+          urgent at the same time &mdash; that specific combination exists
+          almost entirely to prevent anyone from having time to verify it.
+        </p>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 5: THE TRANSFER ===================== -->
+    <div data-scene-index="4" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">5. The Transfer</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        Wanting to be responsive to the CEO, the bookkeeper sends the wire.
+      </p>
+
+      <div class="mt-4 rounded-lg border border-(--color-border) bg-(--color-bg) p-4 font-mono text-xs text-(--color-text-muted)">
+        <p>[wire transfer sent] $18,400.00</p>
+        <p>[status] completed &mdash; funds unavailable for recall</p>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-warning)/40 bg-(--color-warning)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-warning)">What's happening</h3>
+        <p class="mt-2 text-sm text-(--color-text-muted)">
+          Unlike a credit card charge, a wire transfer typically can't be
+          reversed once it clears &mdash; there's no dispute process to fall
+          back on afterward.
+        </p>
+      </div>
+    </div>
+
+    <!-- ===================== SCENE 6: THE AFTERMATH ===================== -->
+    <div data-scene-index="5" class="mt-6 rounded-lg border border-(--color-border) bg-(--color-surface) p-6 transition-opacity duration-150">
+      <h2 tabindex="-1" class="text-xl font-bold text-(--color-text) focus:outline-none">6. The Aftermath</h2>
+      <p class="mt-1 text-sm text-(--color-text-muted)">
+        Business email compromise is one of the costliest scams targeting
+        small businesses &mdash; here's how to actually prevent it.
+      </p>
+
+      <div class="mt-4 rounded-lg border border-(--color-border) bg-(--color-bg) p-4">
+        <p class="text-sm text-(--color-text-muted)">
+          Because a single successful transfer can be tens of thousands of
+          dollars and is rarely recoverable, this is one of the highest-cost
+          scam categories per incident for small businesses &mdash; even
+          though it takes only one convincing email.
+        </p>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-(--color-safe)/40 bg-(--color-safe)/10 p-4">
+        <h3 class="text-sm font-semibold text-(--color-safe)">Prevention checklist</h3>
+        <ul class="mt-2 space-y-1 text-sm text-(--color-text-muted)">
+          <li>&bull; Verify any unusual payment request through a separate, already-known channel &mdash; call the person on a number you already have, don't reply to the email or use a number it provides.</li>
+          <li>&bull; Treat "keep this secret" plus "urgent" together as a red flag on its own, regardless of who it appears to be from.</li>
+          <li>&bull; Require a second person's approval for wire transfers above a set amount, so no single email can authorize one alone.</li>
+          <li>&bull; Double-check the sender's actual domain, not just the display name, especially for anything involving money.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-8 flex justify-between gap-3">
+      <button
+        type="button"
+        id="prev-step"
+        class="rounded-lg border border-(--color-border) px-6 py-3 font-semibold text-(--color-text) transition-colors hover:bg-(--color-surface-raised) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        Previous
+      </button>
+      <button
+        type="button"
+        id="next-step"
+        class="rounded-lg bg-(--color-accent) px-6 py-3 font-semibold text-(--color-bg) transition-colors hover:bg-(--color-accent-strong) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent)"
+      >
+        Next
+      </button>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { markCompleted } from "../../lib/progress-store.js";
+
+  const TOTAL_STEPS = 6;
+
+  const sceneEls = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-scene-index]")
+  ).sort((a, b) => Number(a.dataset.sceneIndex) - Number(b.dataset.sceneIndex));
+  const pillEls = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-pill-index]")
+  ).sort((a, b) => Number(a.dataset.pillIndex) - Number(b.dataset.pillIndex));
+  const stepIndicator = document.getElementById("step-indicator") as HTMLParagraphElement;
+  const prevBtn = document.getElementById("prev-step") as HTMLButtonElement;
+  const nextBtn = document.getElementById("next-step") as HTMLButtonElement;
+
+  const ACTIVE_PILL = ["border-(--color-accent)", "text-(--color-accent)"];
+  const INACTIVE_PILL = ["border-(--color-border)", "text-(--color-text-muted)"];
+
+  let currentIndex = 0;
+
+  sceneEls.forEach((scene, i) => {
+    if (i !== 0) scene.hidden = true;
+  });
+
+  function prefersReducedMotion() {
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  function updateChrome() {
+    stepIndicator.textContent = `Step ${currentIndex + 1} of ${TOTAL_STEPS}`;
+
+    pillEls.forEach((pill, i) => {
+      const isActive = i === currentIndex;
+      pill.classList.remove(...ACTIVE_PILL, ...INACTIVE_PILL);
+      pill.classList.add(...(isActive ? ACTIVE_PILL : INACTIVE_PILL));
+      if (isActive) {
+        pill.setAttribute("aria-current", "step");
+      } else {
+        pill.removeAttribute("aria-current");
+      }
+    });
+
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.textContent = currentIndex === TOTAL_STEPS - 1 ? "Restart" : "Next";
+
+    if (currentIndex === TOTAL_STEPS - 1) {
+      markCompleted("sim-bec");
+    }
+  }
+
+  function goToStep(newIndex: number) {
+    if (newIndex === currentIndex) return;
+
+    const oldEl = sceneEls[currentIndex];
+    const newEl = sceneEls[newIndex];
+    currentIndex = newIndex;
+    updateChrome();
+
+    const focusNewHeading = () => {
+      const heading = newEl.querySelector<HTMLElement>("h2");
+      heading?.focus();
+    };
+
+    if (prefersReducedMotion()) {
+      oldEl.hidden = true;
+      newEl.hidden = false;
+      focusNewHeading();
+      return;
+    }
+
+    oldEl.classList.add("opacity-0");
+    window.setTimeout(() => {
+      oldEl.hidden = true;
+      oldEl.classList.remove("opacity-0");
+
+      newEl.classList.add("opacity-0");
+      newEl.hidden = false;
+      void newEl.offsetWidth;
+      newEl.classList.remove("opacity-0");
+
+      focusNewHeading();
+    }, 150);
+  }
+
+  prevBtn.addEventListener("click", () => {
+    if (currentIndex > 0) goToStep(currentIndex - 1);
+  });
+
+  nextBtn.addEventListener("click", () => {
+    if (currentIndex === TOTAL_STEPS - 1) {
+      goToStep(0);
+    } else {
+      goToStep(currentIndex + 1);
+    }
+  });
+
+  pillEls.forEach((pill, i) => {
+    pill.addEventListener("click", () => goToStep(i));
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    const active = document.activeElement;
+    const withinWalkthrough =
+      active === prevBtn ||
+      active === nextBtn ||
+      pillEls.includes(active as HTMLElement) ||
+      sceneEls.some((scene) => scene.contains(active));
+    if (!withinWalkthrough) return;
+
+    event.preventDefault();
+    if (event.key === "ArrowLeft" && currentIndex > 0) goToStep(currentIndex - 1);
+    if (event.key === "ArrowRight" && currentIndex < TOTAL_STEPS - 1) goToStep(currentIndex + 1);
+  });
+
+  updateChrome();
+</script>

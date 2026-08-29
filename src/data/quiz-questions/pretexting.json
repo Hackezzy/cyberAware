@@ -1,0 +1,62 @@
+[
+  {
+    "id": "q1",
+    "question": "What is \"pretexting\" in a social engineering attack?",
+    "options": [
+      { "id": "a", "text": "Sending a phishing email with a fake link" },
+      { "id": "b", "text": "Creating a false backstory or scenario to build trust with a target before asking for something" },
+      { "id": "c", "text": "A type of malware" },
+      { "id": "d", "text": "Physically breaking into a building" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "Pretexting is fundamentally about the story, not a technical trick — the attacker invents a believable scenario (an audit, a new hire, an emergency) to earn enough trust that the target volunteers information."
+  },
+  {
+    "id": "q2",
+    "question": "Someone calls claiming to be from \"corporate IT\" doing a routine security audit and asks for your username to \"verify your account is on the list.\" What's the concern?",
+    "options": [
+      { "id": "a", "text": "IT audits always require this exact information" },
+      { "id": "b", "text": "A legitimate audit wouldn't need your actual login credentials — this is a fabricated scenario designed to extract information" },
+      { "id": "c", "text": "This is standard procedure at every company" },
+      { "id": "d", "text": "You should give it to avoid seeming uncooperative" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "Real IT processes don't need you to hand over working credentials over the phone — a request framed as routine and low-stakes is exactly how pretexting lowers a target's guard."
+  },
+  {
+    "id": "q3",
+    "question": "A caller pretends to be a new employee who \"forgot their badge\" and asks a coworker to let them into a restricted area, using specific details about the company to sound convincing. Why does this work?",
+    "options": [
+      { "id": "a", "text": "New employees always forget their badges" },
+      { "id": "b", "text": "Specific, accurate-sounding details make a false story more believable, even though anyone could learn them from public sources" },
+      { "id": "c", "text": "It's illegal to refuse, so people always comply" },
+      { "id": "d", "text": "Security guards are required to let anyone in" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "Details like a manager's name or a recent company announcement can be found publicly or with a little research — using them makes a fabricated story sound like inside knowledge."
+  },
+  {
+    "id": "q4",
+    "question": "What's the best defense against a well-researched pretexting attempt?",
+    "options": [
+      { "id": "a", "text": "Trusting anyone who sounds knowledgeable about the company" },
+      { "id": "b", "text": "Verifying identity and authorization through an established, independent process, regardless of how convincing the story sounds" },
+      { "id": "c", "text": "Asking for their name only" },
+      { "id": "d", "text": "Assuming most calls are legitimate by default" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "A consistent verification process doesn't depend on judging how convincing someone sounds in the moment — it applies the same check regardless of the story."
+  },
+  {
+    "id": "q5",
+    "question": "Why is pretexting often harder to spot than a typical phishing email?",
+    "options": [
+      { "id": "a", "text": "It only ever happens over email" },
+      { "id": "b", "text": "There's no email or link to inspect — it relies entirely on a believable story and conversation, which can adapt in real time" },
+      { "id": "c", "text": "It never actually targets individuals" },
+      { "id": "d", "text": "It always fails immediately" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "A phishing email is a fixed artifact you can scrutinize for red flags. A live conversation adapts to pushback, has no domain to check, and relies on social pressure instead of a technical tell."
+  }
+]

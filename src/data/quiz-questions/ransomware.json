@@ -1,0 +1,62 @@
+[
+  {
+    "id": "q1",
+    "question": "A downloaded file is named \"Invoice_40218.pdf.exe\". What's the biggest red flag here?",
+    "options": [
+      { "id": "a", "text": "The filename is too long" },
+      { "id": "b", "text": "The real file extension is .exe (a program), not .pdf" },
+      { "id": "c", "text": "It has numbers in the name" },
+      { "id": "d", "text": "It was sent as an email attachment" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "The \".pdf\" is just part of the filename — the actual, working extension is \".exe\", meaning double-clicking it runs a program instead of opening a document. Many file browsers hide known extensions by default, making this easy to miss."
+  },
+  {
+    "id": "q2",
+    "question": "Before encrypting any files, what does ransomware typically do first?",
+    "options": [
+      { "id": "a", "text": "Immediately show the ransom note" },
+      { "id": "b", "text": "Quietly disable backups and shadow copies" },
+      { "id": "c", "text": "Email all of your contacts" },
+      { "id": "d", "text": "Restart the computer" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "Disabling built-in backup and recovery features first, before doing anything visible, means there's nothing easy to restore from once the ransom note finally appears."
+  },
+  {
+    "id": "q3",
+    "question": "Why is a shared network drive especially dangerous during a ransomware infection?",
+    "options": [
+      { "id": "a", "text": "It makes files load more slowly" },
+      { "id": "b", "text": "One infected computer can encrypt files on every computer sharing that drive" },
+      { "id": "c", "text": "It uses more storage space" },
+      { "id": "d", "text": "It requires an extra password" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "Ransomware actively scans for reachable network shares to spread to — a single infected laptop can lock files across an entire office, not just its own hard drive."
+  },
+  {
+    "id": "q4",
+    "question": "Should you pay the ransom to get your files back?",
+    "options": [
+      { "id": "a", "text": "Yes, always — it's the fastest way to recover" },
+      { "id": "b", "text": "No — there's no guarantee of a working key, and it funds further attacks" },
+      { "id": "c", "text": "Only if the amount is small" },
+      { "id": "d", "text": "Yes, but only using a credit card" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "Paying doesn't guarantee the attacker actually sends a working decryption key, confirms the business is willing to pay (inviting repeat attacks), and directly funds the attacker's next target."
+  },
+  {
+    "id": "q5",
+    "question": "What's the single most effective protection against ransomware?",
+    "options": [
+      { "id": "a", "text": "A strong antivirus program alone" },
+      { "id": "b", "text": "An offline backup that ransomware on the network can't also reach" },
+      { "id": "c", "text": "A very long password" },
+      { "id": "d", "text": "Permanently disabling internet access" }
+    ],
+    "correctOptionId": "b",
+    "explanation": "A backup that's also connected to the network can get encrypted right along with everything else — a real backup needs to be kept offline or otherwise disconnected so ransomware can't reach it too."
+  }
+]
