@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Animated, interactive walkthroughs of how common cyber attacks actually unfold." />
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+  <title>Simulations | CyberAware</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("cyberaware:theme");
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.setAttribute("data-theme", stored);
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <style>
+    .sim-grid {
+      margin-top: 2.5rem;
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 640px) { .sim-grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1024px) { .sim-grid { grid-template-columns: 1fr 1fr 1fr; } }
+    .sim-card {
+      display: block;
+      height: 100%;
+      border-radius: 0.5rem;
+      border: 1px solid var(--color-border);
+      background-color: var(--color-surface-raised);
+      padding: 1.5rem;
+      text-decoration: none;
+      transition: border-color 0.15s;
+    }
+    .sim-card:hover { border-color: var(--color-accent); }
+    .sim-card h2 { margin: 0; font-weight: 600; color: var(--color-text); font-size: 1rem; }
+    .sim-card p { margin-top: 0.5rem; font-size: 0.875rem; color: var(--color-text-muted); }
+    .sim-card--unbuilt { opacity: 0.6; border-style: dashed; cursor: default; }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div id="nav-mount"></div>
+
+  <main id="main-content">
+    <section class="container page-section">
+      <h1 class="page-title">Simulations</h1>
+      <p class="page-intro">
+        Step through how each attack actually happens &mdash; no real
+        attacks are performed, this is a safe walkthrough.
+      </p>
+
+      <div class="sim-grid">
+        <a href="/simulations/phishing.html" class="sim-card">
+          <h2>Phishing</h2>
+          <p>Watch how a phishing email unfolds step by step, from the fake domain to the stolen password.</p>
+        </a>
+        <a href="/simulations/smishing.html" class="sim-card">
+          <h2>Smishing</h2>
+          <p>Watch how SMS phishing works &mdash; the text-message version of the scam.</p>
+        </a>
+        <a href="/simulations/vishing.html" class="sim-card">
+          <h2>Vishing</h2>
+          <p>Step through a voice-phishing phone call, including AI voice cloning tactics.</p>
+        </a>
+        <a href="/simulations/business-email-compromise.html" class="sim-card">
+          <h2>Business Email Compromise</h2>
+          <p>See how a CEO/invoice fraud scam targets a small business's bookkeeper.</p>
+        </a>
+        <a href="/simulations/tailgating.html" class="sim-card">
+          <h2>Tailgating</h2>
+          <p>Watch someone walk into a secure office by relying on simple politeness.</p>
+        </a>
+        <a href="/simulations/baiting.html" class="sim-card">
+          <h2>Baiting</h2>
+          <p>See how a single "found" USB drive can compromise a company network.</p>
+        </a>
+        <a href="/simulations/fake-wifi.html" class="sim-card">
+          <h2>Fake Wi-Fi</h2>
+          <p>Watch a rogue Wi-Fi hotspot intercept a traveler's login details.</p>
+        </a>
+        <a href="/simulations/ransomware.html" class="sim-card">
+          <h2>Ransomware</h2>
+          <p>Watch ransomware spread through a small business, file by file.</p>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="/js/nav.js"></script>
+</body>
+</html>

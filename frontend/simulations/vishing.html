@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="An animated, step-by-step walkthrough of a voice-phishing (vishing) phone call." />
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+  <title>Vishing Simulation | CyberAware</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("cyberaware:theme");
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.setAttribute("data-theme", stored);
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div id="nav-mount"></div>
+
+  <main id="main-content">
+    <section class="container page-section" style="max-width: 48rem;">
+      <h1 class="page-title">Vishing Simulation</h1>
+      <p class="page-intro">
+        Step through a voice-phishing call &mdash; the phone-call version of
+        the scam, and one of the fastest-growing tactics as attackers start
+        using AI to clone voices. Nothing here is real; "First Meridian Bank"
+        is a made-up bank built just for this walkthrough.
+      </p>
+
+      <div id="sim-root" style="margin-top: 2rem;">
+        <div>
+          <p id="step-indicator" class="sim-step-indicator">Step 1 of 6</p>
+          <ol id="step-pills" class="sim-pills">
+            <li><button type="button" data-pill-index="0" aria-current="step" class="sim-pill sim-pill--active">1. The Call</button></li>
+            <li><button type="button" data-pill-index="1" class="sim-pill sim-pill--inactive">2. The Voice</button></li>
+            <li><button type="button" data-pill-index="2" class="sim-pill sim-pill--inactive">3. The Pretext</button></li>
+            <li><button type="button" data-pill-index="3" class="sim-pill sim-pill--inactive">4. The Ask</button></li>
+            <li><button type="button" data-pill-index="4" class="sim-pill sim-pill--inactive">5. The Catch</button></li>
+            <li><button type="button" data-pill-index="5" class="sim-pill sim-pill--inactive">6. The Aftermath</button></li>
+          </ol>
+        </div>
+
+        <!-- SCENE 1: THE CALL -->
+        <div data-scene-index="0" class="scene">
+          <h2 tabindex="-1" class="scene-heading">1. The Call</h2>
+          <p class="scene-subtext">A phone rings. The screen shows a name that looks trustworthy.</p>
+
+          <div class="mock-panel" style="text-align: center;">
+            <p class="mock-panel-label">Incoming call</p>
+            <p style="margin-top: 0.5rem; font-size: 1.125rem; font-weight: 700; color: var(--color-text);">First Meridian Bank</p>
+            <p style="margin-top: 0.25rem; font-family: 'SFMono-Regular', Consolas, monospace; font-size: 0.875rem; color: var(--color-text-muted);">(800) 555-0134</p>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <ul>
+              <li>&bull; Caller ID can be spoofed &mdash; a phone showing a bank's real name and number proves nothing about who is actually calling.</li>
+              <li>&bull; A call feels more urgent and personal than an email, which is exactly why attackers use it.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SCENE 2: THE VOICE -->
+        <div data-scene-index="1" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">2. The Voice</h2>
+          <p class="scene-subtext">A calm, professional-sounding voice opens with the same greeting a real bank call center would use.</p>
+
+          <div class="mock-panel">
+            <p style="margin: 0; font-size: 0.875rem; color: var(--color-text-muted);">
+              "Thank you for banking with First Meridian. This is fraud
+              prevention calling about unusual activity on your account. Am I
+              speaking with the account holder?"
+            </p>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <p>Attackers increasingly use AI-generated or cloned voices to sound calm, professional, and even to imitate someone the victim already knows &mdash; a real bank script isn't hard to copy, and neither is a real person's voice anymore.</p>
+          </div>
+        </div>
+
+        <!-- SCENE 3: THE PRETEXT -->
+        <div data-scene-index="2" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">3. The Pretext</h2>
+          <p class="scene-subtext">The caller explains a scary-sounding problem they're supposedly already helping to fix.</p>
+
+          <div class="mock-panel">
+            <p style="margin: 0; font-size: 0.875rem; color: var(--color-text-muted);">
+              "We've flagged a $2,340 transfer attempt from your account. We've
+              already blocked it, but I need to verify your identity to secure
+              your account before the attacker tries again."
+            </p>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <p>Framing themselves as already protecting you builds trust fast &mdash; it's much harder to be suspicious of someone who appears to already be on your side.</p>
+          </div>
+        </div>
+
+        <!-- SCENE 4: THE ASK -->
+        <div data-scene-index="3" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">4. The Ask</h2>
+          <p class="scene-subtext">A text message arrives mid-call, and the caller asks for the code in it.</p>
+
+          <div class="mock-panel">
+            <p style="margin: 0; font-size: 0.875rem; color: var(--color-text-muted);">
+              "You should just receive a 6-digit verification code by text &mdash;
+              that confirms you're the real account holder. Can you read that
+              back to me?"
+            </p>
+            <div class="mock-mono">
+              <p>SMS: Your First Meridian verification code is <span style="font-weight: 600; color: var(--color-danger);">738214</span>. Do not share this code with anyone.</p>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <p>That code is a real one-time password, sent because the attacker is simultaneously trying to log in or reset the password on the real account &mdash; the text even says not to share it, which the caller is asking to override.</p>
+          </div>
+        </div>
+
+        <!-- SCENE 5: THE CATCH -->
+        <div data-scene-index="4" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">5. The Catch</h2>
+          <p class="scene-subtext">The code is read aloud. The attacker uses it immediately.</p>
+
+          <div class="mock-panel">
+            <div class="mock-mono">
+              <p>[attacker, real time] entering code 738214 at real login page...</p>
+              <p style="color: var(--color-danger);">[status] identity verified &mdash; password reset granted</p>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <p>The code only works for a minute or two, so the attacker uses it the instant it's read out &mdash; by the time the call ends, the real account may already be locked out from the other side.</p>
+          </div>
+        </div>
+
+        <!-- SCENE 6: THE AFTERMATH -->
+        <div data-scene-index="5" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">6. The Aftermath</h2>
+          <p class="scene-subtext">Voice cloning is making this attack harder to spot by ear alone &mdash; here's how to actually stay safe on a call.</p>
+
+          <div class="mock-panel">
+            <p style="margin: 0; font-size: 0.875rem; color: var(--color-text-muted);">
+              AI-generated voices and caller ID spoofing are cited as some of
+              the fastest-growing threats to individuals and small businesses,
+              precisely because they defeat "I'd recognize that voice" as a
+              safety check.
+            </p>
+          </div>
+
+          <div class="outcome-grid" style="grid-template-columns: 1fr;">
+            <div class="outcome-box outcome-box--safe">
+              <h3>Prevention checklist</h3>
+              <ul>
+                <li>&bull; A real bank will never ask you to read back a one-time code &mdash; that code exists specifically to prove a request came from you, not from them.</li>
+                <li>&bull; Hang up and call back using the number on your card or statement, never a number the caller gives you.</li>
+                <li>&bull; Caller ID showing a familiar name or number is not verification &mdash; it can be spoofed just as easily as an email display name.</li>
+                <li>&bull; If a call creates pressure to act immediately, that pressure is itself a red flag, regardless of how calm the caller sounds.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="sim-nav">
+          <button type="button" id="prev-step" class="btn btn-secondary">Previous</button>
+          <button type="button" id="next-step" class="btn btn-primary">Next</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="/js/nav.js"></script>
+  <script type="module">
+    import { createSimulation } from "/js/lib/sim-engine.js";
+    const root = document.getElementById("sim-root");
+    createSimulation({ root, totalSteps: 6, itemId: "sim-vishing" });
+  </script>
+</body>
+</html>

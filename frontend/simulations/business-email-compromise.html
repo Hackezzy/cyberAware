@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="An animated, step-by-step walkthrough of a CEO/invoice fraud attack aimed at a small business." />
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+  <title>Business Email Compromise Simulation | CyberAware</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("cyberaware:theme");
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.setAttribute("data-theme", stored);
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div id="nav-mount"></div>
+
+  <main id="main-content">
+    <section class="container page-section" style="max-width: 48rem;">
+      <h1 class="page-title">Business Email Compromise Simulation</h1>
+      <p class="page-intro">
+        Step through a CEO/invoice fraud scam aimed at a small business &mdash;
+        one of the costliest scams for small businesses specifically. Nothing
+        here is real; "Meridian Bookkeeping" is the same made-up small business
+        from the Ransomware walkthrough.
+      </p>
+
+      <div id="sim-root" style="margin-top: 2rem;">
+        <div>
+          <p id="step-indicator" class="sim-step-indicator">Step 1 of 6</p>
+          <ol id="step-pills" class="sim-pills">
+            <li><button type="button" data-pill-index="0" aria-current="step" class="sim-pill sim-pill--active">1. The Research</button></li>
+            <li><button type="button" data-pill-index="1" class="sim-pill sim-pill--inactive">2. The Impersonation</button></li>
+            <li><button type="button" data-pill-index="2" class="sim-pill sim-pill--inactive">3. The Ask</button></li>
+            <li><button type="button" data-pill-index="3" class="sim-pill sim-pill--inactive">4. The Pressure</button></li>
+            <li><button type="button" data-pill-index="4" class="sim-pill sim-pill--inactive">5. The Transfer</button></li>
+            <li><button type="button" data-pill-index="5" class="sim-pill sim-pill--inactive">6. The Aftermath</button></li>
+          </ol>
+        </div>
+
+        <!-- SCENE 1: THE RESEARCH -->
+        <div data-scene-index="0" class="scene">
+          <h2 tabindex="-1" class="scene-heading">1. The Research</h2>
+          <p class="scene-subtext">Before sending anything, the attacker quietly studies the company using public information.</p>
+
+          <div class="mock-panel">
+            <p class="mock-panel-label">Publicly available (LinkedIn, company website)</p>
+            <div class="mock-mono">
+              <p>Owner: <span style="color: var(--color-text);">Alan Cho, Founder &amp; CEO, Meridian Bookkeeping</span></p>
+              <p>Accounts contact: <span style="color: var(--color-text);">listed on the "Contact Us" page</span></p>
+              <p>Recent post: <span style="color: var(--color-text);">"Alan is traveling to our Denver client site this week!"</span></p>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <ul>
+              <li>&bull; None of this required hacking anything &mdash; it's all publicly posted information, freely available to anyone.</li>
+              <li>&bull; Knowing the CEO is traveling is especially useful: it explains why he'd be emailing instead of walking over to ask in person.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SCENE 2: THE IMPERSONATION -->
+        <div data-scene-index="1" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">2. The Impersonation</h2>
+          <p class="scene-subtext">An email arrives in the bookkeeper's inbox, appearing to be from Alan.</p>
+
+          <div class="mock-panel">
+            <div class="mock-mono">
+              <p>From: <span style="color: var(--color-text);">"Alan Cho"</span> &lt;<span style="color: var(--color-danger);">alan.cho@meridian-bookkeeping.com</span>&gt;</p>
+              <p style="font-size: 0.75rem;">(Meridian's real domain is <span style="color: var(--color-safe);">meridianbooks-corp.com</span>)</p>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <p>The domain is one word different from the real one &mdash; close enough that it reads fine at a glance in a busy inbox, especially on a phone where the full address often isn't even shown.</p>
+          </div>
+        </div>
+
+        <!-- SCENE 3: THE ASK -->
+        <div data-scene-index="2" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">3. The Ask</h2>
+          <p class="scene-subtext">The email requests an urgent wire transfer to a "new vendor."</p>
+
+          <div class="mock-panel">
+            <p style="margin: 0; font-size: 0.875rem; color: var(--color-text-muted);">
+              "Hi &mdash; I'm finalizing a deal with a new supplier and need to
+              send them a deposit today before I lose the contract. Can you wire
+              $18,400 to the account below? I'm in back-to-back meetings so
+              email is easiest. Thanks, Alan"
+            </p>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <ul>
+              <li>&bull; A new, unverified vendor and an unusual, one-time wire amount are both classic warning signs on their own &mdash; together, they're a strong pattern.</li>
+              <li>&bull; "I'm in back-to-back meetings" pre-emptively explains away the one thing that would normally catch this: picking up the phone.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SCENE 4: THE PRESSURE -->
+        <div data-scene-index="3" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">4. The Pressure</h2>
+          <p class="scene-subtext">A follow-up email adds secrecy and urgency to discourage double-checking.</p>
+
+          <div class="mock-panel">
+            <p style="margin: 0; font-size: 0.875rem; color: var(--color-text-muted);">
+              "Please keep this between us for now &mdash; don't want the team
+              asking questions before the deal is signed. Need this sent in the
+              next hour if possible."
+            </p>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <p>Real business decisions this size are rarely both secret and urgent at the same time &mdash; that specific combination exists almost entirely to prevent anyone from having time to verify it.</p>
+          </div>
+        </div>
+
+        <!-- SCENE 5: THE TRANSFER -->
+        <div data-scene-index="4" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">5. The Transfer</h2>
+          <p class="scene-subtext">Wanting to be responsive to the CEO, the bookkeeper sends the wire.</p>
+
+          <div class="mock-panel">
+            <div class="mock-mono">
+              <p>[wire transfer sent] $18,400.00</p>
+              <p>[status] completed &mdash; funds unavailable for recall</p>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <p>Unlike a credit card charge, a wire transfer typically can't be reversed once it clears &mdash; there's no dispute process to fall back on afterward.</p>
+          </div>
+        </div>
+
+        <!-- SCENE 6: THE AFTERMATH -->
+        <div data-scene-index="5" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">6. The Aftermath</h2>
+          <p class="scene-subtext">Business email compromise is one of the costliest scams targeting small businesses &mdash; here's how to actually prevent it.</p>
+
+          <div class="mock-panel">
+            <p style="margin: 0; font-size: 0.875rem; color: var(--color-text-muted);">
+              Because a single successful transfer can be tens of thousands of
+              dollars and is rarely recoverable, this is one of the highest-cost
+              scam categories per incident for small businesses &mdash; even
+              though it takes only one convincing email.
+            </p>
+          </div>
+
+          <div class="outcome-grid" style="grid-template-columns: 1fr;">
+            <div class="outcome-box outcome-box--safe">
+              <h3>Prevention checklist</h3>
+              <ul>
+                <li>&bull; Verify any unusual payment request through a separate, already-known channel &mdash; call the person on a number you already have, don't reply to the email or use a number it provides.</li>
+                <li>&bull; Treat "keep this secret" plus "urgent" together as a red flag on its own, regardless of who it appears to be from.</li>
+                <li>&bull; Require a second person's approval for wire transfers above a set amount, so no single email can authorize one alone.</li>
+                <li>&bull; Double-check the sender's actual domain, not just the display name, especially for anything involving money.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="sim-nav">
+          <button type="button" id="prev-step" class="btn btn-secondary">Previous</button>
+          <button type="button" id="next-step" class="btn btn-primary">Next</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="/js/nav.js"></script>
+  <script type="module">
+    import { createSimulation } from "/js/lib/sim-engine.js";
+    const root = document.getElementById("sim-root");
+    createSimulation({ root, totalSteps: 6, itemId: "sim-bec" });
+  </script>
+</body>
+</html>

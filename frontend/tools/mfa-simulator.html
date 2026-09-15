@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="See how each multi-factor authentication method actually works, and exactly how each one can be attacked." />
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+  <title>MFA Simulator | CyberAware</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("cyberaware:theme");
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.setAttribute("data-theme", stored);
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div id="nav-mount"></div>
+
+  <main id="main-content">
+    <section class="container page-section" style="max-width: 48rem;">
+      <h1 class="page-title">MFA Simulator</h1>
+      <p class="page-intro">
+        Multi-factor authentication (MFA) makes a stolen password alone not
+        enough to log in &mdash; but not all MFA methods are equally strong.
+        Pick a method below to see how it works, and how it can actually be
+        attacked.
+      </p>
+
+      <div style="margin-top: 2rem;">
+        <div id="method-tabs" class="sim-pills" role="tablist" aria-label="MFA method">
+          <button type="button" role="tab" data-method-id="sms" aria-selected="true" class="sim-pill sim-pill--active">SMS Code</button>
+          <button type="button" role="tab" data-method-id="authenticator" aria-selected="false" class="sim-pill sim-pill--inactive">Authenticator App</button>
+          <button type="button" role="tab" data-method-id="push" aria-selected="false" class="sim-pill sim-pill--inactive">Push Notification</button>
+          <button type="button" role="tab" data-method-id="hardware" aria-selected="false" class="sim-pill sim-pill--inactive">Hardware Key / Passkey</button>
+        </div>
+
+        <!-- SMS Code -->
+        <div data-method-panel="sms" role="tabpanel" class="scene">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <h2 tabindex="-1" class="scene-heading">SMS Code</h2>
+            <span class="mfa-security-badge" style="border-color: var(--color-danger); color: var(--color-danger);">Weak</span>
+          </div>
+          <h3 class="section-label" style="margin-top: 1rem;">How it works</h3>
+          <ol class="mfa-steps">
+            <li>Enter your password</li>
+            <li>A 6-digit code is texted to your phone</li>
+            <li>Enter the code to finish logging in</li>
+          </ol>
+          <div class="red-flags-box">
+            <h3>SIM swapping &amp; SMS interception</h3>
+            <p>An attacker can convince (or bribe, or socially engineer) your phone carrier to transfer your number onto a SIM card they control &mdash; after that, your "secure" codes are texted straight to them, not you. SMS can also be intercepted through known weaknesses in the telephone network itself. It's also the exact method targeted by the vishing attack covered elsewhere on this site &mdash; a caller simply asking you to read the code back.</p>
+          </div>
+        </div>
+
+        <!-- Authenticator App -->
+        <div data-method-panel="authenticator" role="tabpanel" hidden class="scene">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <h2 tabindex="-1" class="scene-heading">Authenticator App</h2>
+            <span class="mfa-security-badge" style="border-color: var(--color-warning); color: var(--color-warning);">Moderate</span>
+          </div>
+          <h3 class="section-label" style="margin-top: 1rem;">How it works</h3>
+          <ol class="mfa-steps">
+            <li>Enter your password</li>
+            <li>Open your authenticator app</li>
+            <li>Enter the 6-digit code shown, which changes every 30 seconds</li>
+          </ol>
+          <div class="red-flags-box">
+            <h3>Real-time phishing relay</h3>
+            <p>A fake login page can capture your password and your current authenticator code the instant you type them, then immediately relay both to the real site before the code expires. The code being generated on your own device doesn't help if you've been tricked into typing it into a fake site in the first place &mdash; it's still phishable, just harder to intercept after the fact than SMS.</p>
+          </div>
+        </div>
+
+        <!-- Push Notification -->
+        <div data-method-panel="push" role="tabpanel" hidden class="scene">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <h2 tabindex="-1" class="scene-heading">Push Notification</h2>
+            <span class="mfa-security-badge" style="border-color: var(--color-warning); color: var(--color-warning);">Moderate</span>
+          </div>
+          <h3 class="section-label" style="margin-top: 1rem;">How it works</h3>
+          <ol class="mfa-steps">
+            <li>Enter your password</li>
+            <li>A notification appears on your phone: "Approve this login?"</li>
+            <li>Tap Approve</li>
+          </ol>
+          <div class="red-flags-box">
+            <h3>MFA fatigue ("push bombing")</h3>
+            <p>An attacker who already has your password can trigger login attempts repeatedly, flooding your phone with approval requests &mdash; sometimes for hours, sometimes late at night. The goal isn't to guess anything; it's to wear you down until you tap "Approve" just to make the notifications stop, or mistake it for a glitch. This exact technique has been used in several real, high-profile breaches.</p>
+          </div>
+
+          <div class="mock-panel">
+            <h3 style="margin: 0; font-size: 0.875rem; font-weight: 600; color: var(--color-text);">Try it yourself</h3>
+            <p style="margin-top: 0.25rem; font-size: 0.875rem; color: var(--color-text-muted);">
+              An attacker who already has your password sends 5 login
+              approval requests in a row. Deny every single one.
+            </p>
+
+            <button type="button" id="start-fatigue-demo" class="btn btn-primary" style="margin-top: 0.75rem;">Start simulation</button>
+
+            <div id="fatigue-status" style="margin-top: 0.75rem; font-size: 0.875rem; color: var(--color-text-muted);" aria-live="polite"></div>
+
+            <div id="fatigue-prompt" hidden class="explanation-panel explanation-panel--warning" style="margin-top: 0.75rem;">
+              <p style="margin: 0; font-size: 0.875rem; font-weight: 600; color: var(--color-text);">New login attempt</p>
+              <p id="fatigue-prompt-detail" style="margin-top: 0.25rem; font-size: 0.75rem; color: var(--color-text-muted);">Chrome on Windows &middot; just now</p>
+              <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem;">
+                <button type="button" id="fatigue-deny" class="btn-outline-safe">Deny</button>
+                <button type="button" id="fatigue-approve" class="btn-outline-danger">Approve</button>
+              </div>
+            </div>
+
+            <div id="fatigue-result" hidden class="explanation-panel" style="margin-top: 0.75rem;">
+              <p id="fatigue-result-text" class="explanation-result"></p>
+              <p class="explanation-text">
+                In real attacks, people get worn down after repeated
+                prompts, especially late at night. The safest response
+                isn't just denying once &mdash; it's denying every
+                unexpected prompt and reporting it, since a flood of
+                requests almost always means someone already has your
+                password.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hardware Key / Passkey -->
+        <div data-method-panel="hardware" role="tabpanel" hidden class="scene">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <h2 tabindex="-1" class="scene-heading">Hardware Key / Passkey</h2>
+            <span class="mfa-security-badge" style="border-color: var(--color-safe); color: var(--color-safe);">Strongest</span>
+          </div>
+          <h3 class="section-label" style="margin-top: 1rem;">How it works</h3>
+          <ol class="mfa-steps">
+            <li>Enter your password (or nothing at all, with a passwordless passkey)</li>
+            <li>Tap or insert a physical security key, or use your device's built-in biometric</li>
+            <li>The key cryptographically proves both who you are and which real site you're on</li>
+          </ol>
+          <div class="red-flags-box">
+            <h3>Why this one is phishing-resistant</h3>
+            <p>A hardware key checks the website's real domain as part of its cryptographic handshake &mdash; if you're tricked onto a lookalike phishing domain, the key simply refuses to respond, even if you personally believe the page is real. There's no code to read out, relay, or intercept. The main realistic risk is someone physically stealing the key itself and also somehow knowing your password.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="/js/nav.js"></script>
+  <script type="module" src="/tools/mfa-simulator.js"></script>
+</body>
+</html>

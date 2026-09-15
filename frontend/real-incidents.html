@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Five real, documented cyber attacks — what actually happened, what it cost, and how each one maps to a simulation on this site." />
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+  <title>Real Incidents | CyberAware</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("cyberaware:theme");
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.setAttribute("data-theme", stored);
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <style>
+    .incident-card {
+      margin-top: 1.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid var(--color-border);
+      background-color: var(--color-surface);
+      padding: 1.5rem;
+    }
+    .incident-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.5rem;
+      justify-content: space-between;
+    }
+    .incident-title {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+    .incident-domain {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      border-radius: 9999px;
+      border: 1px solid var(--color-accent);
+      color: var(--color-accent);
+      padding: 0.125rem 0.625rem;
+      white-space: nowrap;
+    }
+    .incident-section {
+      margin-top: 1rem;
+    }
+    .incident-section h3 {
+      margin: 0;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: var(--color-text-muted);
+    }
+    .incident-section p {
+      margin: 0.375rem 0 0;
+      font-size: 0.9375rem;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+    .incident-cost {
+      margin-top: 1rem;
+      border-radius: 0.375rem;
+      border-left: 4px solid var(--color-danger);
+      background-color: color-mix(in srgb, var(--color-danger) 8%, transparent);
+      padding: 0.75rem 1rem;
+    }
+    .incident-cost p {
+      margin: 0;
+      font-size: 0.9375rem;
+      color: var(--color-text);
+    }
+    .incident-footer {
+      margin-top: 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--color-border);
+      font-size: 0.8125rem;
+    }
+    .incident-maps-to {
+      color: var(--color-text-muted);
+    }
+    .incident-maps-to a {
+      color: var(--color-accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .incident-source {
+      color: var(--color-text-muted);
+    }
+    .incident-source a {
+      color: var(--color-text-muted);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div id="nav-mount"></div>
+
+  <main id="main-content">
+    <section class="container page-section">
+      <h1 class="page-title">Real Incidents</h1>
+      <p class="page-intro">
+        Every simulation on this site uses a fictional brand, so it's
+        always safe to practice on. These five are the opposite &mdash;
+        real, well-documented attacks against real organizations, included
+        here for the thing fiction can't provide: proof of what these
+        patterns actually cost when they work. Each one links back to the
+        matching simulation, and every fact below is cited &mdash; nothing
+        on this page is written from memory.
+      </p>
+
+      <!-- 1. Podesta phishing -->
+      <article class="incident-card">
+        <div class="incident-header">
+          <h2 class="incident-title">The Podesta Campaign Email Hack (2016)</h2>
+          <span class="incident-domain">Email &amp; Message Security</span>
+        </div>
+
+        <div class="incident-section">
+          <h3>What happened</h3>
+          <p>
+            On March 19, 2016, Russian military-intelligence hackers
+            ("Fancy Bear") sent John Podesta, chairman of Hillary
+            Clinton's presidential campaign, an email with the subject
+            line "Someone has your password," disguised as a Google
+            security warning.
+          </p>
+        </div>
+
+        <div class="incident-section">
+          <h3>How it actually unfolded</h3>
+          <p>
+            The email told Podesta someone had tried to sign into his
+            Google account and urged him to change his password
+            immediately via a link. A staffer forwarded it to the
+            campaign's IT help desk to check whether it was legitimate.
+            The help desk replied that it was a "legitimate email" and
+            that Podesta should change his password &mdash; despite the
+            link actually pointing to a shortened URL controlled by the
+            attackers, not Google. Podesta clicked it and entered his
+            real password on the fake page.
+          </p>
+        </div>
+
+        <div class="incident-section">
+          <h3>Warning signs, in hindsight</h3>
+          <p>
+            A generic "someone has your password" urgency hook; a link
+            that didn't actually go to a real Google domain; and the fact
+            that Google itself never asks you to click an email link to
+            "verify" a password reset &mdash; the same red flags taught
+            in the Phishing simulation on this site.
+          </p>
+        </div>
+
+        <div class="incident-cost">
+          <p>
+            <strong>Real-world cost:</strong> over 50,000 emails were
+            exfiltrated from Podesta's account within two days and later
+            published by WikiLeaks, becoming a major factor in the 2016
+            U.S. presidential election.
+          </p>
+        </div>
+
+        <div class="incident-footer">
+          <span class="incident-maps-to">Maps to: Phishing simulation (not yet rebuilt on this version)</span>
+          <span class="incident-source">Source: <a href="https://www.cnn.com/2016/10/28/politics/phishing-email-hack-john-podesta-hillary-clinton-wikileaks/index.html" target="_blank" rel="noopener">CNN, "Is this the email that hacked John Podesta's account?"</a></span>
+        </div>
+      </article>
+
+      <!-- 2. Google Docs OAuth worm -->
+      <article class="incident-card">
+        <div class="incident-header">
+          <h2 class="incident-title">The Fake "Google Docs" OAuth Worm (2017)</h2>
+          <span class="incident-domain">Email &amp; Message Security</span>
+        </div>
+
+        <div class="incident-section">
+          <h3>What happened</h3>
+          <p>
+            A phishing email arrived from someone the recipient actually
+            knew, inviting them to open a shared Google Doc &mdash; a
+            completely normal, everyday-looking email.
+          </p>
+        </div>
+
+        <div class="incident-section">
+          <h3>How it actually unfolded</h3>
+          <p>
+            Clicking "Open in Docs" sent victims to the real
+            accounts.google.com, but instead of opening a document, it
+            asked them to grant account permissions to an app named
+            "Google Docs" &mdash; which was not Google's own app, just a
+            malicious one that had given itself the same name. Anyone who
+            approved it handed over an OAuth token letting the attacker
+            read, send, and manage their email &mdash; no password was
+            ever stolen or needed. The worm then used that access to
+            email the same invitation to every one of the victim's Gmail
+            contacts automatically, spreading itself without the attacker
+            doing anything further.
+          </p>
+        </div>
+
+        <div class="incident-section">
+          <h3>Warning signs, in hindsight</h3>
+          <p>
+            A permission-request screen for an app claiming to be
+            "Google Docs" (the real Google Docs never asks for account
+            permissions to open a shared file) &mdash; a reminder that
+            "the page looks real" isn't the same as "the request makes
+            sense."
+          </p>
+        </div>
+
+        <div class="incident-cost">
+          <p>
+            <strong>Real-world cost:</strong> roughly 0.1% of all Gmail
+            users were affected before Google disabled the offending
+            accounts and pushed updates through Safe Browsing &mdash; at
+            Gmail's scale, a fraction of a percent was still a very large
+            number of real compromised accounts, spreading within
+            roughly an hour of the campaign starting.
+          </p>
+        </div>
+
+        <div class="incident-footer">
+          <span class="incident-maps-to">Maps to: Phishing simulation (not yet rebuilt on this version)</span>
+          <span class="incident-source">Source: <a href="https://www.bankinfosecurity.com/attackers-unleash-oauth-worm-via-google-docs-app-a-9888" target="_blank" rel="noopener">BankInfoSecurity, "Attackers Unleash OAuth Worm via 'Google Docs' App"</a></span>
+        </div>
+      </article>
+
+      <!-- 3. WannaCry -->
+      <article class="incident-card">
+        <div class="incident-header">
+          <h2 class="incident-title">WannaCry Ransomware (2017)</h2>
+          <span class="incident-domain">Malware &amp; Ransomware</span>
+        </div>
+
+        <div class="incident-section">
+          <h3>What happened</h3>
+          <p>
+            Starting May 12, 2017, a ransomware worm called WannaCry
+            spread across the internet, encrypting files on infected
+            Windows computers and demanding a ransom to unlock them.
+          </p>
+        </div>
+
+        <div class="incident-section">
+          <h3>How it actually unfolded</h3>
+          <p>
+            WannaCry used a stolen exploit called EternalBlue to attack a
+            flaw in how Windows shares files over a network &mdash; a
+            flaw Microsoft had already released a patch for two months
+            earlier. Computers that hadn't installed that update could be
+            infected without anyone clicking anything; the malware simply
+            found them over the network and spread on its own. Within
+            three days it had reached an estimated 200,000 computers
+            across more than 150 countries, including large parts of the
+            UK's National Health Service, forcing hospitals to divert
+            patients and cancel appointments.
+          </p>
+        </div>
+
+        <div class="incident-section">
+          <h3>Warning signs, in hindsight</h3>
+          <p>
+            Not a phishing click at all this time &mdash; the actual
+            lesson is that an available security update, left uninstalled,
+            is itself the vulnerability. The same "how ransomware spreads
+            and locks a system" idea is what the Ransomware simulation on
+            this site walks through.
+          </p>
+        </div>
+
+        <div class="incident-cost">
+          <p>
+            <strong>Real-world cost:</strong> estimated global losses
+            between $4&ndash;8 billion. For the NHS alone, the UK
+            Department of Health put the cost at &pound;92 million, with
+            nearly 19,000 cancelled appointments and operations
+            extrapolated across the health service.
+          </p>
+        </div>
+
+        <div class="incident-footer">
+          <span class="incident-maps-to">Maps to: Ransomware simulation (not yet rebuilt on this version)</span>
+          <span class="incident-source">Source: <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6775064/" target="_blank" rel="noopener">NCBI, "A retrospective impact analysis of the WannaCry cyberattack on the NHS"</a></span>
+        </div>
+      </article>
+
+      <!-- 4. LinkedIn 2012 -->
+      <article class="incident-card">
+        <div class="incident-header">
+          <h2 class="incident-title">The LinkedIn Password Breach (2012)</h2>
+          <span class="incident-domain">Identity &amp; Access</span>
+        </div>
+
+        <div class="incident-section">
+          <h3>What happened</h3>
+          <p>
+            Attackers broke into LinkedIn's systems and stole hashed
+            passwords for what LinkedIn first estimated at 6.5 million
+            accounts. In 2016, the true scale became clear when the full
+            stolen dataset &mdash; over 117 million account
+            email/password combinations &mdash; was found for sale online.
+          </p>
+        </div>
+
+        <div class="incident-section">
+          <h3>How it actually unfolded</h3>
+          <p>
+            The passwords had been hashed, but using an outdated method
+            that was relatively easy for attackers to crack back into
+            plain text. The real damage happened years later and
+            elsewhere: anyone who had reused their LinkedIn password on
+            other sites was now exposed everywhere they'd reused it, not
+            just on LinkedIn. In one widely reported case, attackers used
+            credentials from this exact breach to break into Mark
+            Zuckerberg's Twitter and Pinterest accounts in 2016 &mdash;
+            four years after the original LinkedIn breach &mdash; simply
+            because the same password had been reused across all three.
+          </p>
+        </div>
+
+        <div class="incident-section">
+          <h3>Warning signs, in hindsight</h3>
+          <p>
+            There was nothing to spot in the moment &mdash; this is
+            exactly why credential reuse is dangerous: the breach that
+            exposes your password and the account it actually gets used
+            against can be years and completely unrelated services apart.
+          </p>
+        </div>
+
+        <div class="incident-cost">
+          <p>
+            <strong>Real-world cost:</strong> 117+ million accounts
+            exposed, a second forced password-reset wave in 2016, and
+            years of downstream account takeovers on unrelated platforms
+            traced back to this one breach.
+          </p>
+        </div>
+
+        <div class="incident-footer">
+          <span class="incident-maps-to">Maps to: Credential Reuse Check (Password Strength tool)</span>
+          <span class="incident-source">Source: <a href="https://krebsonsecurity.com/2016/05/as-scope-of-2012-breach-expands-linkedin-to-again-reset-passwords-for-some-users/" target="_blank" rel="noopener">Krebs on Security, "As Scope of 2012 Breach Expands, LinkedIn to Again Reset Passwords"</a></span>
+        </div>
+      </article>
+
+      <!-- 5. Ubiquiti BEC -->
+      <article class="incident-card">
+        <div class="incident-header">
+          <h2 class="incident-title">The Ubiquiti Networks Invoice Fraud (2015)</h2>
+          <span class="incident-domain">Email &amp; Message Security</span>
+        </div>
+
+        <div class="incident-section">
+          <h3>What happened</h3>
+          <p>
+            Ubiquiti Networks, a real networking hardware company,
+            discovered on June 5, 2015 that its finance department had
+            been tricked into wiring $46.7 million to overseas bank
+            accounts controlled by criminals.
+          </p>
+        </div>
+
+        <div class="incident-section">
+          <h3>How it actually unfolded</h3>
+          <p>
+            Attackers impersonated senior company executives by email
+            &mdash; a classic Business Email Compromise ("CEO fraud")
+            &mdash; and used that fake authority to instruct employees in
+            a Hong Kong subsidiary's finance team to transfer company
+            funds to accounts the attackers controlled. No malware, no
+            hacked server &mdash; just a convincing email and someone with
+            wire-transfer authority who believed it.
+          </p>
+        </div>
+
+        <div class="incident-section">
+          <h3>Warning signs, in hindsight</h3>
+          <p>
+            An urgent, executive-authority wire-transfer request outside
+            normal process &mdash; exactly the pattern the Business Email
+            Compromise simulation on this site walks through, including
+            why verifying such a request through a second channel (a
+            phone call, not a reply to the same email thread) would have
+            stopped it.
+          </p>
+        </div>
+
+        <div class="incident-cost">
+          <p>
+            <strong>Real-world cost:</strong> $46.7 million transferred;
+            only $8.1 million was ever recovered. The company's Chief
+            Accounting Officer resigned after an internal audit found
+            "material weaknesses" in financial controls.
+          </p>
+        </div>
+
+        <div class="incident-footer">
+          <span class="incident-maps-to">Maps to: Business Email Compromise simulation (not yet rebuilt on this version)</span>
+          <span class="incident-source">Source: <a href="https://krebsonsecurity.com/2015/08/tech-firm-ubiquiti-suffers-46m-cyberheist/" target="_blank" rel="noopener">Krebs on Security, "Tech Firm Ubiquiti Suffers $46M Cyberheist"</a></span>
+        </div>
+      </article>
+
+      <div class="info-box">
+        <h2>Why isn't every domain represented here?</h2>
+        <p>
+          On purpose &mdash; there wasn't a single, famous, cleanly
+          citable real-world incident for the Network &amp; Wireless
+          domain (fake Wi-Fi hotspots) to match the rigor of the five
+          above, so it was left out rather than forcing a weak example in
+          just to fill a gap.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="/js/nav.js"></script>
+</body>
+</html>

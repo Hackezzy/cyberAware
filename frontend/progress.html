@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A review of everything you've completed on CyberAware so far — by domain, by type, and as a full activity log. Stored only in your own browser." />
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+  <title>My Progress | CyberAware</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("cyberaware:theme");
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.setAttribute("data-theme", stored);
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div id="nav-mount"></div>
+
+  <main id="main-content">
+    <section class="container page-section" style="max-width: 48rem;">
+      <h1 class="page-title">My Progress</h1>
+      <p class="page-intro">
+        A record of what you've actually done on CyberAware, not just what
+        you've read. This is stored only in this browser &mdash; nothing is
+        sent anywhere, and clearing your browser data clears this too.
+      </p>
+
+      <div id="empty-state" hidden class="empty-state">
+        <p>You haven't completed anything yet.</p>
+        <p>Try a simulation, a tool, or a quiz &mdash; each one you finish will show up here.</p>
+        <a href="/roadmap.html" class="btn btn-primary" style="margin-top: 1rem;">Start with the Roadmap</a>
+      </div>
+
+      <div id="progress-content">
+        <div class="progress-summary-box">
+          <div class="progress-summary-row">
+            <span>Overall progress</span>
+            <span id="overall-progress-text">0 / 0 complete</span>
+          </div>
+          <div class="quiz-progress-track" style="margin-top: 0.5rem;">
+            <div id="overall-progress-bar" class="quiz-progress-fill" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div class="progress-type-grid">
+          <div data-type-card="simulation" class="progress-type-card">
+            <p data-type-count class="progress-type-count">0 / 0</p>
+            <p class="progress-type-label">Simulations</p>
+          </div>
+          <div data-type-card="tool" class="progress-type-card">
+            <p data-type-count class="progress-type-count">0 / 0</p>
+            <p class="progress-type-label">Tools</p>
+          </div>
+          <div data-type-card="quiz" class="progress-type-card">
+            <p data-type-count class="progress-type-count">0 / 0</p>
+            <p class="progress-type-label">Quizzes</p>
+          </div>
+        </div>
+
+        <div style="margin-top: 2.5rem;">
+          <h2 style="font-size: 1.125rem; font-weight: 700; color: var(--color-text); margin: 0;">By domain</h2>
+          <div id="domain-cards" style="margin-top: 1rem;"></div>
+        </div>
+
+        <div style="margin-top: 2.5rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;">
+            <h2 style="font-size: 1.125rem; font-weight: 700; color: var(--color-text); margin: 0;">Activity log</h2>
+            <button type="button" id="reset-progress" class="account-remove-btn" style="margin-top: 0;">Reset progress</button>
+          </div>
+          <ul id="activity-log" class="activity-log-list"></ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="/js/nav.js"></script>
+  <script type="module" src="/progress.js"></script>
+</body>
+</html>

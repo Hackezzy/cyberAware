@@ -1,0 +1,1562 @@
+/*
+ * Component styles for the plain-HTML version of the site. These are
+ * real, hand-written CSS rules — the visual equivalent of what Tailwind's
+ * utility classes were generating for the same markup in the Astro
+ * version, just written the traditional way (one class per component,
+ * not one class per property).
+ */
+
+/* ---------- Layout helpers ---------- */
+.container {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.page-section {
+  padding: 3rem 0;
+}
+
+.page-title {
+  font-size: 1.875rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.page-intro {
+  margin-top: 0.5rem;
+  max-width: 42rem;
+  color: var(--color-text-muted);
+}
+
+/* ---------- Header / Nav ---------- */
+.site-header {
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.nav {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.nav-logo-icon {
+  color: var(--color-accent);
+}
+
+.nav-toggle {
+  border: 1px solid var(--color-border);
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  color: var(--color-text);
+  background: transparent;
+  cursor: pointer;
+}
+
+.nav-toggle svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.nav-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: none;
+  width: 100%;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.nav-menu.is-open {
+  display: flex;
+}
+
+.nav-link {
+  display: block;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--color-text-muted);
+  transition: color 0.15s, background-color 0.15s;
+}
+
+.nav-link:hover {
+  color: var(--color-text);
+}
+
+.nav-link.is-current {
+  background-color: var(--color-surface-raised);
+  color: var(--color-accent);
+}
+
+.nav-link--unbuilt {
+  cursor: default;
+  opacity: 0.5;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.unbuilt-badge {
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border: 1px dashed var(--color-border);
+  border-radius: 9999px;
+  padding: 0.0625rem 0.375rem;
+}
+
+.explore-wrapper {
+  position: relative;
+}
+
+.explore-toggle {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.explore-menu {
+  list-style: none;
+  margin: 0.25rem 0 0;
+  padding: 0 0 0 0.75rem;
+}
+
+.explore-menu[hidden] {
+  display: none;
+}
+
+/* ---------- Theme toggle & buttons ---------- */
+.theme-toggle {
+  display: block;
+  width: 100%;
+  border: none;
+  background: transparent;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  color: var(--color-text);
+}
+
+.btn {
+  display: inline-block;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  text-decoration: none;
+  transition: background-color 0.15s;
+}
+
+.btn-primary {
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-accent-strong);
+}
+
+.btn-secondary {
+  background: transparent;
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-surface-raised);
+}
+
+/* Focus ring, applied consistently to every interactive element */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.footer-inner {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.footer-inner a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ---------- Sample buttons ---------- */
+.sample-buttons {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.sample-button {
+  border-radius: 9999px;
+  border: 1px solid var(--color-border);
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  background: transparent;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.sample-button:hover {
+  border-color: var(--color-accent);
+}
+
+.section-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+/* ---------- Form ---------- */
+.check-form {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-field {
+  flex: 1;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+  margin-bottom: 0.25rem;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  border-radius: 0.375rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  padding: 0.5rem 0.75rem;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.875rem;
+  color: var(--color-text);
+}
+
+.form-textarea {
+  font-family: "SFMono-Regular", Consolas, monospace;
+  resize: vertical;
+}
+
+.form-hint {
+  margin: 0.25rem 0 0;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.form-hint code {
+  font-family: "SFMono-Regular", Consolas, monospace;
+}
+
+.form-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (min-width: 640px) {
+  .check-form {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+}
+
+.error-text {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: var(--color-danger);
+}
+
+/* ---------- Results ---------- */
+.results {
+  margin-top: 2.5rem;
+}
+
+.risk-banner {
+  border-radius: 0.5rem;
+  border-width: 2px;
+  border-style: solid;
+  padding: 1.5rem;
+}
+
+.risk-banner--high {
+  border-color: var(--color-danger);
+  background-color: color-mix(in srgb, var(--color-danger) 10%, transparent);
+  color: var(--color-danger);
+}
+
+.risk-banner--medium {
+  border-color: var(--color-warning);
+  background-color: color-mix(in srgb, var(--color-warning) 10%, transparent);
+  color: var(--color-warning);
+}
+
+.risk-banner--low {
+  border-color: var(--color-safe);
+  background-color: color-mix(in srgb, var(--color-safe) 10%, transparent);
+  color: var(--color-safe);
+}
+
+.risk-banner-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.risk-banner-value {
+  margin: 0.25rem 0 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.risk-banner-score {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  opacity: 0.8;
+}
+
+.results-block {
+  margin-top: 1.5rem;
+}
+
+.breakdown-list,
+.flags-list {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.breakdown-item {
+  border-radius: 0.25rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+  padding: 0.5rem 0.75rem;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.breakdown-item span {
+  color: var(--color-text);
+}
+
+.flag-card {
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-raised);
+  padding: 1rem;
+}
+
+.flag-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.flag-badge {
+  border-radius: 9999px;
+  border: 1px solid;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.flag-badge--high {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+.flag-badge--medium {
+  border-color: var(--color-warning);
+  color: var(--color-warning);
+}
+
+.flag-badge--low {
+  border-color: var(--color-text-muted);
+  color: var(--color-text-muted);
+}
+
+.flag-title {
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.flag-description {
+  margin: 0.5rem 0 0;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.flag-evidence {
+  margin: 0.5rem 0 0;
+  border-radius: 0.25rem;
+  background-color: var(--color-bg);
+  padding: 0.25rem 0.5rem;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.info-box {
+  margin-top: 3rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  padding: 1.5rem;
+}
+
+.info-box h2 {
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.info-box p {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.info-box code {
+  color: var(--color-accent);
+}
+
+/* ---------- Quiz shell ---------- */
+.quiz-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+}
+
+.quiz-progress-track {
+  margin-top: 0.5rem;
+  height: 0.5rem;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 9999px;
+  background-color: var(--color-surface-raised);
+}
+
+.quiz-progress-fill {
+  height: 100%;
+  border-radius: 9999px;
+  background-color: var(--color-accent);
+  transition: width 0.15s;
+}
+
+.question-card {
+  margin-top: 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  padding: 1.5rem;
+}
+
+.question-text {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.options-fieldset {
+  margin-top: 1rem;
+  border: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.quiz-option {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+  padding: 0.75rem;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.quiz-option:has(input:checked) {
+  border-color: var(--color-accent);
+  background-color: color-mix(in srgb, var(--color-accent) 10%, transparent);
+}
+
+.quiz-option:has(input:focus-visible) {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.quiz-option--correct {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 0.5rem;
+  border-width: 2px;
+  border-style: solid;
+  border-color: var(--color-safe);
+  background-color: color-mix(in srgb, var(--color-safe) 10%, transparent);
+  padding: 0.75rem;
+}
+
+.quiz-option--incorrect {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 0.5rem;
+  border-width: 2px;
+  border-style: solid;
+  border-color: var(--color-danger);
+  background-color: color-mix(in srgb, var(--color-danger) 10%, transparent);
+  padding: 0.75rem;
+}
+
+.quiz-option--neutral {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+  padding: 0.75rem;
+  opacity: 0.7;
+}
+
+.quiz-option-radio {
+  height: 1rem;
+  width: 1rem;
+  accent-color: var(--color-accent);
+}
+
+.quiz-option-text {
+  flex: 1;
+  font-size: 0.875rem;
+  color: var(--color-text);
+}
+
+.quiz-option-marker {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.quiz-option-marker--correct {
+  color: var(--color-safe);
+}
+
+.quiz-option-marker--incorrect {
+  color: var(--color-danger);
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.explanation-panel {
+  margin-top: 1.25rem;
+  border-radius: 0.5rem;
+  border-width: 2px;
+  border-style: solid;
+  padding: 1rem;
+}
+
+.explanation-panel--correct {
+  border-color: var(--color-safe);
+  background-color: color-mix(in srgb, var(--color-safe) 10%, transparent);
+}
+
+.explanation-panel--incorrect {
+  border-color: var(--color-danger);
+  background-color: color-mix(in srgb, var(--color-danger) 10%, transparent);
+}
+
+.explanation-result {
+  margin: 0;
+  font-weight: 600;
+}
+
+.explanation-result--correct {
+  color: var(--color-safe);
+}
+
+.explanation-result--incorrect {
+  color: var(--color-danger);
+}
+
+.explanation-text {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.results-panel {
+  margin-top: 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.results-panel h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.results-score {
+  margin: 0.5rem 0 0;
+  font-size: 1.875rem;
+  font-weight: 800;
+  color: var(--color-accent);
+}
+
+.results-message {
+  margin: 0.5rem 0 0;
+  color: var(--color-text-muted);
+}
+
+/* ---------- Simulation shell ---------- */
+.sim-step-indicator {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.sim-pills {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.sim-pill {
+  border-radius: 9999px;
+  border: 1px solid;
+  padding: 0.25rem 0.75rem;
+  background: transparent;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  font: inherit;
+}
+
+.sim-pill--active {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.sim-pill--inactive {
+  border-color: var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.sim-pill:hover {
+  border-color: var(--color-accent);
+}
+
+.scene {
+  margin-top: 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  padding: 1.5rem;
+  transition: opacity 0.15s;
+}
+
+.scene--fade-out {
+  opacity: 0;
+}
+
+.scene-heading {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.scene-heading:focus {
+  outline: none;
+}
+
+.scene-subtext {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.red-flags-box {
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--color-warning) 40%, transparent);
+  background-color: color-mix(in srgb, var(--color-warning) 10%, transparent);
+  padding: 1rem;
+}
+
+.red-flags-box h3 {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-warning);
+}
+
+.red-flags-box ul {
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.red-flags-box li {
+  margin-top: 0.25rem;
+}
+
+.outcome-grid {
+  margin-top: 1rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .outcome-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.outcome-box {
+  border-radius: 0.5rem;
+  padding: 1rem;
+  border: 1px solid;
+}
+
+.outcome-box--danger {
+  border-color: color-mix(in srgb, var(--color-danger) 40%, transparent);
+  background-color: color-mix(in srgb, var(--color-danger) 10%, transparent);
+}
+
+.outcome-box--danger h3 { color: var(--color-danger); }
+
+.outcome-box--safe {
+  border-color: color-mix(in srgb, var(--color-safe) 40%, transparent);
+  background-color: color-mix(in srgb, var(--color-safe) 10%, transparent);
+}
+
+.outcome-box--safe h3 { color: var(--color-safe); }
+
+.outcome-box h3 {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.outcome-box ul {
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.outcome-box li { margin-top: 0.25rem; }
+
+.sim-nav {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+/* ---------- Simulation mockup elements (fictional in-universe content) ---------- */
+.mock-panel {
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+  padding: 1rem;
+}
+
+.mock-panel-label {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+}
+
+.mock-mono {
+  margin-top: 0.75rem;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.875rem;
+}
+
+.mock-mono p {
+  margin: 0.5rem 0 0;
+  color: var(--color-text-muted);
+}
+
+.mock-mono p:first-child { margin-top: 0; }
+
+/* Fictional brand color ("SecurePay") — deliberately fixed, not theme-aware,
+   since it represents a mocked-up external brand, not this site's own UI.
+   See CLAUDE.md for why this is the one legitimate exception to always
+   using --color-* variables. */
+.mock-brand-tag {
+  border-radius: 0.25rem;
+  background-color: rgba(124, 58, 237, 0.2);
+  padding: 0.0625rem 0.25rem;
+  color: var(--color-text);
+}
+
+.mock-danger-tag {
+  border-radius: 0.25rem;
+  background-color: color-mix(in srgb, var(--color-danger) 20%, transparent);
+  padding: 0.0625rem 0.25rem;
+  color: var(--color-danger);
+}
+
+.mock-inbox {
+  margin-top: 1rem;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+}
+
+.mock-inbox-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.mock-inbox-row:last-child { border-bottom: none; }
+
+.mock-inbox-row--highlighted {
+  background-color: color-mix(in srgb, var(--color-accent) 5%, transparent);
+}
+
+.mock-avatar {
+  display: flex;
+  height: 2rem;
+  width: 2rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: var(--color-surface-raised);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.mock-avatar--brand {
+  background-color: rgba(124, 58, 237, 0.2);
+  color: var(--color-text);
+}
+
+.mock-inbox-meta {
+  min-width: 0;
+  flex: 1;
+}
+
+.mock-inbox-meta p {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mock-inbox-sender {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.mock-inbox-subject {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.mock-inbox-time {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.mock-brand-button {
+  margin-top: 1rem;
+  display: inline-block;
+  width: 100%;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+  cursor: default;
+}
+
+.mock-browser {
+  margin-top: 1rem;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+}
+
+.mock-browser-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-surface-raised);
+  padding: 0.5rem 0.75rem;
+}
+
+.mock-browser-dot {
+  height: 0.625rem;
+  width: 0.625rem;
+  border-radius: 9999px;
+}
+
+.mock-browser-dot--danger { background-color: color-mix(in srgb, var(--color-danger) 60%, transparent); }
+.mock-browser-dot--warning { background-color: color-mix(in srgb, var(--color-warning) 60%, transparent); }
+.mock-browser-dot--safe { background-color: color-mix(in srgb, var(--color-safe) 60%, transparent); }
+
+.mock-url-bar {
+  margin-left: 0.5rem;
+  flex: 1;
+  border-radius: 0.25rem;
+  background-color: var(--color-bg);
+  padding: 0.25rem 0.75rem;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.75rem;
+  color: var(--color-danger);
+}
+
+.mock-page {
+  background-color: var(--color-bg);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.mock-page-title {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.mock-page-subtitle {
+  margin: 0.25rem 0 0;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.mock-form {
+  margin: 1rem auto 0;
+  max-width: 20rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: left;
+}
+
+.mock-input {
+  border-radius: 0.375rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.mock-input--filled {
+  color: var(--color-text);
+  letter-spacing: 0.15em;
+}
+
+/* ---------- Real API check panel (new) ---------- */
+.api-panel {
+  margin-top: 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  padding: 1.5rem;
+}
+
+.api-panel h3 {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.api-status {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.api-status--checking {
+  color: var(--color-text-muted);
+}
+
+.api-status--clean {
+  color: var(--color-safe);
+  font-weight: 600;
+}
+
+.api-status--flagged {
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+.api-status--error {
+  color: var(--color-warning);
+}
+
+/* ---------- Password Strength Analyzer ---------- */
+.pw-input-row {
+  margin-top: 0.25rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pw-input-row .form-input {
+  flex: 1;
+}
+
+.pw-meter-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+}
+
+.strength-bar-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.15s, background-color 0.15s;
+}
+
+.strength-bar-fill--danger { background-color: var(--color-danger); }
+.strength-bar-fill--warning { background-color: var(--color-warning); }
+.strength-bar-fill--safe { background-color: var(--color-safe); }
+
+.char-class-badge {
+  border-radius: 9999px;
+  border: 1px solid;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.char-class-badge--present { border-color: var(--color-safe); color: var(--color-safe); }
+.char-class-badge--absent { border-color: var(--color-border); color: var(--color-text-muted); }
+
+/* ---------- Credential Reuse Check ---------- */
+.account-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  padding: 0.75rem;
+}
+
+.account-field {
+  flex: 1;
+  min-width: 8rem;
+}
+
+.account-field label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.account-field input {
+  margin-top: 0.25rem;
+}
+
+.account-remove-btn {
+  margin-top: 1.25rem;
+  flex-shrink: 0;
+  border-radius: 0.375rem;
+  border: 1px solid var(--color-border);
+  padding: 0.375rem 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  background: transparent;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.account-remove-btn:hover { border-color: var(--color-danger); color: var(--color-danger); }
+.account-remove-btn:disabled { cursor: not-allowed; opacity: 0.4; }
+
+/* Reuses .explanation-panel's shape (border-width:2, padding, radius) for a
+   third color variant — the "lightly tweaked" reuse warning and the MFA
+   fatigue demo's live prompt both need warning-colored versions of the same
+   correct/incorrect box already built for the quiz engine. */
+.explanation-panel--warning {
+  border-color: var(--color-warning);
+  background-color: color-mix(in srgb, var(--color-warning) 10%, transparent);
+}
+
+.explanation-result--warning { color: var(--color-warning); }
+
+/* ---------- MFA Simulator ---------- */
+.mfa-security-badge {
+  border-radius: 9999px;
+  border: 1px solid;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.mfa-steps {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.mfa-steps li { margin-top: 0.25rem; }
+
+.btn-outline-safe,
+.btn-outline-danger {
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.btn-outline-safe {
+  border: 1px solid var(--color-safe);
+  color: var(--color-safe);
+}
+
+.btn-outline-safe:hover { background-color: color-mix(in srgb, var(--color-safe) 10%, transparent); }
+
+.btn-outline-danger {
+  border: 1px solid var(--color-danger);
+  color: var(--color-danger);
+}
+
+.btn-outline-danger:hover { background-color: color-mix(in srgb, var(--color-danger) 10%, transparent); }
+
+/* ---------- Roadmap / My Progress (client-side-rendered curriculum) ---------- */
+.progress-summary-box {
+  margin-top: 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  padding: 1rem;
+}
+
+.progress-summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+}
+
+.progress-summary-row span:first-child {
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.progress-summary-row span:last-child {
+  color: var(--color-text-muted);
+}
+
+.roadmap-legend {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.roadmap-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.status-dot {
+  height: 0.625rem;
+  width: 0.625rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+}
+
+.status-dot--completed { background-color: var(--color-safe); }
+.status-dot--ready { background-color: var(--color-accent); }
+.status-dot--locked { background-color: var(--color-text-muted); }
+.status-dot--unbuilt { border: 1px dashed var(--color-border); }
+
+.domain-section {
+  margin-top: 2.5rem;
+}
+
+.domain-section:first-of-type {
+  margin-top: 2rem;
+}
+
+.domain-section h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.domain-section-description {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.level-group {
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  padding: 1rem;
+}
+
+.level-group h3 {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.level-group-description {
+  margin-left: 0.5rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.roadmap-item-list {
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.roadmap-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-radius: 0.375rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+  padding: 0.5rem 0.75rem;
+}
+
+.roadmap-item-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.roadmap-item-link {
+  font-size: 0.875rem;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.roadmap-item-link:hover { text-decoration: underline; }
+
+.roadmap-item-link[aria-disabled="true"] {
+  pointer-events: none;
+  opacity: 0.6;
+  text-decoration: none;
+}
+
+.type-badge {
+  border-radius: 9999px;
+  border: 1px solid var(--color-border);
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.roadmap-item-status {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+/* ---------- My Progress page specifics ---------- */
+.empty-state {
+  margin-top: 2rem;
+  border-radius: 0.5rem;
+  border: 1px dashed var(--color-border);
+  padding: 2rem;
+  text-align: center;
+}
+
+.empty-state p:first-child { color: var(--color-text); }
+.empty-state p { margin: 0; }
+.empty-state p + p { margin-top: 0.5rem; font-size: 0.875rem; color: var(--color-text-muted); }
+
+.progress-type-grid {
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .progress-type-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+.progress-type-card {
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  padding: 1rem;
+  text-align: center;
+}
+
+.progress-type-count {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+.progress-type-label {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.domain-progress-row { margin-top: 1rem; }
+.domain-progress-row:first-child { margin-top: 0; }
+
+.domain-progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+}
+
+.domain-progress-header span:first-child { color: var(--color-text); }
+.domain-progress-header span:last-child { color: var(--color-text-muted); }
+
+.domain-progress-track {
+  margin-top: 0.375rem;
+  height: 0.375rem;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 9999px;
+  background-color: var(--color-surface-raised);
+}
+
+.domain-progress-fill {
+  height: 100%;
+  border-radius: 9999px;
+  background-color: var(--color-accent);
+  transition: width 0.15s;
+}
+
+.domain-progress-fill--complete { background-color: var(--color-safe); }
+
+.activity-log-list {
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.activity-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  border-radius: 0.375rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  padding: 0.75rem 1rem;
+}
+
+.activity-item-left {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.activity-item-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.activity-item-title:hover { text-decoration: underline; }
+
+.activity-item-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+/* ---------- Responsive: desktop nav ---------- */
+@media (min-width: 1024px) {
+  .nav-toggle {
+    display: none;
+  }
+
+  .nav-menu {
+    display: flex !important;
+    width: auto;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .explore-menu:not([hidden]) {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    z-index: 10;
+    margin: 0; /* the mobile-only margin-top must not carry over here — a
+                  margin creates a gap the mouse crosses on the way from
+                  the button into this panel, firing mouseleave before a
+                  click can land. See nav.js's comment on the same bug. */
+    min-width: 10rem;
+    padding: 0.5rem;
+    padding-top: 0.5rem;
+    border-radius: 0.375rem;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.2);
+  }
+
+  .theme-toggle {
+    width: auto;
+  }
+}

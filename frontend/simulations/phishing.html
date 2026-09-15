@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="An animated, step-by-step walkthrough of how a phishing attack actually unfolds." />
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+  <title>Phishing Simulation | CyberAware</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("cyberaware:theme");
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.setAttribute("data-theme", stored);
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div id="nav-mount"></div>
+
+  <main id="main-content">
+    <section class="container page-section" style="max-width: 48rem;">
+      <h1 class="page-title">Phishing Simulation</h1>
+      <p class="page-intro">
+        Step through each stage of a phishing attack to see how it actually
+        works, from the first fake email to the stolen password. Nothing
+        here is real &mdash; "SecurePay" is a made-up brand built just for
+        this walkthrough.
+      </p>
+
+      <div id="sim-root" style="margin-top: 2rem;">
+        <div>
+          <p id="step-indicator" class="sim-step-indicator">Step 1 of 6</p>
+          <ol id="step-pills" class="sim-pills">
+            <li><button type="button" data-pill-index="0" aria-current="step" class="sim-pill sim-pill--active">1. The Bait</button></li>
+            <li><button type="button" data-pill-index="1" class="sim-pill sim-pill--inactive">2. It Lands</button></li>
+            <li><button type="button" data-pill-index="2" class="sim-pill sim-pill--inactive">3. The Hook</button></li>
+            <li><button type="button" data-pill-index="3" class="sim-pill sim-pill--inactive">4. The Trap</button></li>
+            <li><button type="button" data-pill-index="4" class="sim-pill sim-pill--inactive">5. The Catch</button></li>
+            <li><button type="button" data-pill-index="5" class="sim-pill sim-pill--inactive">6. The Damage</button></li>
+          </ol>
+        </div>
+
+        <!-- SCENE 1: THE BAIT -->
+        <div data-scene-index="0" class="scene">
+          <h2 tabindex="-1" class="scene-heading">1. The Bait</h2>
+          <p class="scene-subtext">The attacker sets up a fake identity before sending anything.</p>
+
+          <div class="mock-panel">
+            <p class="mock-panel-label">New Message (attacker's view)</p>
+            <div class="mock-mono">
+              <p>From: <span class="mock-brand-tag">"SecurePay Support"</span> &lt;<span class="mock-danger-tag">security@securepay-alerts.com</span>&gt;</p>
+              <p>Subject: Your account has been limited</p>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>Red flags at this stage</h3>
+            <ul>
+              <li>&bull; The display name says "SecurePay Support" &mdash; a trusted-sounding brand name.</li>
+              <li>&bull; The real domain, <code style="color: var(--color-danger);">securepay-alerts.com</code>, isn't SecurePay's actual domain.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SCENE 2: IT LANDS -->
+        <div data-scene-index="1" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">2. It Lands</h2>
+          <p class="scene-subtext">The email arrives. In a crowded inbox, it doesn't stand out at all.</p>
+
+          <div class="mock-inbox">
+            <div class="mock-inbox-row">
+              <div class="mock-avatar">PN</div>
+              <div class="mock-inbox-meta">
+                <p class="mock-inbox-sender">Priya Nair</p>
+                <p class="mock-inbox-subject">Notes from today's planning meeting</p>
+              </div>
+              <span class="mock-inbox-time">9:14 AM</span>
+            </div>
+            <div class="mock-inbox-row mock-inbox-row--highlighted">
+              <div class="mock-avatar mock-avatar--brand">SP</div>
+              <div class="mock-inbox-meta">
+                <p class="mock-inbox-sender">SecurePay Support</p>
+                <p class="mock-inbox-subject">Your account has been limited</p>
+              </div>
+              <span class="mock-inbox-time">9:41 AM</span>
+            </div>
+            <div class="mock-inbox-row">
+              <div class="mock-avatar">AM</div>
+              <div class="mock-inbox-meta">
+                <p class="mock-inbox-sender">Amazon.com</p>
+                <p class="mock-inbox-subject">Your order has shipped</p>
+              </div>
+              <span class="mock-inbox-time">10:02 AM</span>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>Red flags at this stage</h3>
+            <ul>
+              <li>&bull; Nothing, yet &mdash; that's the point. It looks exactly like every other email in the list.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SCENE 3: THE HOOK -->
+        <div data-scene-index="2" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">3. The Hook</h2>
+          <p class="scene-subtext">Opening the email reveals manufactured urgency.</p>
+
+          <div class="mock-panel" style="padding: 1.25rem;">
+            <p style="margin: 0; font-size: 1.125rem; font-weight: 700; color: var(--color-text);">Your account has been limited</p>
+            <p style="margin-top: 0.75rem; font-size: 0.875rem; color: var(--color-text-muted);">
+              Dear Customer,<br /><br />
+              We noticed unusual activity on your account. Your access has
+              been limited until you verify your identity.<br /><br />
+              Failure to verify within <span style="font-weight: 600; color: var(--color-danger);">24 hours</span> will result in permanent suspension.
+            </p>
+            <button type="button" class="mock-brand-button" style="background-color: #7c3aed;">Verify Your Account</button>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>Red flags at this stage</h3>
+            <ul>
+              <li>&bull; A generic "Dear Customer" greeting instead of a real name.</li>
+              <li>&bull; An artificial deadline ("24 hours") designed to make you act before you think.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SCENE 4: THE TRAP -->
+        <div data-scene-index="3" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">4. The Trap</h2>
+          <p class="scene-subtext">Clicking the button opens a login page that looks trustworthy &mdash; except for one thing.</p>
+
+          <div class="mock-browser">
+            <div class="mock-browser-bar">
+              <span class="mock-browser-dot mock-browser-dot--danger"></span>
+              <span class="mock-browser-dot mock-browser-dot--warning"></span>
+              <span class="mock-browser-dot mock-browser-dot--safe"></span>
+              <div class="mock-url-bar">https://securepay-alerts.com/login</div>
+            </div>
+            <div class="mock-page">
+              <p class="mock-page-title">SecurePay</p>
+              <p class="mock-page-subtitle">Sign in to your account</p>
+              <div class="mock-form">
+                <div class="mock-input">Email</div>
+                <div class="mock-input">Password</div>
+                <button type="button" class="mock-brand-button" style="background-color: #7c3aed; margin-top: 0.25rem;">Log In</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>Red flags at this stage</h3>
+            <ul>
+              <li>&bull; The page design looks legitimate &mdash; that's expected, it's easy to copy.</li>
+              <li>&bull; The address bar is the one thing that can't be faked: <code style="color: var(--color-danger);">securepay-alerts.com</code> is not SecurePay's real domain.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SCENE 5: THE CATCH -->
+        <div data-scene-index="4" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">5. The Catch</h2>
+          <p class="scene-subtext">The moment credentials are typed in, they belong to the attacker.</p>
+
+          <div class="mock-panel" style="text-align: center;">
+            <p class="mock-page-title">SecurePay</p>
+            <div class="mock-form">
+              <div class="mock-input mock-input--filled">you@example.com</div>
+              <div class="mock-input mock-input--filled">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</div>
+            </div>
+            <p style="margin-top: 1rem; font-size: 0.75rem; color: var(--color-text-muted);">Redirecting you to SecurePay&hellip;</p>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>Red flags at this stage</h3>
+            <ul>
+              <li>&bull; The password is now stored on the attacker's server, not SecurePay's.</li>
+              <li>&bull; A convincing "redirecting" message sends the victim to the real site so nothing seems wrong.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SCENE 6: THE DAMAGE -->
+        <div data-scene-index="5" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">6. The Damage</h2>
+          <p class="scene-subtext">What happens next &mdash; and what should have happened instead.</p>
+
+          <div class="outcome-grid">
+            <div class="outcome-box outcome-box--danger">
+              <h3>What happens next</h3>
+              <ul>
+                <li>&bull; The attacker logs into the real account and locks the victim out.</li>
+                <li>&bull; The same email gets sent to the victim's contacts.</li>
+                <li>&bull; Any reused password gets tried on other accounts too.</li>
+              </ul>
+            </div>
+            <div class="outcome-box outcome-box--safe">
+              <h3>What to do instead</h3>
+              <ul>
+                <li>&bull; Hover a link to preview the real destination before clicking.</li>
+                <li>&bull; Check the sender's actual domain, not just the display name.</li>
+                <li>&bull; Never enter credentials after clicking a link from an email &mdash; go to the site directly instead.</li>
+                <li>&bull; Turn on multi-factor authentication.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="sim-nav">
+          <button type="button" id="prev-step" class="btn btn-secondary">Previous</button>
+          <button type="button" id="next-step" class="btn btn-primary">Next</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="/js/nav.js"></script>
+  <script type="module">
+    import { createSimulation } from "/js/lib/sim-engine.js";
+    const root = document.getElementById("sim-root");
+    createSimulation({ root, totalSteps: 6, itemId: "sim-phishing" });
+  </script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Short, focused quizzes for each threat category — every answer, right or wrong, comes with an explanation." />
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+  <title>Quizzes | CyberAware</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("cyberaware:theme");
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.setAttribute("data-theme", stored);
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <style>
+    .quiz-grid {
+      margin-top: 2.5rem;
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 640px) {
+      .quiz-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (min-width: 1024px) {
+      .quiz-grid { grid-template-columns: 1fr 1fr 1fr; }
+    }
+    .quiz-card {
+      display: block;
+      height: 100%;
+      border-radius: 0.5rem;
+      border: 1px solid var(--color-border);
+      background-color: var(--color-surface-raised);
+      padding: 1.5rem;
+      text-decoration: none;
+      transition: border-color 0.15s;
+    }
+    .quiz-card:hover {
+      border-color: var(--color-accent);
+    }
+    .quiz-card h2 {
+      margin: 0;
+      font-weight: 600;
+      color: var(--color-text);
+      font-size: 1rem;
+    }
+    .quiz-card p {
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div id="nav-mount"></div>
+
+  <main id="main-content">
+    <section class="container page-section">
+      <h1 class="page-title">Quizzes</h1>
+      <p class="page-intro">
+        Short, focused quizzes for each threat category &mdash; every
+        answer, right or wrong, comes with an explanation.
+      </p>
+
+      <div class="quiz-grid">
+        <a href="/quizzes/phishing.html" class="quiz-card"><h2>Phishing Quiz</h2><p>Test what you've learned about spotting a phishing attempt.</p></a>
+        <a href="/quizzes/smishing.html" class="quiz-card"><h2>Smishing Quiz</h2><p>Test what you've learned about SMS phishing red flags.</p></a>
+        <a href="/quizzes/vishing.html" class="quiz-card"><h2>Vishing Quiz</h2><p>Test what you've learned about voice-phishing calls.</p></a>
+        <a href="/quizzes/business-email-compromise.html" class="quiz-card"><h2>Business Email Compromise Quiz</h2><p>Test what you've learned about CEO/invoice fraud.</p></a>
+        <a href="/quizzes/tailgating.html" class="quiz-card"><h2>Tailgating Quiz</h2><p>Test what you've learned about physical tailgating.</p></a>
+        <a href="/quizzes/baiting.html" class="quiz-card"><h2>Baiting Quiz</h2><p>Test what you've learned about baiting and planted devices.</p></a>
+        <a href="/quizzes/fake-wifi.html" class="quiz-card"><h2>Fake Wi-Fi Quiz</h2><p>Spotting a rogue hotspot before it's too late.</p></a>
+        <a href="/quizzes/ransomware.html" class="quiz-card"><h2>Ransomware Quiz</h2><p>How ransomware spreads, and how to avoid it.</p></a>
+        <a href="/quizzes/pretexting.html" class="quiz-card"><h2>Pretexting Quiz</h2><p>Spot a manufactured backstory before it earns your trust.</p></a>
+        <a href="/quizzes/credential-reuse.html" class="quiz-card"><h2>Credential Reuse Quiz</h2><p>Test what you know about password reuse and credential-stuffing risk.</p></a>
+        <a href="/quizzes/third-party-risk.html" class="quiz-card"><h2>Third-Party Risk Quiz</h2><p>Vendor and supply-chain scenarios for small businesses.</p></a>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="/js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Interactive, local-only tools — plus one real backend-powered threat check." />
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+  <title>Tools | CyberAware</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("cyberaware:theme");
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.setAttribute("data-theme", stored);
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <style>
+    .tools-grid {
+      margin-top: 2.5rem;
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 640px) {
+      .tools-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .tool-card {
+      display: block;
+      height: 100%;
+      border-radius: 0.5rem;
+      border: 1px solid var(--color-border);
+      background-color: var(--color-surface-raised);
+      padding: 1.5rem;
+      text-decoration: none;
+      transition: border-color 0.15s;
+    }
+    .tool-card:hover {
+      border-color: var(--color-accent);
+    }
+    .tool-card h2 {
+      margin: 0;
+      font-weight: 600;
+      color: var(--color-text);
+      font-size: 1rem;
+    }
+    .tool-card p {
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+    }
+    .tool-card--unbuilt {
+      opacity: 0.6;
+      border-style: dashed;
+      cursor: default;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div id="nav-mount"></div>
+
+  <main id="main-content">
+    <section class="container page-section">
+      <h1 class="page-title">Tools</h1>
+      <p class="page-intro">
+        Rebuilt in plain HTML/CSS/JS. Every tool still runs its own
+        analysis entirely in your browser — the URL Checker below is the
+        one exception, with an additional real backend check layered on
+        top of its local analysis.
+      </p>
+
+      <div class="tools-grid">
+        <a href="/tools/url-checker.html" class="tool-card">
+          <h2>URL Safety Checker</h2>
+          <p>Structural analysis, plus a real Google Safe Browsing check via a small Python backend.</p>
+        </a>
+        <a href="/tools/phishing-scanner.html" class="tool-card">
+          <h2>Phishing Email Scanner</h2>
+          <p>Paste or load a sample email and see exactly which red flags gave it away — analyzed entirely in your browser.</p>
+        </a>
+        <a href="/tools/password-strength.html" class="tool-card">
+          <h2>Password Strength Analyzer</h2>
+          <p>See exactly which weaknesses make a password easier to guess, plus a credential-reuse check — all analyzed locally.</p>
+        </a>
+        <a href="/tools/mfa-simulator.html" class="tool-card">
+          <h2>MFA Simulator</h2>
+          <p>See how each multi-factor method works and how it can be attacked, including a hands-on push-fatigue demo.</p>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="/js/nav.js"></script>
+</body>
+</html>

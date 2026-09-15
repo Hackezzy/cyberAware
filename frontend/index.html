@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CyberAware — interactive cybersecurity awareness and skills platform. This page: the plain HTML/CSS/JS rebuild, starting with a real backend-powered URL checker." />
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+  <title>Home | CyberAware</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("cyberaware:theme");
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.setAttribute("data-theme", stored);
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div id="nav-mount"></div>
+
+  <main id="main-content">
+    <section class="container page-section" style="text-align: center; padding-top: 4rem; padding-bottom: 4rem;">
+      <h1 class="page-title" style="font-size: 2.5rem;">
+        CyberAware <span style="color: var(--color-accent);">— plain HTML/CSS/JS rebuild</span>
+      </h1>
+      <p class="page-intro" style="margin-left: auto; margin-right: auto;">
+        This is a from-scratch rebuild of one part of the main CyberAware
+        site (still live at its own URL), using only HTML, CSS, and
+        JavaScript — no Astro, no Tailwind — plus a real Python backend
+        for one specific feature: a genuine threat-intelligence check
+        instead of only local heuristics.
+      </p>
+      <div style="margin-top: 2rem;">
+        <a href="/tools/index.html" class="btn btn-primary">Try the rebuilt Tools</a>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="/js/nav.js"></script>
+</body>
+</html>

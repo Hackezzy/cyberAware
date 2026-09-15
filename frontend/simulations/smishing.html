@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="An animated, step-by-step walkthrough of how SMS phishing (smishing) actually unfolds." />
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+  <title>Smishing Simulation | CyberAware</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("cyberaware:theme");
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.setAttribute("data-theme", stored);
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div id="nav-mount"></div>
+
+  <main id="main-content">
+    <section class="container page-section" style="max-width: 48rem;">
+      <h1 class="page-title">Smishing Simulation</h1>
+      <p class="page-intro">
+        Step through how SMS phishing works &mdash; the text-message version
+        of the scam. Nothing here is real; "SwiftParcel" is a made-up delivery
+        brand built just for this walkthrough.
+      </p>
+
+      <div id="sim-root" style="margin-top: 2rem;">
+        <div>
+          <p id="step-indicator" class="sim-step-indicator">Step 1 of 6</p>
+          <ol id="step-pills" class="sim-pills">
+            <li><button type="button" data-pill-index="0" aria-current="step" class="sim-pill sim-pill--active">1. The Text</button></li>
+            <li><button type="button" data-pill-index="1" class="sim-pill sim-pill--inactive">2. It Arrives</button></li>
+            <li><button type="button" data-pill-index="2" class="sim-pill sim-pill--inactive">3. The Hook</button></li>
+            <li><button type="button" data-pill-index="3" class="sim-pill sim-pill--inactive">4. The Trap</button></li>
+            <li><button type="button" data-pill-index="4" class="sim-pill sim-pill--inactive">5. The Catch</button></li>
+            <li><button type="button" data-pill-index="5" class="sim-pill sim-pill--inactive">6. The Aftermath</button></li>
+          </ol>
+        </div>
+
+        <!-- SCENE 1: THE TEXT -->
+        <div data-scene-index="0" class="scene">
+          <h2 tabindex="-1" class="scene-heading">1. The Text</h2>
+          <p class="scene-subtext">An attacker sends a text pretending to be a delivery company, from a number that isn't SwiftParcel's real one.</p>
+
+          <div class="mock-panel">
+            <p class="mock-panel-label">New message (attacker's view)</p>
+            <div class="mock-mono">
+              <p>From: <span class="mock-danger-tag">+1 (302) 555-0148</span></p>
+              <p>"SwiftParcel: your package is on hold. Pay a small redelivery fee here: bit.ly/xk29p"</p>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>Red flags at this stage</h3>
+            <ul>
+              <li>&bull; Real delivery companies text from a small set of known short codes, not a random personal-looking phone number.</li>
+              <li>&bull; A shortened link hides the real destination &mdash; there's no way to tell where it goes just by reading it.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SCENE 2: IT ARRIVES -->
+        <div data-scene-index="1" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">2. It Arrives</h2>
+          <p class="scene-subtext">The text lands in a messages app next to ordinary, real texts.</p>
+
+          <div class="mock-inbox">
+            <div class="mock-inbox-row">
+              <div class="mock-avatar">M</div>
+              <div class="mock-inbox-meta">
+                <p class="mock-inbox-sender">Mom</p>
+                <p class="mock-inbox-subject">Don't forget dinner Sunday!</p>
+              </div>
+              <span class="mock-inbox-time">2:14 PM</span>
+            </div>
+            <div class="mock-inbox-row mock-inbox-row--highlighted">
+              <div class="mock-avatar mock-avatar--brand">SP</div>
+              <div class="mock-inbox-meta">
+                <p class="mock-inbox-sender">+1 (302) 555-0148</p>
+                <p class="mock-inbox-subject">SwiftParcel: your package is on hold...</p>
+              </div>
+              <span class="mock-inbox-time">2:31 PM</span>
+            </div>
+            <div class="mock-inbox-row">
+              <div class="mock-avatar">DP</div>
+              <div class="mock-inbox-meta">
+                <p class="mock-inbox-sender">Dr. Patel's Office</p>
+                <p class="mock-inbox-subject">Reminder: appointment tomorrow at 10am</p>
+              </div>
+              <span class="mock-inbox-time">3:02 PM</span>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>Red flags at this stage</h3>
+            <ul>
+              <li>&bull; Text messages carry an unearned sense of trust &mdash; people are more used to scrutinizing email than texts.</li>
+              <li>&bull; It sits comfortably among genuinely expected texts, which makes it easy to read without much suspicion.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SCENE 3: THE HOOK -->
+        <div data-scene-index="2" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">3. The Hook</h2>
+          <p class="scene-subtext">A held package and a "small fee" combine curiosity with just enough urgency to prompt a tap.</p>
+
+          <div class="mock-panel">
+            <p style="margin: 0; font-size: 0.875rem; color: var(--color-text-muted);">
+              "SwiftParcel: your package is on hold at our facility due to an
+              unpaid customs fee of $2.49. Confirm payment within
+              <span style="font-weight: 600; color: var(--color-danger);">24 hours</span>
+              to avoid your item being returned to sender: bit.ly/xk29p"
+            </p>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>Red flags at this stage</h3>
+            <ul>
+              <li>&bull; A tiny fee ($2.49) is deliberately unalarming &mdash; small enough that entering a card feels low-risk, even though the real goal is capturing full card details, not the $2.49 itself.</li>
+              <li>&bull; The 24-hour deadline nudges toward acting immediately, before stopping to check whether a package was even expected.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SCENE 4: THE TRAP -->
+        <div data-scene-index="3" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">4. The Trap</h2>
+          <p class="scene-subtext">Tapping the link opens a mobile page that looks like a delivery company's payment form.</p>
+
+          <div class="mock-browser" style="max-width: 20rem; margin-left: auto; margin-right: auto;">
+            <div class="mock-browser-bar">
+              <div class="mock-url-bar">swiftparcel-redeliver.top</div>
+            </div>
+            <div class="mock-page">
+              <p class="mock-page-title">SwiftParcel Redelivery</p>
+              <p class="mock-page-subtitle">Pay $2.49 to release your package</p>
+              <div class="mock-form">
+                <div class="mock-input">Card number</div>
+                <div class="mock-input">Expiry &amp; CVV</div>
+                <div class="mock-input">Billing ZIP code</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>Red flags at this stage</h3>
+            <ul>
+              <li>&bull; The domain <code style="color: var(--color-danger);">swiftparcel-redeliver.top</code> isn't SwiftParcel's real site &mdash; a real courier's tracking domain doesn't change for a one-off payment page.</li>
+              <li>&bull; The form asks for full card details plus the CVV and ZIP code &mdash; everything needed to use the card elsewhere, not just a $2.49 charge.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SCENE 5: THE CATCH -->
+        <div data-scene-index="4" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">5. The Catch</h2>
+          <p class="scene-subtext">The $2.49 goes through. The card details go somewhere else too.</p>
+
+          <div class="mock-panel">
+            <div class="mock-mono">
+              <p>[payment processed] $2.49 &mdash; SwiftParcel Redelivery</p>
+              <p style="color: var(--color-danger);">[attacker log] card details forwarded to card-testing service</p>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <ul>
+              <li>&bull; A tiny successful charge also confirms the card is real and active &mdash; attackers often resell working card numbers, or use them for larger fraudulent purchases shortly after.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SCENE 6: THE AFTERMATH -->
+        <div data-scene-index="5" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">6. The Aftermath</h2>
+          <p class="scene-subtext">What happens next, and how to actually avoid this one.</p>
+
+          <div class="outcome-grid">
+            <div class="outcome-box outcome-box--danger">
+              <h3>What happens next</h3>
+              <ul>
+                <li>&bull; The card gets used or sold for larger fraudulent charges.</li>
+                <li>&bull; The bank may flag and freeze the card, disrupting real purchases too.</li>
+              </ul>
+            </div>
+            <div class="outcome-box outcome-box--safe">
+              <h3>What to do instead</h3>
+              <ul>
+                <li>&bull; Don't tap links in unexpected delivery texts &mdash; open the courier's official app or website directly instead.</li>
+                <li>&bull; Real delivery fees are essentially never collected by texting a link &mdash; treat that combination as an instant red flag.</li>
+                <li>&bull; Check whether you're even expecting a package before doing anything else.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="sim-nav">
+          <button type="button" id="prev-step" class="btn btn-secondary">Previous</button>
+          <button type="button" id="next-step" class="btn btn-primary">Next</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="/js/nav.js"></script>
+  <script type="module">
+    import { createSimulation } from "/js/lib/sim-engine.js";
+    const root = document.getElementById("sim-root");
+    createSimulation({ root, totalSteps: 6, itemId: "sim-smishing" });
+  </script>
+</body>
+</html>

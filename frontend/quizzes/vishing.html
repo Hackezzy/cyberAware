@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Test what you've learned about voice-phishing calls. Every answer comes with an explanation." />
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+  <title>Vishing Quiz | CyberAware</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("cyberaware:theme");
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.setAttribute("data-theme", stored);
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div id="nav-mount"></div>
+
+  <main id="main-content">
+    <section class="container page-section">
+      <h1 class="page-title">Vishing Quiz</h1>
+      <p class="page-intro">
+        Answer each question to test what you've learned. Every answer
+        comes with an explanation, whether you get it right or wrong.
+      </p>
+
+      <div id="quiz-root" style="margin-top: 2rem;">
+        <div>
+          <div class="quiz-header-row">
+            <p id="quiz-progress" style="margin: 0; font-weight: 500; color: var(--color-text-muted);">Question 1 of 5</p>
+            <p id="quiz-score" style="margin: 0; color: var(--color-text-muted);">Score: 0</p>
+          </div>
+          <div class="quiz-progress-track">
+            <div id="progress-bar" class="quiz-progress-fill" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div id="question-card" class="question-card">
+          <h2 id="question-text" class="question-text">&nbsp;</h2>
+
+          <fieldset id="options-fieldset" class="options-fieldset">
+            <legend class="sr-only">Choose one answer</legend>
+          </fieldset>
+
+          <button type="button" id="submit-answer" disabled class="btn btn-primary" style="margin-top: 1.25rem;">
+            Submit Answer
+          </button>
+
+          <div id="explanation-panel" hidden aria-live="polite" class="explanation-panel">
+            <p id="explanation-result" class="explanation-result">Correct!</p>
+            <p id="explanation-text" class="explanation-text">&nbsp;</p>
+            <button type="button" id="next-question" class="btn btn-primary" style="margin-top: 1rem;">
+              Next Question
+            </button>
+          </div>
+        </div>
+
+        <div id="results-panel" hidden class="results-panel">
+          <h2>Quiz complete</h2>
+          <p id="results-score" class="results-score">0 / 5</p>
+          <p id="results-message" class="results-message">Placeholder feedback message based on score.</p>
+          <button type="button" id="retry-quiz" class="btn btn-secondary" style="margin-top: 1.25rem;">
+            Try Again
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="/js/nav.js"></script>
+  <script type="module">
+    import { createQuiz } from "/js/lib/quiz-engine.js";
+
+    const root = document.getElementById("quiz-root");
+    fetch("/data/quiz-questions/vishing.json")
+      .then((response) => response.json())
+      .then((questions) => createQuiz({ root, questions, itemId: "quiz-vishing" }));
+  </script>
+</body>
+</html>

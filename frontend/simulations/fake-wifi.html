@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="An animated, step-by-step walkthrough of how a rogue Wi-Fi hotspot intercepts your traffic." />
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+  <title>Fake Wi-Fi Simulation | CyberAware</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("cyberaware:theme");
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.setAttribute("data-theme", stored);
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div id="nav-mount"></div>
+
+  <main id="main-content">
+    <section class="container page-section" style="max-width: 48rem;">
+      <h1 class="page-title">Fake Wi-Fi Simulation</h1>
+      <p class="page-intro">
+        Step through how a rogue Wi-Fi hotspot can intercept everything you
+        send, from the fake network appearing in a list to your login details
+        being captured. This walkthrough is set in a made-up airport lounge.
+      </p>
+
+      <div id="sim-root" style="margin-top: 2rem;">
+        <div>
+          <p id="step-indicator" class="sim-step-indicator">Step 1 of 6</p>
+          <ol id="step-pills" class="sim-pills">
+            <li><button type="button" data-pill-index="0" aria-current="step" class="sim-pill sim-pill--active">1. The Setup</button></li>
+            <li><button type="button" data-pill-index="1" class="sim-pill sim-pill--inactive">2. The Connection</button></li>
+            <li><button type="button" data-pill-index="2" class="sim-pill sim-pill--inactive">3. The Funnel</button></li>
+            <li><button type="button" data-pill-index="3" class="sim-pill sim-pill--inactive">4. The Interception</button></li>
+            <li><button type="button" data-pill-index="4" class="sim-pill sim-pill--inactive">5. The Catch</button></li>
+            <li><button type="button" data-pill-index="5" class="sim-pill sim-pill--inactive">6. The Aftermath</button></li>
+          </ol>
+        </div>
+
+        <!-- SCENE 1: THE SETUP -->
+        <div data-scene-index="0" class="scene">
+          <h2 tabindex="-1" class="scene-heading">1. The Setup</h2>
+          <p class="scene-subtext">An attacker sits in an airport lounge with a laptop, broadcasting a Wi-Fi network with a name designed to sound official.</p>
+
+          <div class="mock-panel">
+            <p class="mock-panel-label">Attacker's device</p>
+            <div class="mock-mono">
+              <p>Broadcasting SSID: <span style="color: var(--color-danger);">"Airport_Free_WiFi"</span></p>
+              <p style="font-size: 0.75rem;">No password required &mdash; open network</p>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <ul>
+              <li>&bull; The network name copies the wording real venues use, and requires no password, which makes it look convenient rather than suspicious.</li>
+              <li>&bull; Setting up a rogue access point takes nothing more than a laptop &mdash; no special access to the building's real network is needed.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SCENE 2: THE CONNECTION -->
+        <div data-scene-index="1" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">2. The Connection</h2>
+          <p class="scene-subtext">A traveler's phone shows a list of nearby networks. The fake one looks identical to a real one would.</p>
+
+          <div class="mock-inbox">
+            <div class="mock-inbox-row">
+              <div class="mock-inbox-meta"><p class="mock-inbox-sender">Airport_Free_WiFi</p></div>
+              <span class="mock-inbox-time">&#128275; Open</span>
+            </div>
+            <div class="mock-inbox-row mock-inbox-row--highlighted">
+              <div class="mock-inbox-meta"><p class="mock-inbox-sender">Airport_Free_WiFi</p></div>
+              <span class="mock-inbox-time" style="color: var(--color-danger);">&#128275; Open</span>
+            </div>
+            <div class="mock-inbox-row">
+              <div class="mock-inbox-meta"><p class="mock-inbox-sender">CoffeeCart_Guest</p></div>
+              <span class="mock-inbox-time">&#128274; Secured</span>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <ul>
+              <li>&bull; Two networks with the exact same name is itself a red flag &mdash; but most phones just show the name, so it's easy to connect to the wrong one without noticing.</li>
+              <li>&bull; A network name alone proves nothing about who actually controls it.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SCENE 3: THE FUNNEL -->
+        <div data-scene-index="2" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">3. The Funnel</h2>
+          <p class="scene-subtext">Once connected, every request from the phone passes through the attacker's device first.</p>
+
+          <div class="mock-panel" style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; text-align: center; flex-wrap: wrap;">
+            <span style="border-radius: 0.25rem; border: 1px solid var(--color-border); background-color: var(--color-surface); padding: 0.5rem 0.75rem; font-size: 0.75rem; color: var(--color-text-muted);">Your phone</span>
+            <span style="color: var(--color-danger);">&rarr;</span>
+            <span style="border-radius: 0.25rem; border: 1px solid var(--color-danger); background-color: color-mix(in srgb, var(--color-danger) 10%, transparent); padding: 0.5rem 0.75rem; font-size: 0.75rem; color: var(--color-danger);">Attacker's laptop</span>
+            <span style="color: var(--color-danger);">&rarr;</span>
+            <span style="border-radius: 0.25rem; border: 1px solid var(--color-border); background-color: var(--color-surface); padding: 0.5rem 0.75rem; font-size: 0.75rem; color: var(--color-text-muted);">The internet</span>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <p>This is called a "man-in-the-middle" position &mdash; the attacker doesn't need to break into your phone at all. Every website still loads normally, so there's nothing that looks obviously wrong.</p>
+          </div>
+        </div>
+
+        <!-- SCENE 4: THE INTERCEPTION -->
+        <div data-scene-index="3" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">4. The Interception</h2>
+          <p class="scene-subtext">The traveler opens a work webmail login page over an unencrypted connection.</p>
+
+          <div class="mock-browser">
+            <div class="mock-browser-bar">
+              <span class="mock-browser-dot mock-browser-dot--danger"></span>
+              <span class="mock-browser-dot mock-browser-dot--warning"></span>
+              <span class="mock-browser-dot mock-browser-dot--safe"></span>
+              <div class="mock-url-bar">http://mail.meridianbooks-corp.com/login</div>
+            </div>
+            <div class="mock-page" style="text-align: left;">
+              <div class="mock-mono">
+                <p>[attacker log] captured: user=bookkeeper@meridianbooks-corp.com</p>
+                <p>[attacker log] captured: pass=&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <ul>
+              <li>&bull; The address starts with <code style="color: var(--color-danger);">http://</code>, not <code style="color: var(--color-safe);">https://</code> &mdash; without that encryption, anything typed on the page can be read by whoever is in the middle.</li>
+              <li>&bull; Modern sites mostly use HTTPS by default, but older internal tools, some older webmail portals, or spoofed pages sometimes don't force it.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SCENE 5: THE CATCH -->
+        <div data-scene-index="4" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">5. The Catch</h2>
+          <p class="scene-subtext">The attacker now has a working email login &mdash; and the traveler has no idea anything happened.</p>
+
+          <div class="mock-panel">
+            <p style="margin: 0; font-size: 0.875rem; color: var(--color-text-muted);">
+              The webmail page loaded normally and logged them in without any
+              error. From the traveler's side, everything worked exactly as
+              expected.
+            </p>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <p>This is what makes rogue Wi-Fi dangerous: there's no popup, no crash, no visible sign anything went wrong. The only real clue was back in step 4 &mdash; the missing padlock in the address bar.</p>
+          </div>
+        </div>
+
+        <!-- SCENE 6: THE AFTERMATH -->
+        <div data-scene-index="5" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">6. The Aftermath</h2>
+          <p class="scene-subtext">Public Wi-Fi is genuinely risky &mdash; here's how to actually stay safe on it.</p>
+
+          <div class="mock-panel">
+            <p style="margin: 0; font-size: 0.875rem; color: var(--color-text-muted);">
+              Independent research has found that a significant share of people
+              who use public Wi-Fi have had their security compromised while
+              doing so &mdash; this isn't a rare or theoretical scenario.
+            </p>
+          </div>
+
+          <div class="outcome-grid" style="grid-template-columns: 1fr;">
+            <div class="outcome-box outcome-box--safe">
+              <h3>Prevention checklist</h3>
+              <ul>
+                <li>&bull; Ask staff for the exact network name before connecting &mdash; don't just pick the one that looks right.</li>
+                <li>&bull; Use a VPN on public networks, so your traffic is encrypted even if the network itself isn't trustworthy.</li>
+                <li>&bull; Check for <code style="color: var(--color-safe);">https://</code> and a padlock icon before entering anything sensitive &mdash; and don't proceed past a browser warning about an invalid certificate.</li>
+                <li>&bull; Turn off Wi-Fi auto-connect for open networks, so your device doesn't silently rejoin a rogue hotspot it saw before.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="sim-nav">
+          <button type="button" id="prev-step" class="btn btn-secondary">Previous</button>
+          <button type="button" id="next-step" class="btn btn-primary">Next</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="/js/nav.js"></script>
+  <script type="module">
+    import { createSimulation } from "/js/lib/sim-engine.js";
+    const root = document.getElementById("sim-root");
+    createSimulation({ root, totalSteps: 6, itemId: "sim-fake-wifi" });
+  </script>
+</body>
+</html>

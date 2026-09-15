@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Paste an email or load a sample to see which phishing red flags it contains, and why they matter — analyzed entirely in your browser." />
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+  <title>Phishing Email Scanner | CyberAware</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("cyberaware:theme");
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.setAttribute("data-theme", stored);
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div id="nav-mount"></div>
+
+  <main id="main-content">
+    <section class="container page-section" style="max-width: 56rem;">
+      <h1 class="page-title">Phishing Email Scanner</h1>
+      <p class="page-intro">
+        Paste the details of a suspicious email below, or load one of the
+        samples. Everything is analyzed locally in your browser &mdash;
+        nothing is sent anywhere. This is a teaching tool: it looks for
+        common red flags, but it can't catch everything, and it's not a
+        substitute for your own judgment.
+      </p>
+
+      <div>
+        <h2 class="section-label">Load a sample email</h2>
+        <div id="sample-buttons" class="sample-buttons"></div>
+      </div>
+
+      <form id="scan-form" novalidate style="margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem;">
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="from-name" class="form-label">Sender name</label>
+            <input type="text" id="from-name" name="fromName" class="form-input" placeholder="e.g. PayPal Security" autocomplete="off" />
+          </div>
+          <div class="form-field">
+            <label for="from-email" class="form-label">Sender email address</label>
+            <input type="text" id="from-email" name="fromEmail" class="form-input" placeholder="e.g. security@paypa1-alerts.com" autocomplete="off" />
+          </div>
+          <div class="form-field">
+            <label for="reply-to" class="form-label">Reply-To address <span style="color: var(--color-text-muted); font-weight: 400;">(optional)</span></label>
+            <input type="text" id="reply-to" name="replyTo" class="form-input" autocomplete="off" />
+          </div>
+          <div class="form-field">
+            <label for="subject" class="form-label">Subject</label>
+            <input type="text" id="subject" name="subject" class="form-input" autocomplete="off" />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="body" class="form-label">Email body</label>
+          <p class="form-hint">Tip: write links as <code>[link text](https://example.com)</code> to test anchor/destination mismatches, or paste plain URLs.</p>
+          <textarea id="body" name="body" rows="10" class="form-textarea"></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Scan email</button>
+          <button type="button" id="clear-form" class="btn btn-secondary">Clear</button>
+        </div>
+      </form>
+
+      <div id="results" aria-live="polite" hidden style="margin-top: 2.5rem;"></div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="/js/nav.js"></script>
+  <script type="module" src="/tools/phishing-scanner.js"></script>
+</body>
+</html>

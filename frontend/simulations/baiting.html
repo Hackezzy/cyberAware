@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="An animated, step-by-step walkthrough of a baiting attack using a planted USB drive." />
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+  <title>Baiting Simulation | CyberAware</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("cyberaware:theme");
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.setAttribute("data-theme", stored);
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div id="nav-mount"></div>
+
+  <main id="main-content">
+    <section class="container page-section" style="max-width: 48rem;">
+      <h1 class="page-title">Baiting Simulation</h1>
+      <p class="page-intro">
+        Step through how a single "found" USB drive can compromise a company
+        network. This walkthrough continues the story of Meridian Bookkeeping
+        from the Ransomware simulation.
+      </p>
+
+      <div id="sim-root" style="margin-top: 2rem;">
+        <div>
+          <p id="step-indicator" class="sim-step-indicator">Step 1 of 6</p>
+          <ol id="step-pills" class="sim-pills">
+            <li><button type="button" data-pill-index="0" aria-current="step" class="sim-pill sim-pill--active">1. The Drop</button></li>
+            <li><button type="button" data-pill-index="1" class="sim-pill sim-pill--inactive">2. The Find</button></li>
+            <li><button type="button" data-pill-index="2" class="sim-pill sim-pill--inactive">3. The Plug-In</button></li>
+            <li><button type="button" data-pill-index="3" class="sim-pill sim-pill--inactive">4. The Payload</button></li>
+            <li><button type="button" data-pill-index="4" class="sim-pill sim-pill--inactive">5. The Foothold</button></li>
+            <li><button type="button" data-pill-index="5" class="sim-pill sim-pill--inactive">6. The Aftermath</button></li>
+          </ol>
+        </div>
+
+        <!-- SCENE 1: THE DROP -->
+        <div data-scene-index="0" class="scene">
+          <h2 tabindex="-1" class="scene-heading">1. The Drop</h2>
+          <p class="scene-subtext">An attacker leaves a USB drive in Meridian Bookkeeping's parking lot, with a label designed to be irresistible.</p>
+
+          <div class="mock-panel" style="text-align: center;">
+            <p style="font-size: 1.5rem; margin: 0;">&#128190;</p>
+            <p style="margin-top: 0.25rem; font-family: 'SFMono-Regular', Consolas, monospace; font-size: 0.75rem; color: var(--color-danger);">2026_Salary_Review_CONFIDENTIAL</p>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <ul>
+              <li>&bull; The label is chosen specifically to be too interesting to ignore &mdash; salary information, layoffs, or bonuses are common bait themes.</li>
+              <li>&bull; A parking lot or lobby, somewhere employees naturally pass through, means the attacker doesn't need to enter the building at all.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SCENE 2: THE FIND -->
+        <div data-scene-index="1" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">2. The Find</h2>
+          <p class="scene-subtext">An employee walking in spots it and picks it up.</p>
+
+          <div class="mock-panel">
+            <p style="margin: 0; font-size: 0.875rem; color: var(--color-text-muted);">
+              "Huh, someone must have dropped this. 'Confidential Salary
+              Review'? I should probably see whose it is..."
+            </p>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <p>Curiosity and a genuine desire to help ("I should find the owner") are both completely normal reactions &mdash; the bait is designed around good instincts, not carelessness.</p>
+          </div>
+        </div>
+
+        <!-- SCENE 3: THE PLUG-IN -->
+        <div data-scene-index="2" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">3. The Plug-In</h2>
+          <p class="scene-subtext">Back at their desk, the employee plugs it into a work computer to check it.</p>
+
+          <div class="mock-panel">
+            <div class="mock-mono">
+              <p>[system] USB device connected: "SanDisk 32GB"</p>
+              <p>[system] opening drive contents...</p>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <p>A work computer, connected to the company network, is exactly where this drive was meant to end up &mdash; a home computer with no network access would be far less valuable to the attacker.</p>
+          </div>
+        </div>
+
+        <!-- SCENE 4: THE PAYLOAD -->
+        <div data-scene-index="3" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">4. The Payload</h2>
+          <p class="scene-subtext">The drive shows one file &mdash; opening it runs a hidden program instead of a spreadsheet.</p>
+
+          <div class="mock-panel">
+            <div style="display: flex; align-items: center; gap: 0.75rem; border-radius: 0.25rem; border: 1px solid var(--color-border); background-color: var(--color-surface); padding: 0.5rem 0.75rem; font-family: 'SFMono-Regular', Consolas, monospace; font-size: 0.875rem;">
+              <span style="color: var(--color-danger);">&#128202;</span>
+              <span style="flex: 1; color: var(--color-text);">Salary_Review_2026.xlsx</span><span style="color: var(--color-danger);">.scr</span>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <p><code style="color: var(--color-danger);">.scr</code> is a Windows screensaver file type that can run just like a program &mdash; disguised behind a spreadsheet icon and a name that ends in ".xlsx" before the real, hidden extension.</p>
+          </div>
+        </div>
+
+        <!-- SCENE 5: THE FOOTHOLD -->
+        <div data-scene-index="4" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">5. The Foothold</h2>
+          <p class="scene-subtext">Nothing visible opens. In the background, the attacker gains quiet remote access.</p>
+
+          <div class="mock-panel">
+            <div class="mock-mono">
+              <p>[background] installing persistence...</p>
+              <p style="color: var(--color-danger);">[background] remote access established for attacker</p>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <p>This is the same "quiet foothold" moment as the Ransomware simulation &mdash; baiting is often just the delivery method, not a different end goal. From here, the attacker could deploy ransomware, steal data, or simply watch.</p>
+          </div>
+        </div>
+
+        <!-- SCENE 6: THE AFTERMATH -->
+        <div data-scene-index="5" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">6. The Aftermath</h2>
+          <p class="scene-subtext">A single curious click, and the network is compromised &mdash; here's how to actually avoid this one.</p>
+
+          <div class="mock-panel">
+            <p style="margin: 0; font-size: 0.875rem; color: var(--color-text-muted);">
+              Security researchers have repeatedly demonstrated this exact
+              scenario in real workplace tests &mdash; a meaningful share of
+              planted drives get plugged into a work computer within minutes of
+              being found.
+            </p>
+          </div>
+
+          <div class="outcome-grid" style="grid-template-columns: 1fr;">
+            <div class="outcome-box outcome-box--safe">
+              <h3>Prevention checklist</h3>
+              <ul>
+                <li>&bull; Never plug an unknown USB drive into any device, work or personal &mdash; hand it to IT or security instead.</li>
+                <li>&bull; A tempting label is itself a warning sign, not a reason to look &mdash; genuine confidential files aren't distributed by leaving them on the ground.</li>
+                <li>&bull; Businesses can disable AutoRun and restrict USB ports by policy, so even a plugged-in drive can't silently execute anything.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="sim-nav">
+          <button type="button" id="prev-step" class="btn btn-secondary">Previous</button>
+          <button type="button" id="next-step" class="btn btn-primary">Next</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="/js/nav.js"></script>
+  <script type="module">
+    import { createSimulation } from "/js/lib/sim-engine.js";
+    const root = document.getElementById("sim-root");
+    createSimulation({ root, totalSteps: 6, itemId: "sim-baiting" });
+  </script>
+</body>
+</html>

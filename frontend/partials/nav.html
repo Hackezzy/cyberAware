@@ -1,0 +1,39 @@
+<header class="site-header">
+  <nav class="nav" aria-label="Primary">
+    <a href="/index.html" class="nav-logo">
+      <span class="nav-logo-icon" aria-hidden="true">&#128737;</span>
+      CyberAware
+    </a>
+
+    <button type="button" id="nav-toggle" class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+      <svg id="nav-toggle-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M3 5h14M3 10h14M3 15h14"></path>
+      </svg>
+    </button>
+
+    <ul id="nav-menu" class="nav-menu">
+      <li><a href="/roadmap.html" class="nav-link" data-nav-href="/roadmap.html">Roadmap</a></li>
+
+      <li id="explore-wrapper" class="explore-wrapper">
+        <button type="button" id="explore-toggle" class="nav-link explore-toggle" aria-haspopup="true" aria-expanded="false" aria-controls="explore-menu">
+          Explore
+          <span aria-hidden="true" style="font-size: 0.75em;">&#9662;</span>
+        </button>
+        <ul id="explore-menu" class="explore-menu" hidden>
+          <li><a href="/simulations/index.html" class="nav-link" data-nav-href="/simulations/index.html">Simulations</a></li>
+          <li><a href="/tools/index.html" class="nav-link" data-nav-href="/tools/index.html">Tools</a></li>
+          <li><a href="/quizzes/index.html" class="nav-link" data-nav-href="/quizzes/index.html">Quizzes</a></li>
+          <li><a href="/real-incidents.html" class="nav-link" data-nav-href="/real-incidents.html">Real Incidents</a></li>
+        </ul>
+      </li>
+
+      <li><a href="/progress.html" class="nav-link" data-nav-href="/progress.html">My Progress</a></li>
+      <li><a href="/about.html" class="nav-link" data-nav-href="/about.html">About</a></li>
+      <li>
+        <button type="button" id="theme-toggle" class="theme-toggle" aria-pressed="false">
+          <span aria-hidden="true">&#9728;&#65039;</span> Light
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>

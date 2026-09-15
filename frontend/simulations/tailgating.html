@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="An animated, step-by-step walkthrough of a tailgating attack on a secure office entrance." />
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+  <title>Tailgating Simulation | CyberAware</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("cyberaware:theme");
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.setAttribute("data-theme", stored);
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div id="nav-mount"></div>
+
+  <main id="main-content">
+    <section class="container page-section" style="max-width: 48rem;">
+      <h1 class="page-title">Tailgating Simulation</h1>
+      <p class="page-intro">
+        Step through how someone can walk straight into a secure office
+        without ever using a badge &mdash; just by relying on people's
+        natural politeness. This is the simplest attack on the platform, and
+        often the most overlooked.
+      </p>
+
+      <div id="sim-root" style="margin-top: 2rem;">
+        <div>
+          <p id="step-indicator" class="sim-step-indicator">Step 1 of 6</p>
+          <ol id="step-pills" class="sim-pills">
+            <li><button type="button" data-pill-index="0" aria-current="step" class="sim-pill sim-pill--active">1. The Approach</button></li>
+            <li><button type="button" data-pill-index="1" class="sim-pill sim-pill--inactive">2. The Courtesy</button></li>
+            <li><button type="button" data-pill-index="2" class="sim-pill sim-pill--inactive">3. The Walk-In</button></li>
+            <li><button type="button" data-pill-index="3" class="sim-pill sim-pill--inactive">4. The Blend-In</button></li>
+            <li><button type="button" data-pill-index="4" class="sim-pill sim-pill--inactive">5. The Access</button></li>
+            <li><button type="button" data-pill-index="5" class="sim-pill sim-pill--inactive">6. The Aftermath</button></li>
+          </ol>
+        </div>
+
+        <!-- SCENE 1: THE APPROACH -->
+        <div data-scene-index="0" class="scene">
+          <h2 tabindex="-1" class="scene-heading">1. The Approach</h2>
+          <p class="scene-subtext">Someone waits near a badge-locked office door, arms full of boxes.</p>
+
+          <div class="mock-panel" style="text-align: center;">
+            <p style="font-size: 1.5rem; margin: 0;">&#128230;&#128230;</p>
+            <p style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--color-text-muted);">
+              A person in a delivery vest, carrying two large boxes, standing
+              just outside a badge-access door.
+            </p>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <p>A vest and boxes are enough to look like they belong there &mdash; nobody checks whether a delivery person is really from a delivery company.</p>
+          </div>
+        </div>
+
+        <!-- SCENE 2: THE COURTESY -->
+        <div data-scene-index="1" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">2. The Courtesy</h2>
+          <p class="scene-subtext">An employee badges in, sees someone struggling with boxes, and holds the door.</p>
+
+          <div class="mock-panel">
+            <p style="margin: 0; font-size: 0.875rem; color: var(--color-text-muted);">"Oh, here &mdash; let me get that for you."</p>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <p>Holding a door for someone carrying things is basic politeness, not a security mistake anyone would think twice about &mdash; which is exactly why this works so reliably.</p>
+          </div>
+        </div>
+
+        <!-- SCENE 3: THE WALK-IN -->
+        <div data-scene-index="2" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">3. The Walk-In</h2>
+          <p class="scene-subtext">The visitor walks straight in behind them &mdash; no badge, no sign-in, no check at all.</p>
+
+          <div class="mock-panel">
+            <div class="mock-mono">
+              <p>[badge reader] access granted &mdash; employee badge</p>
+              <p style="color: var(--color-danger);">[door] propped open &mdash; second entry not logged</p>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <p>The badge system only recorded one valid entry &mdash; there's no record at all that a second, unauthorized person is now inside the building.</p>
+          </div>
+        </div>
+
+        <!-- SCENE 4: THE BLEND-IN -->
+        <div data-scene-index="3" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">4. The Blend-In</h2>
+          <p class="scene-subtext">Now inside, the visitor walks with purpose. Nobody questions them.</p>
+
+          <div class="mock-panel">
+            <p style="margin: 0; font-size: 0.875rem; color: var(--color-text-muted);">
+              Carrying a clipboard and walking confidently past several desks,
+              the visitor looks like they know exactly where they're going.
+            </p>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <p>People rarely challenge someone who looks like they belong, especially in an office too large for everyone to personally know every coworker by sight.</p>
+          </div>
+        </div>
+
+        <!-- SCENE 5: THE ACCESS -->
+        <div data-scene-index="4" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">5. The Access</h2>
+          <p class="scene-subtext">An unlocked, unattended workstation is sitting right there.</p>
+
+          <div class="mock-panel">
+            <div class="mock-mono">
+              <p>[workstation] session active &mdash; unlocked</p>
+              <p>[workstation] logged in as: bookkeeper@meridianbooks-corp.com</p>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <p>Once inside the building, the physical break-in is already over &mdash; from here it's just a matter of finding one unlocked screen, one unattended desk, or a small device to quietly plug in.</p>
+          </div>
+        </div>
+
+        <!-- SCENE 6: THE AFTERMATH -->
+        <div data-scene-index="5" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">6. The Aftermath</h2>
+          <p class="scene-subtext">Digital security means little if the building itself is easy to walk into &mdash; here's how to actually prevent this.</p>
+
+          <div class="mock-panel">
+            <p style="margin: 0; font-size: 0.875rem; color: var(--color-text-muted);">
+              Every other simulation on this site assumes the attacker is
+              somewhere else on the internet. This one is a reminder that
+              physical access to a device is often the fastest way past every
+              other protection in place.
+            </p>
+          </div>
+
+          <div class="outcome-grid" style="grid-template-columns: 1fr;">
+            <div class="outcome-box outcome-box--safe">
+              <h3>Prevention checklist</h3>
+              <ul>
+                <li>&bull; It's okay to politely ask someone without a badge to use their own, or to direct them to reception &mdash; this isn't rude, it's normal.</li>
+                <li>&bull; Lock your screen every time you step away from your desk, even for a minute.</li>
+                <li>&bull; Report anyone in the building without a visible badge, especially near secure or sensitive areas.</li>
+                <li>&bull; Businesses can use door alarms or badge-in-badge-out logging that flags when more people enter than badges were used.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="sim-nav">
+          <button type="button" id="prev-step" class="btn btn-secondary">Previous</button>
+          <button type="button" id="next-step" class="btn btn-primary">Next</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="/js/nav.js"></script>
+  <script type="module">
+    import { createSimulation } from "/js/lib/sim-engine.js";
+    const root = document.getElementById("sim-root");
+    createSimulation({ root, totalSteps: 6, itemId: "sim-tailgating" });
+  </script>
+</body>
+</html>

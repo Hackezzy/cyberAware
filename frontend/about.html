@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="What CyberAware is, why it's built the way it is, and an explicit statement of what data is (and isn't) collected." />
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+  <title>About | CyberAware</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("cyberaware:theme");
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.setAttribute("data-theme", stored);
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <style>
+    .about-section { margin-top: 2.5rem; }
+    .about-section:first-of-type { margin-top: 2rem; }
+    .about-section h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+    .about-section p {
+      margin-top: 0.5rem;
+      color: var(--color-text-muted);
+    }
+    .about-list {
+      margin: 0.75rem 0 0;
+      padding-left: 1.25rem;
+      color: var(--color-text-muted);
+      font-size: 0.9375rem;
+    }
+    .about-list li { margin-top: 0.5rem; }
+    .about-section a {
+      color: var(--color-accent);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div id="nav-mount"></div>
+
+  <main id="main-content">
+    <section class="container page-section" style="max-width: 48rem;">
+      <h1 class="page-title">About CyberAware</h1>
+
+      <div class="about-section">
+        <h2>What this is</h2>
+        <p>
+          CyberAware teaches people to recognize and respond to common
+          cyber attacks by actually doing it, not by reading about it.
+          Every simulation walks through a real attack pattern step by
+          step; every tool analyzes something you give it and explains
+          exactly what it found; every quiz scores a real judgment call,
+          with an explanation either way. The goal is to leave you able
+          to spot these attacks in real life &mdash; and, for anyone
+          considering a cybersecurity role, to build the kind of
+          practical judgment an entry-level position actually expects,
+          not just facts to recite.
+        </p>
+      </div>
+
+      <div class="about-section">
+        <h2>Why it's built this way</h2>
+        <p>
+          The topics covered here aren't arbitrary. They're grounded in
+          published breach data and established security frameworks
+          &mdash; including the Verizon Data Breach Investigations
+          Report, the MITRE ATT&amp;CK framework, the OWASP Top 10, and
+          the domains covered by the CompTIA Security+ certification
+          &mdash; so the difficulty and priority of each topic reflects
+          how often it actually happens and how much it actually
+          matters, not a guess. Content is organized into five domains
+          (Email &amp; Message Security, Human &amp; Social Engineering,
+          Network &amp; Wireless Security, Malware &amp; Ransomware, and
+          Identity &amp; Access) across five difficulty levels, from
+          single obvious red flags up to ambiguous, realistic scenarios.
+          The <a href="/roadmap.html">Roadmap</a> lays this
+          whole structure out and tracks what you've completed in each
+          one.
+        </p>
+      </div>
+
+      <div class="about-section">
+        <h2>What data is collected</h2>
+        <p>
+          For almost the entire site, the honest answer is none &mdash;
+          no backend server, no accounts, no sign-ups. <strong>The one
+          deliberate exception</strong> is the real-time threat check on
+          the URL Safety Checker tool, which sends the URL text (and only
+          the URL text) to a small backend server so it can be checked
+          against Google Safe Browsing's live threat database &mdash; a
+          real check that a purely offline tool structurally cannot do.
+          That page explains this in full at the point it happens.
+        </p>
+        <ul class="about-list">
+          <li>
+            Every other tool &mdash; the Password Strength Analyzer, the
+            Credential Reuse Check, the Phishing Email Scanner &mdash;
+            analyzes what you type or paste entirely inside your own
+            browser. None of it is ever sent anywhere, logged, or stored
+            outside your device.
+          </li>
+          <li>
+            Your progress (which simulations, tools, and quizzes you've
+            completed, and your quiz scores) is saved only in your
+            browser's local storage, so it survives a page reload but
+            never leaves your device. You can review it any time on the
+            <a href="/progress.html">My Progress</a> page, and
+            clear it whenever you want.
+          </li>
+          <li>
+            There is no analytics, no tracking script, and no
+            third-party embed of any kind, on any page.
+          </li>
+        </ul>
+      </div>
+
+      <div class="about-section">
+        <h2>Educational use only</h2>
+        <p>
+          No real attacks are ever performed by this site. Every
+          simulated brand, company, and person (like "SecurePay" or
+          "Meridian Bookkeeping") is fictional. When a tool asks you to
+          try a practice password or a fake account label, don't type
+          something you actually use elsewhere &mdash; use something
+          similar in structure instead.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="/js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A guided path through CyberAware, organized by security domain and difficulty level — so you know what to do next instead of clicking around at random." />
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+  <title>Roadmap | CyberAware</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("cyberaware:theme");
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.setAttribute("data-theme", stored);
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div id="nav-mount"></div>
+
+  <main id="main-content">
+    <section class="container page-section" style="max-width: 56rem;">
+      <h1 class="page-title">Roadmap</h1>
+      <p class="page-intro">
+        A structured path through every simulation, tool, and quiz &mdash;
+        grouped by security domain, and ordered by difficulty within each one.
+        Complete a level to unlock the next.
+      </p>
+
+      <div class="progress-summary-box">
+        <div class="progress-summary-row">
+          <span>Overall progress</span>
+          <span id="overall-progress-text">0 / 0 complete</span>
+        </div>
+        <div class="quiz-progress-track" style="margin-top: 0.5rem;">
+          <div id="overall-progress-bar" class="quiz-progress-fill" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div class="roadmap-legend">
+        <span class="roadmap-legend-item"><span class="status-dot status-dot--completed"></span> Completed</span>
+        <span class="roadmap-legend-item"><span class="status-dot status-dot--ready"></span> Ready to start</span>
+        <span class="roadmap-legend-item"><span class="status-dot status-dot--locked"></span> Locked (finish the level before it first)</span>
+        <span class="roadmap-legend-item"><span class="status-dot status-dot--unbuilt"></span> Not built yet</span>
+      </div>
+
+      <noscript>
+        <p style="margin-top: 2rem; color: var(--color-text-muted);">
+          This page needs JavaScript enabled to build the roadmap from your
+          progress data.
+        </p>
+      </noscript>
+
+      <div id="roadmap-content"></div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="/js/nav.js"></script>
+  <script type="module" src="/roadmap.js"></script>
+</body>
+</html>

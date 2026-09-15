@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Paste a URL to see a structural breakdown, plus a real check against Google Safe Browsing's live threat database." />
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+  <title>URL Safety Checker | CyberAware</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <script>
+    // FOUC-prevention: applies a saved theme choice before first paint.
+    // This is a plain, synchronous <script> (no type="module", no defer) —
+    // the plain-HTML equivalent of Astro's is:inline directive, which
+    // existed for exactly this same reason: run immediately, in place,
+    // before the rest of the page renders.
+    (function () {
+      try {
+        var stored = localStorage.getItem("cyberaware:theme");
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.setAttribute("data-theme", stored);
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div id="nav-mount"></div>
+
+  <main id="main-content">
+    <section class="container page-section">
+      <h1 class="page-title">URL Safety Checker</h1>
+      <p class="page-intro">
+        Paste a URL below or load a sample to see a structural breakdown
+        and any suspicious patterns &mdash; the same local analysis as
+        before, still entirely inside your browser. <strong>New on this
+        page:</strong> a second, real check against Google Safe
+        Browsing's live threat database, which needs a small backend
+        (see the note below the results) since that's the only part of
+        this page that ever leaves your browser.
+      </p>
+
+      <div>
+        <h2 class="section-label">Load a sample URL</h2>
+        <div id="sample-buttons" class="sample-buttons"></div>
+      </div>
+
+      <form id="check-form" class="check-form" novalidate>
+        <div class="form-field">
+          <label for="url-input" class="form-label">URL to check</label>
+          <input type="text" id="url-input" name="url" placeholder="https://example.com" class="form-input" autocomplete="off" />
+        </div>
+        <button type="submit" class="btn btn-primary">Check URL</button>
+      </form>
+
+      <p id="parse-error" class="error-text" role="alert" hidden></p>
+
+      <div id="results" class="results" aria-live="polite" hidden>
+        <div id="risk-banner" class="risk-banner">
+          <p class="risk-banner-label">Risk assessment (local analysis)</p>
+          <p id="risk-label" class="risk-banner-value"></p>
+          <p id="risk-score" class="risk-banner-score"></p>
+        </div>
+
+        <div class="results-block">
+          <h3 class="section-label">URL breakdown</h3>
+          <ul id="breakdown-list" class="breakdown-list"></ul>
+        </div>
+
+        <div class="results-block">
+          <h3 class="section-label">Flags found (local analysis)</h3>
+          <ul id="flags-list" class="flags-list"></ul>
+        </div>
+
+        <div class="api-panel">
+          <h3>Real threat-intel check (Google Safe Browsing)</h3>
+          <p id="api-status" class="api-status api-status--checking">Not checked yet.</p>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <h2>What makes a URL suspicious?</h2>
+        <p>
+          The only part of a URL that matters for "where does this
+          actually go" is the domain right before the first single slash
+          &mdash; not anything after it, and not brand names that appear
+          earlier as a subdomain. A link like
+          <code>paypal.com.secure-verify.ru</code> contains the word
+          "paypal" but the real domain is
+          <code>secure-verify.ru</code>.
+        </p>
+        <p>
+          <strong>About the real check above:</strong> unlike every other
+          tool on this site, checking a URL against Google Safe Browsing
+          requires sending that URL to a small backend server, which
+          forwards it to Google. Only the URL text is sent &mdash; never
+          anything else you type on this site. This is a deliberate,
+          narrow exception to the rest of the site's "nothing ever leaves
+          your browser" design, made because real threat-database checks
+          need a server-side API key that can't safely exist in
+          browser-visible code.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="/js/nav.js"></script>
+  <script type="module" src="/tools/url-checker.js"></script>
+</body>
+</html>

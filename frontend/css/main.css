@@ -1,0 +1,134 @@
+/*
+ * Theme system — ported directly from the Astro/Tailwind version
+ * (src/styles/main.css), with identical color values. This is plain CSS;
+ * it never depended on Tailwind to work in the first place — Tailwind's
+ * @theme directive was just a shorthand for defining these same custom
+ * properties, so this file behaves identically to the original.
+ *
+ * Dark is the default palette. Light is the override, applied via
+ * `prefers-color-scheme: light` (no saved choice) or an explicit
+ * `[data-theme]` attribute (set by nav.js when the theme toggle is
+ * clicked), which wins in either direction.
+ */
+
+:root {
+  --color-bg: #0b1120;
+  --color-surface: #111a2e;
+  --color-surface-raised: #16213a;
+  --color-border: #24304d;
+  --color-accent: #22d3ee;
+  --color-accent-strong: #06b6d4;
+  --color-danger: #f87171;
+  --color-warning: #fbbf24;
+  --color-safe: #4ade80;
+  --color-text: #e2e8f0;
+  --color-text-muted: #94a3b8;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --color-bg: #f8fafc;
+    --color-surface: #ffffff;
+    --color-surface-raised: #f1f5f9;
+    --color-border: #cbd5e1;
+    --color-accent: #0e7490;
+    --color-accent-strong: #155e75;
+    --color-danger: #991b1b;
+    --color-warning: #92400e;
+    --color-safe: #15803d;
+    --color-text: #0f172a;
+    --color-text-muted: #475569;
+  }
+}
+
+:root[data-theme="light"] {
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-raised: #f1f5f9;
+  --color-border: #cbd5e1;
+  --color-accent: #0e7490;
+  --color-accent-strong: #155e75;
+  --color-danger: #991b1b;
+  --color-warning: #92400e;
+  --color-safe: #15803d;
+  --color-text: #0f172a;
+  --color-text-muted: #475569;
+}
+
+html {
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: light) {
+  html:not([data-theme="dark"]) {
+    color-scheme: light;
+  }
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/*
+ * The browser's own [hidden] rule (display: none) has the same CSS
+ * specificity as a single class selector like .btn — so without this,
+ * any element that sets its own `display` via a class (buttons, flex
+ * containers, etc.) stays visible even after JS sets `element.hidden =
+ * true`, since components.css loads after the browser's default
+ * stylesheet and wins the tie. This makes [hidden] win unconditionally,
+ * which is what every bit of show/hide JS on this site already assumes.
+ */
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+/* Reduced-motion baseline: honored globally, not opted into per-component. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+  border-radius: 0 0 0.5rem 0;
+}
+
+.skip-link:focus {
+  left: 0;
+}

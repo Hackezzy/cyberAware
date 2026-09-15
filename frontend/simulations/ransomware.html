@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="An animated, step-by-step walkthrough of how ransomware actually spreads and locks a system." />
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+  <title>Ransomware Simulation | CyberAware</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("cyberaware:theme");
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.setAttribute("data-theme", stored);
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div id="nav-mount"></div>
+
+  <main id="main-content">
+    <section class="container page-section" style="max-width: 48rem;">
+      <h1 class="page-title">Ransomware Simulation</h1>
+      <p class="page-intro">
+        Step through how ransomware actually spreads through a small business,
+        from a single opened attachment to every file being locked. Nothing
+        here is real &mdash; "Meridian Bookkeeping" is a made-up small business
+        built just for this walkthrough.
+      </p>
+
+      <div id="sim-root" style="margin-top: 2rem;">
+        <div>
+          <p id="step-indicator" class="sim-step-indicator">Step 1 of 6</p>
+          <ol id="step-pills" class="sim-pills">
+            <li><button type="button" data-pill-index="0" aria-current="step" class="sim-pill sim-pill--active">1. The Delivery</button></li>
+            <li><button type="button" data-pill-index="1" class="sim-pill sim-pill--inactive">2. The Foothold</button></li>
+            <li><button type="button" data-pill-index="2" class="sim-pill sim-pill--inactive">3. The Spread</button></li>
+            <li><button type="button" data-pill-index="3" class="sim-pill sim-pill--inactive">4. The Lock</button></li>
+            <li><button type="button" data-pill-index="4" class="sim-pill sim-pill--inactive">5. The Choice</button></li>
+            <li><button type="button" data-pill-index="5" class="sim-pill sim-pill--inactive">6. The Aftermath</button></li>
+          </ol>
+        </div>
+
+        <!-- SCENE 1: THE DELIVERY -->
+        <div data-scene-index="0" class="scene">
+          <h2 tabindex="-1" class="scene-heading">1. The Delivery</h2>
+          <p class="scene-subtext">A bookkeeper at Meridian Bookkeeping opens an email attachment that looks like a routine invoice.</p>
+
+          <div class="mock-panel">
+            <p class="mock-panel-label">Downloads</p>
+            <div style="margin-top: 0.75rem; display: flex; align-items: center; gap: 0.75rem; border-radius: 0.25rem; border: 1px solid var(--color-border); background-color: var(--color-surface); padding: 0.5rem 0.75rem; font-family: 'SFMono-Regular', Consolas, monospace; font-size: 0.875rem;">
+              <span style="color: var(--color-danger);">&#128196;</span>
+              <span style="color: var(--color-text);">Invoice_40218</span><span style="color: var(--color-danger);">.pdf.exe</span>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <ul>
+              <li>&bull; The real file extension is <code style="color: var(--color-danger);">.exe</code> (a program), not <code style="color: var(--color-danger);">.pdf</code> &mdash; the ".pdf" is just part of the filename, designed to look harmless at a glance.</li>
+              <li>&bull; Windows hides known file extensions by default, so many people would only see "Invoice_40218.pdf" and never notice the <code style="color: var(--color-danger);">.exe</code> at all.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SCENE 2: THE FOOTHOLD -->
+        <div data-scene-index="1" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">2. The Foothold</h2>
+          <p class="scene-subtext">Double-clicking the file runs it. Nothing visibly happens &mdash; that's by design.</p>
+
+          <div class="mock-panel">
+            <div class="mock-mono">
+              <p>[background] disabling File History...</p>
+              <p>[background] deleting Volume Shadow Copies...</p>
+              <p>[background] scanning for network shares...</p>
+              <p>[background] establishing outbound connection...</p>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <ul>
+              <li>&bull; The malware quietly disables Windows' built-in backup and file-recovery features first, before doing anything else &mdash; so there's nothing easy to restore from later.</li>
+              <li>&bull; It scans for other computers and shared drives on the same network it can reach, to spread beyond just this one machine.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SCENE 3: THE SPREAD -->
+        <div data-scene-index="2" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">3. The Spread</h2>
+          <p class="scene-subtext">Over the next few hours, files are quietly encrypted &mdash; on this computer and every shared drive it could reach.</p>
+
+          <div class="mock-panel">
+            <div class="mock-mono">
+              <p>C:\Users\bookkeeper\Documents\Q3_Payroll.xlsx <span style="color: var(--color-danger);">&rarr; Q3_Payroll.xlsx.locked</span></p>
+              <p>\\MERIDIAN-NAS\Shared\Client_Invoices\ <span style="color: var(--color-danger);">&rarr; encrypting (212 files)</span></p>
+              <p>\\MERIDIAN-NAS\Shared\Tax_Records\ <span style="color: var(--color-danger);">&rarr; encrypting (89 files)</span></p>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <ul>
+              <li>&bull; Encryption is deliberately slow and quiet so it isn't noticed until it's mostly finished &mdash; by the time anyone sees a problem, the damage is already done.</li>
+              <li>&bull; A shared network drive means one infected laptop can lock every other computer's files too, not just its own.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SCENE 4: THE LOCK -->
+        <div data-scene-index="3" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">4. The Lock</h2>
+          <p class="scene-subtext">A note appears. Every file on the network is now unreadable.</p>
+
+          <div class="mock-panel" style="border: 2px solid var(--color-danger); text-align: center;">
+            <p style="margin: 0; font-size: 1.125rem; font-weight: 700; color: var(--color-danger);">YOUR FILES HAVE BEEN ENCRYPTED</p>
+            <p style="margin-top: 0.75rem; font-size: 0.875rem; color: var(--color-text-muted);">
+              To recover your files, send 1.4 BTC to the address below within
+              <span style="font-weight: 600; color: var(--color-danger);">72 hours</span>.
+              The price doubles after the deadline. Do not contact law enforcement.
+            </p>
+            <div class="mock-mono" style="text-align: center;">
+              <p>bc1q_x7f...9k2m (payment address)</p>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <ul>
+              <li>&bull; The countdown and "do not contact law enforcement" warning are both pressure tactics, the same urgency trick used in phishing, just with much higher stakes.</li>
+              <li>&bull; Cryptocurrency payment is untraceable and irreversible &mdash; there's no bank to call and dispute the charge afterward.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SCENE 5: THE CHOICE -->
+        <div data-scene-index="4" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">5. The Choice</h2>
+          <p class="scene-subtext">Paying feels like the fastest fix. It usually isn't.</p>
+
+          <div class="outcome-grid">
+            <div class="outcome-box outcome-box--danger">
+              <h3>If you pay</h3>
+              <ul>
+                <li>&bull; No guarantee the attacker actually sends a working decryption key.</li>
+                <li>&bull; Confirms this business pays, inviting repeat attacks.</li>
+                <li>&bull; Funds further attacks against other victims.</li>
+              </ul>
+            </div>
+            <div class="outcome-box outcome-box--safe">
+              <h3>What to do instead</h3>
+              <ul>
+                <li>&bull; Disconnect the machine from the network immediately, to stop the spread.</li>
+                <li>&bull; Restore from an offline backup that was never connected when the attack happened.</li>
+                <li>&bull; Report the incident &mdash; law enforcement and cybersecurity agencies track ransom payment addresses and can sometimes help.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="red-flags-box">
+            <h3>What's happening</h3>
+            <p>This decision only has a good outcome if it was prepared for <em>before</em> the attack &mdash; specifically, by keeping backups that ransomware on the network can't also reach and encrypt.</p>
+          </div>
+        </div>
+
+        <!-- SCENE 6: THE AFTERMATH -->
+        <div data-scene-index="5" class="scene" hidden>
+          <h2 tabindex="-1" class="scene-heading">6. The Aftermath</h2>
+          <p class="scene-subtext">Ransomware hits small businesses hardest &mdash; here's how to actually prevent this scene from happening.</p>
+
+          <div class="mock-panel">
+            <p style="margin: 0; font-size: 0.875rem; color: var(--color-text-muted);">
+              Ransomware is involved in the large majority of breaches at small
+              and medium businesses, far more than at large organizations &mdash;
+              attackers assume smaller businesses have weaker backups and
+              smaller security budgets.
+            </p>
+          </div>
+
+          <div class="outcome-grid" style="grid-template-columns: 1fr;">
+            <div class="outcome-box outcome-box--safe">
+              <h3>Prevention checklist</h3>
+              <ul>
+                <li>&bull; Keep at least one backup that's offline or otherwise disconnected from the network &mdash; a backup ransomware can also encrypt isn't a real backup.</li>
+                <li>&bull; Never enable macros or run an attachment you weren't expecting, even from a sender you recognize.</li>
+                <li>&bull; Show file extensions in your file browser instead of hiding them, so a "PDF" that's secretly a program is easier to spot.</li>
+                <li>&bull; Keep software patched &mdash; many ransomware infections spread through known, already-fixed vulnerabilities.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="sim-nav">
+          <button type="button" id="prev-step" class="btn btn-secondary">Previous</button>
+          <button type="button" id="next-step" class="btn btn-primary">Next</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="/js/nav.js"></script>
+  <script type="module">
+    import { createSimulation } from "/js/lib/sim-engine.js";
+    const root = document.getElementById("sim-root");
+    createSimulation({ root, totalSteps: 6, itemId: "sim-ransomware" });
+  </script>
+</body>
+</html>
