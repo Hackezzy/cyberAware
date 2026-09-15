@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="CyberAware — interactive cybersecurity awareness and skills platform. This page: the plain HTML/CSS/JS rebuild, starting with a real backend-powered URL checker." />
+  <meta name="description" content="CyberAware — learn to spot phishing, ransomware, and other cyber threats through interactive simulations and tools." />
   <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
   <title>Home | CyberAware</title>
   <link rel="stylesheet" href="/css/main.css" />
@@ -18,6 +18,29 @@
       } catch (e) {}
     })();
   </script>
+  <style>
+    .threat-grid {
+      margin-top: 2rem;
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 640px) { .threat-grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1024px) { .threat-grid { grid-template-columns: repeat(4, 1fr); } }
+    .threat-card {
+      display: block;
+      height: 100%;
+      border-radius: 0.5rem;
+      border: 1px solid var(--color-border);
+      background-color: var(--color-surface-raised);
+      padding: 1.5rem;
+      text-decoration: none;
+      transition: border-color 0.15s;
+    }
+    .threat-card:hover { border-color: var(--color-accent); }
+    .threat-card h3 { margin: 0; font-weight: 600; color: var(--color-text); font-size: 1rem; }
+    .threat-card p { margin-top: 0.5rem; font-size: 0.875rem; color: var(--color-text-muted); }
+  </style>
 </head>
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -25,19 +48,43 @@
   <div id="nav-mount"></div>
 
   <main id="main-content">
-    <section class="container page-section" style="text-align: center; padding-top: 4rem; padding-bottom: 4rem;">
+    <section class="container page-section" style="text-align: center; padding-top: 4rem; padding-bottom: 3rem;">
       <h1 class="page-title" style="font-size: 2.5rem;">
-        CyberAware <span style="color: var(--color-accent);">— plain HTML/CSS/JS rebuild</span>
+        Learn to spot cyber threats
+        <span style="color: var(--color-accent); display: block;">before they catch you.</span>
       </h1>
-      <p class="page-intro" style="margin-left: auto; margin-right: auto;">
-        This is a from-scratch rebuild of one part of the main CyberAware
-        site (still live at its own URL), using only HTML, CSS, and
-        JavaScript — no Astro, no Tailwind — plus a real Python backend
-        for one specific feature: a genuine threat-intelligence check
-        instead of only local heuristics.
-      </p>
       <div style="margin-top: 2rem;">
-        <a href="/tools/index.html" class="btn btn-primary">Try the rebuilt Tools</a>
+        <a href="/roadmap.html" class="btn btn-primary">Start Your Journey</a>
+      </div>
+    </section>
+
+    <section style="border-top: 1px solid var(--color-border); background-color: var(--color-surface);">
+      <div class="container" style="padding-top: 3rem; padding-bottom: 3rem;">
+        <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--color-text); margin: 0;">Explore by threat</h2>
+
+        <div class="threat-grid">
+          <a href="/simulations/phishing.html" class="threat-card">
+            <h3>Phishing</h3>
+            <p>See how a phishing email lures, deceives, and steals — step by step.</p>
+          </a>
+          <a href="/simulations/ransomware.html" class="threat-card">
+            <h3>Ransomware</h3>
+            <p>Watch how ransomware spreads through a system and locks users out.</p>
+          </a>
+          <a href="/simulations/fake-wifi.html" class="threat-card">
+            <h3>Fake Wi-Fi</h3>
+            <p>Learn how a rogue hotspot can intercept everything you send.</p>
+          </a>
+          <a href="/simulations/smishing.html" class="threat-card">
+            <h3>Smishing</h3>
+            <p>SMS phishing walkthrough — the text-message version of the scam.</p>
+          </a>
+        </div>
+
+        <div style="margin-top: 2.5rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
+          <a href="/simulations/index.html" class="btn btn-primary">Start a simulation</a>
+          <a href="/tools/index.html" class="btn btn-secondary">Try a tool</a>
+        </div>
       </div>
     </section>
   </main>
