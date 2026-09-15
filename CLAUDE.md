@@ -37,15 +37,23 @@ codebase (they know HTML/CSS and a bit of JS, not Astro/Tailwind).
   `frontend/public/`, then re-running the full regression suite with
   `frontend/` itself as the server root to prove it — don't reintroduce a
   `/frontend/` prefix anywhere.
-- **The one deliberate exception to "fully static"**: the URL Checker tool
-  (`frontend/tools/url-checker.html`) calls a real Flask backend
+- **The two deliberate exceptions to "fully static"**: (1) the URL Checker
+  tool (`frontend/tools/url-checker.html`) calls the Flask backend
   (`backend/app.py`) for a live Google Safe Browsing lookup, because that
-  requires a server-side API key that can't safely ship in browser JS.
-  This is narrow, not a general license — the Phishing Email Scanner stays
+  requires a server-side API key that can't safely ship in browser JS; (2)
+  optional accounts + server-side progress tracking (`frontend/login.html`,
+  `frontend/js/lib/auth.js`, the backend's `/api/auth/*` and `/api/progress`
+  routes, backed by a self-managed MySQL database in `backend/db.py` — no
+  external cloud database service, every query is hand-written parameterized
+  SQL). Logging in is **never required** — every simulation/quiz/tool still
+  works with no account, and still tracks progress in the visitor's own
+  browser either way (`progress-store.js`); logging in additionally mirrors
+  that same progress to a real account server-side. Both exceptions are
+  narrow, not a general license — the Phishing Email Scanner stays
   heuristic/client-side-only on purpose (no honest free API exists for real
-  email-content phishing classification), and every other
-  tool/simulation/quiz is fully static, no network calls, no backend, no
-  accounts. Ask before adding any *further* network dependency.
+  email-content phishing classification), and every other tool/simulation/
+  quiz makes no network calls beyond the optional progress sync. Ask before
+  adding any *further* network dependency or expanding what login gates.
 - No build step for the frontend: files are served as-is. `<script
   type="module">` + native `import`/`export` run directly in the browser;
   `fetch()` is used for loading JSON/partial content (chosen over `import
@@ -86,6 +94,91 @@ codebase (they know HTML/CSS and a bit of JS, not Astro/Tailwind).
 - Reduced-motion support (`prefers-reduced-motion`) and keyboard
   navigation are built into the shared engines already — reuse them rather
   than re-adding this per page.
+
+## Accounts and the MySQL backend
+
+- **Requires a real MySQL server already installed and running**, reachable
+  with the credentials in `.env` (`MYSQL_HOST`/`PORT`/`USER`/`PASSWORD`/
+  `DATABASE`) — unlike a file-based database, this doesn't create itself
+  out of nothing. `db.py`'s `init_db()` does create the `cyberaware`
+  database and its tables automatically on first run if they don't exist,
+  but only once a server is actually reachable. See `backend/README.md`
+  for installing MySQL (or XAMPP, which bundles it with a simpler GUI).
+- **Every SQL query anywhere in `backend/`** must use `%s` placeholders
+  (mysql-connector-python's parameter marker — note this is different
+  from SQLite's `?`, if you're used to that), never Python string
+  formatting/concatenation to build a query. That's what actually prevents
+  SQL injection — verified during this feature's build (when it briefly
+  used SQLite, before the user specified MySQL was required) by trying a
+  `' OR '1'='1`-style login attempt against the real running server and
+  confirming it just failed as an ordinary invalid login; the same
+  parameterization discipline carries over to the MySQL version.
+- MySQL's upsert syntax (`INSERT ... ON DUPLICATE KEY UPDATE ...`, used in
+  `/api/progress`'s POST route) is different from SQLite's or Postgres's
+  (`ON CONFLICT ... DO UPDATE`) — don't copy syntax from one to the other
+  if this ever needs to change.
+- **`load_dotenv()` must run before `from db import ...`** in `app.py`,
+  not after. `db.py` reads `MYSQL_*` out of `os.environ` once, at import
+  time, to build its connection config — if `.env` hasn't been loaded into
+  the environment yet when that import happens, every `MYSQL_*` value
+  (including the password) silently falls back to its empty-string
+  default. This was a real bug that shipped once: it produced a MySQL
+  "Access denied ... (using password: NO)" error that looked exactly like
+  a wrong password in `.env`, even though the password there was correct —
+  confirmed by testing `load_dotenv()` in isolation before concluding it
+  was an import-order bug, not a credentials or file-encoding problem.
+- **Passwords are hashed with `werkzeug.security.generate_password_hash`**
+  (already a Flask dependency), never stored raw. If you ever need to
+  verify this is actually happening, read the real value out of
+  `backend/cyberaware.db`'s `users.password_hash` column directly — it
+  should look like `scrypt:...`, never the plaintext password.
+- **Login sessions are Flask's built-in signed-cookie session**, not a
+  database-backed store — fine at this scale since the only thing ever put
+  in it is a user id. `SECRET_KEY` is required from `.env` and the app
+  refuses to start without one (see `backend/README.md` for generating a
+  real one) — a missing or randomly-regenerated-per-restart key would mean
+  either insecure sessions or everyone logged out on every restart.
+- **CORS must stay `supports_credentials=True` with an explicit
+  `ALLOWED_ORIGINS` allowlist**, never a wildcard `*` origin — cookies
+  can't be sent cross-origin to a wildcard-CORS response at all, so this
+  isn't a style preference, it's required for login to work. Session
+  cookies use `SameSite=None; Secure; HttpOnly`; this was confirmed to
+  actually work over plain `http://localhost` in a real Puppeteer-driven
+  Chrome (not just assumed) — Chrome treats `localhost` as a secure-context
+  exception, so this doesn't need real HTTPS for local testing, only in
+  production.
+- **`/api/auth/me` is deliberately always a 200** (`null` body when logged
+  out), not 401. "Not logged in yet" is the normal, expected result of
+  this specific check for most visitors on most page loads — returning
+  401 for it made Chrome log a spurious console error on *every* page
+  load for anyone not logged in, since browsers log any non-2xx fetch
+  response as a console error regardless of whether the app handles it
+  gracefully. `/api/progress`'s routes correctly stay 401 when logged out,
+  since those really are protected actions being denied, not a routine
+  status check. If you add another "check my state" style endpoint,
+  apply the same reasoning — 401 for a genuinely denied action, 200 with
+  a null/false payload for a routine check whose "no" answer is common and
+  expected.
+- **`progress-store.js`'s existing synchronous API never changed** —
+  `markCompleted(itemId, meta)` still always writes to local storage
+  first and every existing caller (`quiz-engine.js`, `sim-engine.js`,
+  every tool) needed zero changes. It additionally fires an unawaited
+  `pushProgress()` from `auth.js` if a user happens to be logged in
+  (checked via a cached, once-per-page-load state, not a fresh network
+  call on every single completion). Local storage stays the one thing
+  every page (Roadmap, My Progress) actually reads from; the server is a
+  second copy that follows it. Keep it this way — don't make any existing
+  page read progress from the server directly, since that would make
+  every one of those pages behave differently for logged-in vs. logged-out
+  visitors for no real benefit.
+- `nav.js` is a plain classic script (not `type="module"`) loaded
+  identically on all pages, so it reaches into `auth.js`/`progress-store.js`
+  via dynamic `import()` rather than a static top-level import — this
+  avoided needing to add `type="module"` to 31+ existing `<script
+  src="/js/nav.js">` tags just for this one feature. Any username or other
+  visitor-supplied text rendered into the nav (or anywhere) via
+  `innerHTML` must be HTML-escaped first — it's untrusted input from
+  whoever registered it, not the page's own markup.
 
 ## Theming
 

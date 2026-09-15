@@ -1,12 +1,19 @@
 /**
- * Minimal local-storage progress tracking.
+ * Local-storage progress tracking, with an optional account-backed sync
+ * layered on top.
  *
- * This is the foundation the Roadmap page uses now, and the full "My
- * Progress" page (Build Order step 26) will build on top of — same
- * storage schema, so nothing gets migrated later. No accounts, no
- * backend, no network calls: everything lives in the visitor's own
- * browser and is only ever read back for them.
+ * Every visitor's progress lives in their own browser's local storage,
+ * whether or not they're logged in -- that part of the design hasn't
+ * changed. What's new: if a visitor IS logged in (see auth.js), completing
+ * something also gets pushed to the backend's real database under their
+ * account, and logging in on a page pulls down anything already recorded
+ * there. Local storage stays the thing every page actually reads from
+ * (Roadmap, My Progress, the "is this done" checks) -- the server is a
+ * second copy that follows it, not a replacement read path, so nothing
+ * downstream needed to change to support this.
  */
+
+import { getCachedUser, pushProgress, fetchServerProgress, resetServerProgress } from "./auth.js";
 
 const STORAGE_KEY = "cyberaware:progress:v1";
 
@@ -40,6 +47,9 @@ export function markCompleted(itemId, meta = {}) {
   const store = readStore();
   store.completed[itemId] = { completedAt: new Date().toISOString(), ...meta };
   writeStore(store);
+
+  const user = getCachedUser();
+  if (user) pushProgress(itemId, meta);
 }
 
 /** @param {string} itemId */
@@ -69,4 +79,38 @@ export function getProgressSummary(items) {
 
 export function resetProgress() {
   writeStore({ completed: {} });
+  const user = getCachedUser();
+  if (user) resetServerProgress();
+}
+
+/**
+ * Two-way sync with the account-backed record, called once right after a
+ * visitor is known to be logged in (nav.js does this after initAuthState()
+ * resolves, and login.js does it right after a successful login/register).
+ * Pulls down anything the server has that this browser doesn't (e.g. a
+ * fresh browser/device), then pushes up anything this browser has that
+ * the server doesn't (e.g. progress made before logging in) -- never
+ * overwrites an existing record in either direction, so a better score
+ * from elsewhere is never clobbered by an older local one.
+ */
+export async function syncWithServerIfLoggedIn() {
+  const user = getCachedUser();
+  if (!user) return;
+
+  const serverRows = await fetchServerProgress();
+  const store = readStore();
+
+  for (const row of serverRows) {
+    if (store.completed[row.item_id]) continue;
+    store.completed[row.item_id] = {
+      completedAt: row.completed_at,
+      ...(row.score != null ? { score: row.score, total: row.total } : {}),
+    };
+  }
+  writeStore(store);
+
+  const serverIds = new Set(serverRows.map((row) => row.item_id));
+  for (const [itemId, meta] of Object.entries(store.completed)) {
+    if (!serverIds.has(itemId)) pushProgress(itemId, meta);
+  }
 }

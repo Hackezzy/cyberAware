@@ -170,6 +170,40 @@ function wireThemeToggle() {
   updateToggleButton(resolvedTheme());
 }
 
+function escapeHtml(value) {
+  const div = document.createElement("div");
+  div.textContent = value;
+  return div.innerHTML;
+}
+
+// nav.js is a plain classic script (not type="module"), loaded the same
+// way on all 31 pages, so it uses dynamic import() here rather than a
+// static top-level import -- that keeps every existing page's <script
+// src="/js/nav.js"> tag unchanged instead of needing type="module" added
+// everywhere just for this one feature.
+async function wireAuthUI() {
+  const authItem = document.getElementById("auth-nav-item");
+  if (!authItem) return;
+
+  const { initAuthState, logout } = await import("./lib/auth.js");
+  const user = await initAuthState();
+
+  if (user) {
+    // escapeHtml matters here: the username came from another visitor's
+    // own registration input, not this page's own trusted markup.
+    authItem.innerHTML = `<button type="button" id="logout-btn" class="nav-link" style="width: 100%; text-align: left; border: none; background: transparent; cursor: pointer; font: inherit;">Log out (${escapeHtml(user.username)})</button>`;
+    document.getElementById("logout-btn").addEventListener("click", async () => {
+      await logout();
+      window.location.reload();
+    });
+
+    const { syncWithServerIfLoggedIn } = await import("./lib/progress-store.js");
+    syncWithServerIfLoggedIn();
+  }
+  // Logged-out case needs no change -- the static "Log in" link already
+  // in nav.html's markup is correct as-is.
+}
+
 function wireArrowKeyBackForward() {
   const FORM_CONTROL_TAGS = new Set(["INPUT", "TEXTAREA", "SELECT"]);
 
@@ -197,6 +231,7 @@ async function initSite() {
   wireExploreDropdown();
   wireThemeToggle();
   wireArrowKeyBackForward();
+  wireAuthUI();
 
   const yearEl = document.getElementById("footer-year");
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());

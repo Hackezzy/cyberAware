@@ -94,36 +94,42 @@
       <div class="about-section">
         <h2>What data is collected</h2>
         <p>
-          For almost the entire site, the honest answer is none &mdash;
-          no backend server, no accounts, no sign-ups. <strong>The one
-          deliberate exception</strong> is the real-time threat check on
-          the URL Safety Checker tool, which sends the URL text (and only
-          the URL text) to a small backend server so it can be checked
-          against Google Safe Browsing's live threat database &mdash; a
-          real check that a purely offline tool structurally cannot do.
-          That page explains this in full at the point it happens.
+          Using the site without an account collects nothing &mdash; no
+          backend call, no sign-up, no data leaving your device. Two
+          things change that, both opt-in:
         </p>
         <ul class="about-list">
           <li>
-            Every other tool &mdash; the Password Strength Analyzer, the
-            Credential Reuse Check, the Phishing Email Scanner &mdash;
-            analyzes what you type or paste entirely inside your own
-            browser. None of it is ever sent anywhere, logged, or stored
-            outside your device.
+            <strong>The URL Safety Checker's real threat check.</strong>
+            Sends the URL text (and only the URL text) to this project's
+            own small backend server, so it can be checked against Google
+            Safe Browsing's live threat database &mdash; a real check a
+            purely offline tool structurally cannot do. That page explains
+            this in full at the point it happens.
           </li>
           <li>
-            Your progress (which simulations, tools, and quizzes you've
-            completed, and your quiz scores) is saved only in your
-            browser's local storage, so it survives a page reload but
-            never leaves your device. You can review it any time on the
-            <a href="/progress.html">My Progress</a> page, and
-            clear it whenever you want.
-          </li>
-          <li>
-            There is no analytics, no tracking script, and no
-            third-party embed of any kind, on any page.
+            <strong>Creating an account on the <a href="/login.html">Log In</a> page.</strong>
+            Entirely optional &mdash; every simulation, quiz, and tool
+            works without one. If you do create one, your username and a
+            securely hashed version of your password (never the real
+            password) are stored in this project's own SQLite database.
+            Nothing is handed off to a third-party account or database
+            service. Logging in also saves your completed
+            simulations/tools/quizzes and quiz scores to that account, in
+            addition to your browser's own local storage.
           </li>
         </ul>
+        <p>
+          Every other tool &mdash; the Password Strength Analyzer, the
+          Credential Reuse Check, the Phishing Email Scanner &mdash;
+          analyzes what you type or paste entirely inside your own
+          browser, account or not. Your progress is always tracked in your
+          browser's local storage regardless of login state, reviewable
+          any time on the <a href="/progress.html">My Progress</a> page,
+          and clearable whenever you want. There is no analytics, no
+          tracking script, and no third-party embed of any kind, on any
+          page.
+        </p>
       </div>
 
       <div class="about-section">

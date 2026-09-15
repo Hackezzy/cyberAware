@@ -18,15 +18,18 @@ actually doing it, not just reading about it.
 │   ├── simulations/, quizzes/, tools/     one .html (+ .js where needed) per item
 │   ├── public/          favicon — frontend/ is the deployed site root, so this lives here, not at repo root
 │   ├── roadmap.html, progress.html, about.html, real-incidents.html, index.html
-├── backend/            Small Flask API — the one deliberate exception to "fully static"
-│   └── app.py           /api/check-url: real Google Safe Browsing lookup for the URL Checker tool
+├── backend/            Small Flask API — the two deliberate exceptions to "fully static"
+│   ├── app.py            /api/check-url (Google Safe Browsing) + /api/auth/*, /api/progress
+│   └── db.py              MySQL schema + connection helper — self-managed, no cloud DB service
 ├── PLAN.md              Source of truth for scope, site map, build order, and decision log
 └── netlify.toml         publish = "frontend" (no build command — it's already static files)
 ```
 
-There is no build step. `frontend/` is served as-is. The one exception to "fully static" is
-the URL Safety Checker's real threat-intel check, which needs a small server-side API key —
-see `backend/README.md`.
+There is no build step. `frontend/` is served as-is. Two exceptions to "fully static": the
+URL Safety Checker's real threat-intel check, and optional accounts + server-side progress
+tracking (`frontend/login.html`) — both need a small server-side backend, see `backend/README.md`.
+Logging in is never required; every simulation/quiz/tool works and tracks progress locally
+either way.
 
 ## Running it locally
 
