@@ -191,7 +191,7 @@ async function wireAuthUI() {
   if (user) {
     // escapeHtml matters here: the username came from another visitor's
     // own registration input, not this page's own trusted markup.
-    authItem.innerHTML = `<button type="button" id="logout-btn" class="nav-link" style="width: 100%; text-align: left; border: none; background: transparent; cursor: pointer; font: inherit;">Log out (${escapeHtml(user.username)})</button>`;
+    authItem.innerHTML = `<button type="button" id="logout-btn" class="nav-link nav-link--cta" style="width: 100%; border: none; cursor: pointer; font: inherit;">Log out (${escapeHtml(user.username)})</button>`;
     document.getElementById("logout-btn").addEventListener("click", async () => {
       await logout();
       window.location.reload();
