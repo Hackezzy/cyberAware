@@ -10,9 +10,10 @@ A small Flask API with two jobs:
 2. Optional accounts + server-side progress tracking. Nobody has to log in
    to use the site — every simulation/quiz/tool still tracks progress in
    the visitor's own browser either way — but logging in additionally
-   records that same progress here, in a real MySQL database (see `db.py`
-   for the schema). This needs a MySQL server already installed and
-   running — see step 3 below.
+   records that same progress here, in a real PostgreSQL database hosted
+   on [Supabase](https://supabase.com) (see `db.py` for the schema —
+   every query is hand-written SQL, Supabase just runs the Postgres
+   server for you). Needs a free Supabase project — see step 3 below.
 
 ## 1. Install Python dependencies
 
@@ -38,31 +39,27 @@ pip install -r requirements.txt
 The free tier covers 10,000 requests/day, which is far more than a demo
 or a defense needs.
 
-## 3. Install and start MySQL (you'll need to do this part)
+## 3. Create a free Supabase project (you'll need to do this part)
 
-Only needed for accounts/progress — the URL Checker's threat check works
-without it.
+1. Go to [supabase.com](https://supabase.com) and sign in (GitHub login
+   works, or email).
+2. Click **New project**. Pick any name (e.g. "cyberaware"), set a
+   **database password** — remember it, it goes in `.env` in the next
+   step — and pick any region.
+3. Wait a minute or two while Supabase provisions the actual Postgres
+   server for you.
+4. Once it's ready, go to **Project Settings → Database → Connection
+   string**, select the **URI** tab, and copy it. It looks like:
+   `postgresql://postgres:[YOUR-PASSWORD]@db.xxxxxxxxxxxx.supabase.co:5432/postgres`
+5. Replace `[YOUR-PASSWORD]` in that copied string with the real database
+   password from step 2 — Supabase shows it as a placeholder, not the
+   actual value.
 
-Pick one:
+You don't need to create the `users`/`progress` tables by hand — `db.py`'s
+`init_db()` creates them automatically the first time `app.py` runs,
+inside the database Supabase already provisioned for you.
 
-- **MySQL Installer** (the official way): download from
-  [dev.mysql.com/downloads/installer](https://dev.mysql.com/downloads/installer/),
-  run it, choose "Server only" or the default "Developer Default" setup.
-  It'll prompt you to set a **root password** — remember it, it goes in
-  `.env` in the next step. It installs MySQL as a Windows service, so it
-  starts automatically.
-- **XAMPP** (simpler, bundles MySQL with a GUI control panel — a common
-  choice if you haven't used MySQL before): download from
-  [apachefriends.org](https://www.apachefriends.org/), install it, open
-  the XAMPP Control Panel, and click **Start** next to MySQL. Its default
-  root password is blank (leave `MYSQL_PASSWORD` empty in `.env`).
-
-Either way, you don't need to create the `cyberaware` database or its
-tables by hand — `db.py`'s `init_db()` creates both automatically the
-first time `app.py` runs, using whichever account (`MYSQL_USER`) you
-configure in `.env`.
-
-## 4. Set the API key, session secret, and MySQL connection locally
+## 4. Set the API key, session secret, and database connection locally
 
 Copy `.env.example` to a new file named `.env` in this same folder, and
 fill in the real values:
@@ -70,7 +67,7 @@ fill in the real values:
 ```
 GOOGLE_SAFE_BROWSING_API_KEY=your-real-key-here
 SECRET_KEY=<output of the command below>
-MYSQL_PASSWORD=<whatever you set in step 3>
+DATABASE_URL=<the connection string from step 3, with your real password in it>
 ```
 
 Generate a real `SECRET_KEY` (this signs login session cookies — see
@@ -82,7 +79,8 @@ py -c "import secrets; print(secrets.token_hex(32))"
 ```
 
 `.env` is already excluded from git (see the root `.gitignore`) — never
-commit any of these real values.
+commit any of these real values, especially `DATABASE_URL`, since it
+contains your database password.
 
 ## 5. Run the server
 
@@ -91,10 +89,10 @@ py app.py
 ```
 
 It starts on `http://localhost:5000`. On first run, it connects to your
-MySQL server and creates the `cyberaware` database and its `users`/
-`progress` tables if they don't exist yet — if this step fails, it's
-almost always MySQL not actually running yet, or `MYSQL_PASSWORD` in
-`.env` not matching what you set in step 3.
+Supabase database and creates the `users`/`progress` tables if they don't
+exist yet — if this step fails, it's almost always `DATABASE_URL` in
+`.env` not matching what Supabase actually gave you (a typo, or the
+password placeholder never got swapped out).
 
 **Threat check:**
 - `GET /api/health` — confirms the server is running and whether a key

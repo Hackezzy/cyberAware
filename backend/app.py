@@ -21,15 +21,16 @@ import os
 
 from dotenv import load_dotenv
 
-# Must run before "from db import ..." below -- db.py reads MYSQL_* out of
-# os.environ at import time to build its connection config, so .env has to
-# already be loaded into the environment before that import happens. This
-# was a real bug: db.py's MYSQL_CONFIG was silently getting the "" default
-# for every value from .env, including the password, because this call
-# used to come after the import instead of before it.
+# Must run before "from db import ..." below -- db.py reads DATABASE_URL
+# out of os.environ at connection time, so .env has to already be loaded
+# into the environment before anything that depends on it runs. A prior
+# version of this file had load_dotenv() after that import and it caused
+# a real bug (MySQL connection silently getting empty-string config) --
+# keeping the load at the very top avoids that class of bug entirely.
 load_dotenv()
 
-import mysql.connector
+import psycopg
+import psycopg.rows
 import requests
 from flask import Flask, jsonify, request, session
 from flask_cors import CORS
@@ -67,7 +68,16 @@ _allowed_origins = os.environ.get(
 ).split(",")
 CORS(app, supports_credentials=True, origins=_allowed_origins)
 
-init_db()
+# Accounts/progress are genuinely optional -- the URL Checker's real threat
+# check has nothing to do with the database and should keep working even
+# if Supabase isn't set up yet (or is briefly unreachable). So a failure
+# here is logged, not fatal: only the /api/auth/* and /api/progress routes
+# will actually fail (with a real error) if someone hits them while the
+# database is unreachable; every other route is unaffected.
+try:
+    init_db()
+except Exception as error:
+    print(f"[startup warning] Could not reach the database, accounts/progress will not work until this is fixed: {error}")
 
 GOOGLE_SAFE_BROWSING_API_KEY = os.environ.get("GOOGLE_SAFE_BROWSING_API_KEY")
 SAFE_BROWSING_URL = "https://safebrowsing.googleapis.com/v4/threatMatches:find"
@@ -146,8 +156,8 @@ def health():
 # Logging in is optional, not required to use the site — every
 # simulation/quiz/tool still works, and still tracks progress locally in
 # the visitor's browser, exactly as before. Logging in additionally
-# records that same progress here, under a real account, in a real MySQL
-# database this project owns and controls (see db.py).
+# records that same progress here, under a real account, in a real
+# PostgreSQL database hosted on Supabase (see db.py).
 # ============================================================
 
 def get_current_user():
@@ -156,12 +166,12 @@ def get_current_user():
     if not user_id:
         return None
     conn = get_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor(row_factory=psycopg.rows.dict_row)
     cursor.execute("SELECT id, username FROM users WHERE id = %s", (user_id,))
     user = cursor.fetchone()
     cursor.close()
     conn.close()
-    return user
+    return dict(user) if user else None
 
 
 @app.route("/api/auth/register", methods=["POST"])
@@ -186,14 +196,17 @@ def register():
     conn = get_connection()
     cursor = conn.cursor()
     try:
+        # Postgres has no cursor.lastrowid like MySQL's -- RETURNING id is
+        # the standard way to get an auto-generated primary key back.
         cursor.execute(
-            "INSERT INTO users (username, password_hash) VALUES (%s, %s)",
+            "INSERT INTO users (username, password_hash) VALUES (%s, %s) RETURNING id",
             (username, password_hash),
         )
+        user_id = cursor.fetchone()[0]
         conn.commit()
-        user_id = cursor.lastrowid
-    except mysql.connector.IntegrityError:
+    except psycopg.errors.UniqueViolation:
         # the UNIQUE constraint on username caught a duplicate
+        conn.rollback()
         cursor.close()
         conn.close()
         return jsonify({"error": "That username is already taken"}), 409
@@ -212,7 +225,7 @@ def login():
     password = data.get("password") or ""
 
     conn = get_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor(row_factory=psycopg.rows.dict_row)
     cursor.execute(
         "SELECT id, username, password_hash FROM users WHERE username = %s",
         (username,),
@@ -260,7 +273,7 @@ def get_progress():
     if not user:
         return jsonify({"error": "Not logged in"}), 401
     conn = get_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor(row_factory=psycopg.rows.dict_row)
     cursor.execute(
         "SELECT item_id, completed_at, score, total FROM progress WHERE user_id = %s",
         (user["id"],),
@@ -268,11 +281,14 @@ def get_progress():
     rows = cursor.fetchall()
     cursor.close()
     conn.close()
-    # completed_at comes back as a real Python datetime from MySQL, not a
-    # string -- jsonify can't serialize that directly, so convert it here.
+    # completed_at comes back as a real Python datetime, not a string --
+    # jsonify can't serialize that directly, so convert it here.
+    result = []
     for row in rows:
+        row = dict(row)
         row["completed_at"] = row["completed_at"].isoformat()
-    return jsonify(rows)
+        result.append(row)
+    return jsonify(result)
 
 
 @app.route("/api/progress", methods=["POST"])
@@ -292,18 +308,18 @@ def mark_progress():
     cursor = conn.cursor()
     # One row per (user, item) -- completing the same quiz again updates
     # the existing row (new score, new timestamp) instead of duplicating
-    # it, matching how the browser-local version already behaves. MySQL's
-    # upsert syntax (ON DUPLICATE KEY UPDATE) is different from SQLite's
-    # (ON CONFLICT ... DO UPDATE) -- this relies on the UNIQUE KEY on
-    # (user_id, item_id) from db.py's schema.
+    # it, matching how the browser-local version already behaves.
+    # Postgres's upsert syntax (ON CONFLICT ... DO UPDATE) is different
+    # from MySQL's (ON DUPLICATE KEY UPDATE) -- this relies on the UNIQUE
+    # constraint on (user_id, item_id) from db.py's schema.
     cursor.execute(
         """
-        INSERT INTO progress (user_id, item_id, score, total)
-        VALUES (%s, %s, %s, %s)
-        ON DUPLICATE KEY UPDATE
-            score = VALUES(score),
-            total = VALUES(total),
-            completed_at = CURRENT_TIMESTAMP
+        INSERT INTO progress (user_id, item_id, score, total, completed_at)
+        VALUES (%s, %s, %s, %s, CURRENT_TIMESTAMP)
+        ON CONFLICT (user_id, item_id) DO UPDATE SET
+            score = EXCLUDED.score,
+            total = EXCLUDED.total,
+            completed_at = EXCLUDED.completed_at
         """,
         (user["id"], item_id, score, total),
     )

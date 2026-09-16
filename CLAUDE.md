@@ -43,9 +43,10 @@ codebase (they know HTML/CSS and a bit of JS, not Astro/Tailwind).
   requires a server-side API key that can't safely ship in browser JS; (2)
   optional accounts + server-side progress tracking (`frontend/login.html`,
   `frontend/js/lib/auth.js`, the backend's `/api/auth/*` and `/api/progress`
-  routes, backed by a self-managed MySQL database in `backend/db.py` — no
-  external cloud database service, every query is hand-written parameterized
-  SQL). Logging in is **never required** — every simulation/quiz/tool still
+  routes, backed by a PostgreSQL database hosted on Supabase, in
+  `backend/db.py` — no ORM, every query is hand-written parameterized SQL;
+  Supabase just runs the Postgres server, it doesn't hide the SQL from you).
+  Logging in is **never required** — every simulation/quiz/tool still
   works with no account, and still tracks progress in the visitor's own
   browser either way (`progress-store.js`); logging in additionally mirrors
   that same progress to a real account server-side. Both exceptions are
@@ -54,6 +55,15 @@ codebase (they know HTML/CSS and a bit of JS, not Astro/Tailwind).
   email-content phishing classification), and every other tool/simulation/
   quiz makes no network calls beyond the optional progress sync. Ask before
   adding any *further* network dependency or expanding what login gates.
+- **These two exceptions are independent of each other — keep it that way.**
+  `app.py` calls `init_db()` at startup inside a `try/except` specifically
+  so a database problem (Supabase unreachable, `DATABASE_URL` not set yet)
+  only breaks `/api/auth/*`/`/api/progress`, never the rest of the app. A
+  real bug shipped once where `init_db()` was unconditional and its
+  exception crashed the entire Flask process at startup — meaning the URL
+  Checker, which has nothing to do with the database, couldn't be tested at
+  all just because Supabase wasn't configured yet. Don't make either
+  exception a hard dependency for the other.
 - No build step for the frontend: files are served as-is. `<script
   type="module">` + native `import`/`export` run directly in the browser;
   `fetch()` is used for loading JSON/partial content (chosen over `import
@@ -95,43 +105,71 @@ codebase (they know HTML/CSS and a bit of JS, not Astro/Tailwind).
   navigation are built into the shared engines already — reuse them rather
   than re-adding this per page.
 
-## Accounts and the MySQL backend
+## Accounts and the PostgreSQL/Supabase backend
 
-- **Requires a real MySQL server already installed and running**, reachable
-  with the credentials in `.env` (`MYSQL_HOST`/`PORT`/`USER`/`PASSWORD`/
-  `DATABASE`) — unlike a file-based database, this doesn't create itself
-  out of nothing. `db.py`'s `init_db()` does create the `cyberaware`
-  database and its tables automatically on first run if they don't exist,
-  but only once a server is actually reachable. See `backend/README.md`
-  for installing MySQL (or XAMPP, which bundles it with a simpler GUI).
+- **The database engine changed twice during this feature's build** —
+  SQLite first, then MySQL (a hard user requirement at the time), then
+  PostgreSQL hosted on Supabase (once the user clarified the real
+  requirement was "you write the SQL yourself," not literally MySQL the
+  engine). If you find stray references to MySQL or SQLite anywhere,
+  they're leftover — Supabase/Postgres is current. Don't assume the choice
+  is settled without checking `PLAN.md`'s latest entries first; it's moved
+  before.
+- **Uses `psycopg` (v3), not `psycopg2`.** `psycopg2-binary` has no
+  prebuilt wheel for this project's Python version (3.14, very new) and
+  fails to build from source without PostgreSQL dev headers installed —
+  `psycopg[binary]` is the actively-maintained successor and had a working
+  wheel immediately. The APIs are similar but not identical: dict-style
+  rows use `conn.cursor(row_factory=psycopg.rows.dict_row)`, not a
+  `cursor_factory=` argument; the exceptions module is `psycopg.errors`,
+  same names (e.g. `UniqueViolation`) as psycopg2's had.
+- **Requires a Supabase project already created**, with its connection
+  string in `.env` as `DATABASE_URL` (a single `postgresql://...` URI, not
+  separate host/port/user/password fields like the MySQL version had) —
+  see `backend/README.md` for creating one. Unlike a self-hosted database,
+  there's no "create the database" step: Supabase already provisions the
+  database itself when the project is created, so `db.py`'s `init_db()`
+  only needs to create the `users`/`progress` tables inside it.
+- **Postgres has no `AUTO_INCREMENT`** (MySQL) or `AUTOINCREMENT` (SQLite)
+  — it's `SERIAL` (or `GENERATED ALWAYS AS IDENTITY` in newer Postgres).
+  No `ENGINE=InnoDB` either — Postgres only has one storage engine, so
+  foreign keys work without picking one.
+- **Postgres has no `cursor.lastrowid`** (MySQL's way of getting an
+  auto-generated primary key back after an INSERT) — use `INSERT ...
+  RETURNING id` and read it from `cursor.fetchone()` instead. This is why
+  `register()`'s INSERT looks different from the equivalent MySQL version
+  did.
+- **Postgres's upsert syntax is `INSERT ... ON CONFLICT (cols) DO UPDATE
+  SET col = EXCLUDED.col`** — different from MySQL's `ON DUPLICATE KEY
+  UPDATE col = VALUES(col)` and from SQLite's `ON CONFLICT ... DO UPDATE
+  SET col = excluded.col` (note: SQLite's `excluded` is lowercase and not
+  a real keyword the way Postgres's `EXCLUDED` is). Used in
+  `/api/progress`'s POST route. Don't copy upsert syntax between engines
+  if this ever changes again.
 - **Every SQL query anywhere in `backend/`** must use `%s` placeholders
-  (mysql-connector-python's parameter marker — note this is different
-  from SQLite's `?`, if you're used to that), never Python string
-  formatting/concatenation to build a query. That's what actually prevents
-  SQL injection — verified during this feature's build (when it briefly
-  used SQLite, before the user specified MySQL was required) by trying a
+  (both psycopg and the earlier mysql-connector use this marker — only
+  SQLite's `?` is different), never Python string formatting/concatenation
+  to build a query. That's what actually prevents SQL injection — verified
+  early in this feature's build, against the SQLite version, by trying a
   `' OR '1'='1`-style login attempt against the real running server and
   confirming it just failed as an ordinary invalid login; the same
-  parameterization discipline carries over to the MySQL version.
-- MySQL's upsert syntax (`INSERT ... ON DUPLICATE KEY UPDATE ...`, used in
-  `/api/progress`'s POST route) is different from SQLite's or Postgres's
-  (`ON CONFLICT ... DO UPDATE`) — don't copy syntax from one to the other
-  if this ever needs to change.
+  parameterization discipline carries through every engine switch since.
 - **`load_dotenv()` must run before `from db import ...`** in `app.py`,
-  not after. `db.py` reads `MYSQL_*` out of `os.environ` once, at import
-  time, to build its connection config — if `.env` hasn't been loaded into
-  the environment yet when that import happens, every `MYSQL_*` value
-  (including the password) silently falls back to its empty-string
-  default. This was a real bug that shipped once: it produced a MySQL
-  "Access denied ... (using password: NO)" error that looked exactly like
-  a wrong password in `.env`, even though the password there was correct —
+  not after. `db.py` reads `DATABASE_URL` out of `os.environ` when
+  `get_connection()` is called — if `.env` hasn't been loaded into the
+  environment yet, that lookup silently returns `None` and `get_connection()`
+  raises a clear `RuntimeError` (a real bug shipped once, against the
+  MySQL version, where this exact ordering mistake instead produced a
+  confusing "Access denied ... (using password: NO)" error that looked
+  like a wrong password in `.env` when the password was actually correct —
   confirmed by testing `load_dotenv()` in isolation before concluding it
-  was an import-order bug, not a credentials or file-encoding problem.
+  was an import-order bug, not a credentials problem).
 - **Passwords are hashed with `werkzeug.security.generate_password_hash`**
   (already a Flask dependency), never stored raw. If you ever need to
-  verify this is actually happening, read the real value out of
-  `backend/cyberaware.db`'s `users.password_hash` column directly — it
-  should look like `scrypt:...`, never the plaintext password.
+  verify this is actually happening, query the real value out of the
+  `users.password_hash` column directly (via Supabase's dashboard SQL
+  editor, or `psql`) — it should look like `scrypt:...`, never the
+  plaintext password.
 - **Login sessions are Flask's built-in signed-cookie session**, not a
   database-backed store — fine at this scale since the only thing ever put
   in it is a user id. `SECRET_KEY` is required from `.env` and the app

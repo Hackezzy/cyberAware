@@ -20,7 +20,7 @@ actually doing it, not just reading about it.
 │   ├── roadmap.html, progress.html, about.html, real-incidents.html, index.html
 ├── backend/            Small Flask API — the two deliberate exceptions to "fully static"
 │   ├── app.py            /api/check-url (Google Safe Browsing) + /api/auth/*, /api/progress
-│   └── db.py              MySQL schema + connection helper — self-managed, no cloud DB service
+│   └── db.py              PostgreSQL schema + connection helper (hosted on Supabase, hand-written SQL)
 ├── PLAN.md              Source of truth for scope, site map, build order, and decision log
 └── netlify.toml         publish = "frontend" (no build command — it's already static files)
 ```
