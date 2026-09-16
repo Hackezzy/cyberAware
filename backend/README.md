@@ -152,3 +152,38 @@ curl -b cookies.txt -X POST http://localhost:5000/api/progress \
 
 curl -b cookies.txt http://localhost:5000/api/progress
 ```
+
+## Deploying (Render)
+
+Locally this runs with Flask's own dev server (`py app.py`) — fine for
+testing, not meant for the public internet (it's single-threaded and, in
+debug mode, lets anyone who finds the right request run arbitrary code).
+For a real deployment, [Render](https://render.com) runs it instead with
+[gunicorn](https://gunicorn.org/), a real production WSGI server (already
+in `requirements.txt`). The `if __name__ == "__main__"` block at the
+bottom of `app.py` (the dev-server line) never runs under gunicorn, so
+debug mode never reaches the public internet either way.
+
+1. Push this repo to GitHub (already done, if you're reading this from
+   the deployed code).
+2. Go to [render.com](https://render.com), sign in with GitHub, click
+   **New → Blueprint**, and point it at this repo. Render reads the root
+   `render.yaml` automatically — it already knows this is a Python app
+   living in `backend/`, and what command starts it.
+3. Render will ask you to fill in four environment variables it found
+   declared (but deliberately left blank) in `render.yaml`:
+   `GOOGLE_SAFE_BROWSING_API_KEY`, `SECRET_KEY`, `ALLOWED_ORIGINS`,
+   `DATABASE_URL` — paste in the same real values from your local `.env`.
+   These stay private to Render, the same way `.env` stays out of git.
+4. Deploy. Render gives the service a URL like
+   `https://cyberaware-backend.onrender.com`.
+5. Update `BACKEND_URL` in **both** `frontend/js/lib/auth.js` and
+   `frontend/tools/url-checker.js` from `http://localhost:5000` to that
+   real URL, then commit, push, and let Netlify redeploy the frontend —
+   only then does the *live* site actually reach this backend.
+
+**The free tier sleeps after 15 minutes with no requests**, and takes
+~30-50 seconds to wake back up on the next one. Not a bug, just Render's
+free-tier behavior — if you're about to demo this live (e.g. a defense),
+hit `https://<your-service>.onrender.com/api/health` a minute or two
+beforehand to make sure it's already awake.

@@ -343,8 +343,24 @@ netstat -ano | grep ":8080" | grep LISTENING
 taskkill //F //PID <pid>
 ```
 
-Backend (`backend/app.py`, Flask): only needed to test the URL Checker's
-real API call — every other page works without it.
+**If that PID doesn't actually exist** (`taskkill`/`Get-Process` say "not
+found" but the port still shows LISTENING) — this happened once in this
+environment, where `netstat`/`Get-NetTCPConnection`'s port-to-PID mapping
+was stale/wrong, not the process itself. Don't keep retrying the same
+bogus PID; instead find the real one by process name and kill that:
+
+```powershell
+Get-Process | Where-Object { $_.ProcessName -like "*python*" } | Select-Object Id, ProcessName
+Stop-Process -Id <real id> -Force
+```
+
+Flask's `debug=True` reloader also spawns a parent+child pair of Python
+processes for every single run — expect two (or more, after several
+start/stop cycles) `python` entries, not one, and kill all of them.
+
+Backend (`backend/app.py`, Flask + `backend/db.py`, PostgreSQL/Supabase):
+only needed to test the URL Checker's real API call or accounts/progress
+— every other page works without it.
 
 ```
 cd backend
@@ -354,7 +370,30 @@ pip install -r requirements.txt
 py app.py
 ```
 
-See `backend/README.md` for getting a real Google Safe Browsing API key.
+See `backend/README.md` for getting a real Google Safe Browsing API key
+and setting up Supabase.
+
+## Deployment
+
+Frontend: Netlify, via `netlify.toml` (`publish = "frontend"`, no build
+command) — auto-deploys on every push to `main`.
+
+Backend: [Render](https://render.com), via the root `render.yaml`
+(**not** Flask's own dev server — gunicorn, a real production WSGI
+server, already in `requirements.txt`). Secrets
+(`GOOGLE_SAFE_BROWSING_API_KEY`/`SECRET_KEY`/`ALLOWED_ORIGINS`/
+`DATABASE_URL`) are declared in `render.yaml` with `sync: false` so
+Render prompts for them in its dashboard instead of storing real values
+in git, the same principle as `.env` staying out of git locally. See
+`backend/README.md`'s Deploying section for the full walkthrough,
+including the free tier's cold-start behavior (~30-50s wake-up after 15
+minutes idle) and why it matters for a live demo.
+
+**`BACKEND_URL` is hardcoded in two frontend files** —
+`frontend/js/lib/auth.js` and `frontend/tools/url-checker.js` — currently
+`http://localhost:5000`. Both must be updated to the real deployed
+backend URL (and pushed) before the *live* Netlify site can actually
+reach the backend; deploying the backend alone doesn't wire it up.
 
 ## Documentation
 

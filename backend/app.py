@@ -344,4 +344,11 @@ def reset_progress():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    # This block only ever runs for local development ("py app.py") --
+    # a real deployment (Render, via gunicorn) imports the `app` object
+    # directly and never triggers this at all, so debug=True (which
+    # exposes an interactive debugger capable of running arbitrary code)
+    # never reaches the public internet. PORT is read from the
+    # environment so this also works unchanged if a host sets it.
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=True, port=port)
