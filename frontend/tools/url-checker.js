@@ -6,10 +6,9 @@
 import { analyzeUrl } from "../js/lib/url-checker.js";
 import { markCompleted } from "../js/lib/progress-store.js";
 
-// The backend's address. In real deployment this would point at wherever
-// backend/app.py is actually hosted — for local development it's the
-// Flask dev server's default address.
-const BACKEND_URL = "http://localhost:5000";
+// The backend's address -- deployed on Render, see backend/README.md's
+// Deploying section for how this was set up.
+const BACKEND_URL = "https://cyberaware-backend-tiwd.onrender.com";
 
 const form = document.getElementById("check-form");
 const urlInput = document.getElementById("url-input");

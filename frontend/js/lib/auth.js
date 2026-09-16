@@ -9,10 +9,7 @@
  * uses to show the current login state and the login/register link.
  */
 
-// TODO: update once the backend is deployed somewhere reachable from the
-// live Netlify site (still running only on localhost as of this writing
-// -- see PLAN.md).
-const BACKEND_URL = "http://localhost:5000";
+const BACKEND_URL = "https://cyberaware-backend-tiwd.onrender.com";
 
 let cachedUser = null;
 let readyPromise = null;
